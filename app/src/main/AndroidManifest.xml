@@ -15,6 +15,9 @@
         android:theme="@style/Theme.SnapGrid"
         tools:targetApi="31">
         <activity
+            android:name=".UserInformation"
+            android:exported="false" />
+        <activity
             android:name=".FragmentActivity"
             android:exported="false" />
         <activity

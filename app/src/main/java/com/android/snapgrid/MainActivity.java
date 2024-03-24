@@ -18,4 +18,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, DetailPost.class);
         startActivity(intent);
     }
+
+    public void goToUser(View view) {
+        Intent intent = new Intent(this, UserInformation.class);
+        startActivity(intent);
+    }
 }
