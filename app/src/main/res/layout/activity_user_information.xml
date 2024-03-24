@@ -64,28 +64,36 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="1" />
+                    android:text="1"
+                    android:textAlignment="textEnd"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="người theo dõi" />
+                    android:paddingLeft="2dp"
+                    android:text="người theo dõi"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/textView14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="0" />
+                    android:text="0"
+                    android:textAlignment="textEnd"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/textView15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="đang theo dõi" />
+                    android:paddingLeft="2dp"
+                    android:text="đang theo dõi"
+                    android:textStyle="bold"/>
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -118,41 +126,21 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp">
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp">
 
                 <EditText
                     android:id="@+id/editTextText2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
                     android:ems="10"
                     android:hint="tìm bài viết"
                     android:inputType="text"
-                    app:layout_constraintEnd_toStartOf="@+id/button10"
+                    app:layout_constraintEnd_toStartOf="@+id/imageButton3"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Button
-                    android:id="@+id/button10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="@color/button_color"
-                    android:text="Button"
-                    android:textColor="@color/main_text_color"
-                    app:layout_constraintEnd_toStartOf="@+id/button11"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Button
-                    android:id="@+id/button11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="@color/button_color"
-                    android:text="Button"
-                    android:textColor="@color/main_text_color"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
@@ -177,6 +165,26 @@
                     android:textColor="@color/main_text_color"
                     app:layout_constraintStart_toEndOf="@+id/button12"
                     app:layout_constraintTop_toBottomOf="@+id/editTextText2" />
+
+                <ImageButton
+                    android:id="@+id/imageButton3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="#00F1F1F1"
+                    app:layout_constraintEnd_toStartOf="@+id/imageButton4"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/adjust_saved" />
+
+                <ImageButton
+                    android:id="@+id/imageButton4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="#00F1F1F1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/add_post" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
@@ -191,22 +199,28 @@
 
                     <ImageView
                         android:id="@+id/imageView24"
-                        android:layout_width="125dp"
-                        android:layout_height="160dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="130dp"
                         android:src="@drawable/test"
                         android:padding="4dp"/>
 
                     <ImageView
                         android:id="@+id/imageView25"
-                        android:layout_width="125dp"
-                        android:layout_height="160dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="130dp"
                         android:src="@drawable/test"
                         android:padding="4dp"/>
 
                     <ImageView
                         android:id="@+id/imageView26"
-                        android:layout_width="125dp"
-                        android:layout_height="160dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="130dp"
                         android:src="@drawable/test"
                         android:padding="4dp"/>
                 </LinearLayout>
@@ -218,22 +232,28 @@
 
                     <ImageView
                         android:id="@+id/imageView27"
-                        android:layout_width="125dp"
-                        android:layout_height="160dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="130dp"
                         android:src="@drawable/test"
                         android:padding="4dp"/>
 
                     <ImageView
                         android:id="@+id/imageView28"
-                        android:layout_width="125dp"
-                        android:layout_height="160dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="130dp"
                         android:src="@drawable/test"
                         android:padding="4dp"/>
 
                     <ImageView
                         android:id="@+id/imageView29"
-                        android:layout_width="125dp"
-                        android:layout_height="160dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="130dp"
                         android:src="@drawable/test"
                         android:padding="4dp"/>
                 </LinearLayout>
@@ -245,22 +265,28 @@
 
                     <ImageView
                         android:id="@+id/imageView23"
-                        android:layout_width="125dp"
-                        android:layout_height="160dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="130dp"
                         android:src="@drawable/test"
                         android:padding="4dp"/>
 
                     <ImageView
                         android:id="@+id/imageView22"
-                        android:layout_width="125dp"
-                        android:layout_height="160dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="130dp"
                         android:src="@drawable/test"
                         android:padding="4dp"/>
 
                     <ImageView
                         android:id="@+id/imageView21"
-                        android:layout_width="125dp"
-                        android:layout_height="160dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="130dp"
                         android:src="@drawable/test"
                         android:padding="4dp"/>
                 </LinearLayout>

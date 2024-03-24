@@ -8,7 +8,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:contentDescription="Scroll">
 
         <LinearLayout
@@ -17,16 +17,17 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="420dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:maxHeight="800dp"
                 android:src="@drawable/test2" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp">
+                android:padding="8dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -84,8 +85,7 @@
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
+                android:padding="8dp"
                 android:text="Character Card"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -101,50 +101,46 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp">
-
-                <Button
-                    android:id="@+id/button3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/button_color"
-                    android:text="Share"
-                    android:textColor="@color/main_text_color"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Button
-                    android:id="@+id/button4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/primary_color"
-                    android:text="love"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                android:padding="8dp">
 
                 <Button
                     android:id="@+id/button5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="24dp"
                     android:backgroundTint="@color/primary_color"
                     android:text="Save"
-                    app:layout_constraintEnd_toStartOf="@+id/button3"
+                    app:layout_constraintEnd_toStartOf="@+id/imageButton2"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/button6"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="24dp"
                     android:backgroundTint="@color/button_color"
                     android:text="Detail"
                     android:textColor="@color/main_text_color"
-                    app:layout_constraintStart_toEndOf="@+id/button4"
+                    app:layout_constraintStart_toEndOf="@+id/imageButton"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/main_text_color"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/favorite" />
+
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/button_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/share_black_color" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
@@ -156,7 +152,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:padding="8dp">
 
                     <TextView
                         android:id="@+id/textView9"
@@ -185,7 +182,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:padding="8dp">
 
                     <ImageView
                         android:id="@+id/imageView4"
@@ -212,7 +210,8 @@
                     android:layout_height="65dp"
                     android:ems="10"
                     android:hint="add comment"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:padding="8dp" />
 
             </LinearLayout>
 
@@ -226,6 +225,7 @@
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:text="Another Post"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -237,6 +237,7 @@
                     android:id="@+id/linearLayout2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -250,43 +251,55 @@
 
                         <ImageView
                             android:id="@+id/imageView1"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="130dp"
                             android:padding="8dp"
                             android:src="@drawable/appa" />
 
                         <ImageView
                             android:id="@+id/imageView2"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="130dp"
                             android:padding="8dp"
                             android:src="@drawable/appa" />
 
                         <ImageView
                             android:id="@+id/imageView19"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="130dp"
                             android:padding="8dp"
                             android:src="@drawable/appa" />
 
                         <ImageView
                             android:id="@+id/imageView20"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="130dp"
                             android:padding="8dp"
                             android:src="@drawable/appa" />
 
                         <ImageView
                             android:id="@+id/imageView5"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="130dp"
                             android:padding="8dp"
                             android:src="@drawable/appa" />
 
                         <ImageView
                             android:id="@+id/imageView6"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="130dp"
                             android:padding="8dp"
                             android:src="@drawable/appa" />
 
@@ -299,43 +312,55 @@
 
                         <ImageView
                             android:id="@+id/imageView7"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="130dp"
                             android:padding="8dp"
                             android:src="@drawable/appa" />
 
                         <ImageView
                             android:id="@+id/imageView8"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="130dp"
                             android:padding="8dp"
                             android:src="@drawable/test2" />
 
                         <ImageView
                             android:id="@+id/imageView9"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="130dp"
                             android:padding="8dp"
                             android:src="@drawable/test" />
 
                         <ImageView
                             android:id="@+id/imageView10"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="130dp"
                             android:padding="8dp"
                             android:src="@drawable/cuptoast" />
 
                         <ImageView
                             android:id="@+id/imageView11"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="130dp"
                             android:padding="8dp"
                             android:src="@drawable/appa" />
 
                         <ImageView
                             android:id="@+id/imageView12"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="130dp"
                             android:padding="8dp"
                             android:src="@drawable/appa" />
 
@@ -348,43 +373,55 @@
 
                         <ImageView
                             android:id="@+id/imageView13"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="130dp"
                             android:padding="8dp"
                             android:src="@drawable/cuptoast" />
 
                         <ImageView
                             android:id="@+id/imageView14"
-                            android:layout_width="match_parent"
-                            android:layout_height="130dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="130dp"
                             android:padding="8dp"
                             android:src="@drawable/test2" />
 
                         <ImageView
                             android:id="@+id/imageView15"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="130dp"
                             android:padding="8dp"
                             android:src="@drawable/appa" />
 
                         <ImageView
                             android:id="@+id/imageView16"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="130dp"
                             android:padding="8dp"
                             android:src="@drawable/appa" />
 
                         <ImageView
                             android:id="@+id/imageView17"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="130dp"
                             android:padding="8dp"
                             android:src="@drawable/appa" />
 
                         <ImageView
                             android:id="@+id/imageView18"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="130dp"
                             android:padding="8dp"
                             android:src="@drawable/appa" />
 
