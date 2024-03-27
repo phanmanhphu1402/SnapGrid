@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "259247605320",
+    "project_id": "snapgrid-44c83",
+    "storage_bucket": "snapgrid-44c83.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259247605320:android:db9032aaaea99db2de7a7d",
+        "android_client_info": {
+          "package_name": "com.android.snapgrid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaphPkYvMeIJeqnZxaf_ljub5rp7S9p00"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">SnapGrid</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="screen1">Poweful</string>
     <string name="screen2">Keep your memories safe</string>
     <string name="screen3">Organization simplified</string>
