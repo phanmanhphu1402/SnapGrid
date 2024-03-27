@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">SnapGrid</string>
+    <string name="screen1">Poweful</string>
+    <string name="screen2">Keep your memories safe</string>
+    <string name="screen3">Organization simplified</string>
+    <string name="screen4">Sharing mode easy</string>
+    <string name="screen1desc">Save all your photo in one place.</string>
+    <string name="screen2desc">Your photos stay private until you  choose to share them. </string>
+    <string name="screen3desc">Search, edit, and organize in seconds.</string>
+    <string name="screen4desc">Share will friend, family, and the word.</string>
 </resources>
