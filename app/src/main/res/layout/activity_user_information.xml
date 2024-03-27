@@ -75,7 +75,7 @@
                     android:layout_weight="1"
                     android:paddingLeft="2dp"
                     android:text="người theo dõi"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView14"
@@ -84,7 +84,7 @@
                     android:layout_weight="1"
                     android:text="0"
                     android:textAlignment="textEnd"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView15"
@@ -93,7 +93,7 @@
                     android:layout_weight="1"
                     android:paddingLeft="2dp"
                     android:text="đang theo dõi"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -195,6 +195,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <ImageView
@@ -203,8 +204,8 @@
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
                         android:maxWidth="130dp"
-                        android:src="@drawable/test"
-                        android:padding="4dp"/>
+                        android:padding="4dp"
+                        android:src="@drawable/test" />
 
                     <ImageView
                         android:id="@+id/imageView25"
@@ -212,8 +213,8 @@
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
                         android:maxWidth="130dp"
-                        android:src="@drawable/test"
-                        android:padding="4dp"/>
+                        android:padding="4dp"
+                        android:src="@drawable/test" />
 
                     <ImageView
                         android:id="@+id/imageView26"
@@ -221,13 +222,14 @@
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
                         android:maxWidth="130dp"
-                        android:src="@drawable/test"
-                        android:padding="4dp"/>
+                        android:padding="4dp"
+                        android:src="@drawable/test" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <ImageView
@@ -236,8 +238,8 @@
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
                         android:maxWidth="130dp"
-                        android:src="@drawable/test"
-                        android:padding="4dp"/>
+                        android:padding="4dp"
+                        android:src="@drawable/test" />
 
                     <ImageView
                         android:id="@+id/imageView28"
@@ -245,8 +247,8 @@
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
                         android:maxWidth="130dp"
-                        android:src="@drawable/test"
-                        android:padding="4dp"/>
+                        android:padding="4dp"
+                        android:src="@drawable/test" />
 
                     <ImageView
                         android:id="@+id/imageView29"
@@ -254,13 +256,14 @@
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
                         android:maxWidth="130dp"
-                        android:src="@drawable/test"
-                        android:padding="4dp"/>
+                        android:padding="4dp"
+                        android:src="@drawable/test" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <ImageView
@@ -269,8 +272,8 @@
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
                         android:maxWidth="130dp"
-                        android:src="@drawable/test"
-                        android:padding="4dp"/>
+                        android:padding="4dp"
+                        android:src="@drawable/test" />
 
                     <ImageView
                         android:id="@+id/imageView22"
@@ -278,8 +281,8 @@
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
                         android:maxWidth="130dp"
-                        android:src="@drawable/test"
-                        android:padding="4dp"/>
+                        android:padding="4dp"
+                        android:src="@drawable/test" />
 
                     <ImageView
                         android:id="@+id/imageView21"
@@ -287,8 +290,8 @@
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
                         android:maxWidth="130dp"
-                        android:src="@drawable/test"
-                        android:padding="4dp"/>
+                        android:padding="4dp"
+                        android:src="@drawable/test" />
                 </LinearLayout>
             </LinearLayout>
 
