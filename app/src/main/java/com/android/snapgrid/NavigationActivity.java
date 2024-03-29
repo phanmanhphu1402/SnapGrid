@@ -17,34 +17,13 @@ import androidx.viewpager.widget.ViewPager;
 
 public class NavigationActivity extends AppCompatActivity {
 
-    ViewPager slideViewPager;
     LinearLayout dotIndicator;
     Button backButton, nextButton, skipButton;
     TextView[] dots;
+    private static final int MAX_PAGES = 4;
     ViewPagerAdapter viewPagerAdapter;
 
-    ViewPager.OnPageChangeListener viewPagerListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        }
-        @Override
-        public void onPageSelected(int position) {
-            setDotIndicator(position);
-            if (position > 0) {
-                backButton.setVisibility(View.VISIBLE);
-            } else {
-                backButton.setVisibility(View.INVISIBLE);
-            }
-            if (position == 3){
-                nextButton.setText("Finish");
-            } else {
-                nextButton.setText("Next");
-            }
-        }
-        @Override
-        public void onPageScrollStateChanged(int state) {
-        }
-    };
+    DynamicViewPager slideViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +35,17 @@ public class NavigationActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         backButton = findViewById(R.id.backButton);
         nextButton = findViewById(R.id.nextButton);
         skipButton = findViewById(R.id.skipButton);
+
+        slideViewPager = findViewById(R.id.slideViewPager);
+        slideViewPager.setMaxPages(MAX_PAGES);
+        slideViewPager.setBackgroundAsset(R.drawable.bgrwelcome3);
+        dotIndicator = (LinearLayout) findViewById(R.id.dotIndicator);
+        viewPagerAdapter = new ViewPagerAdapter(this);
+        slideViewPager.setAdapter(viewPagerAdapter);
+        setDotIndicator(0);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,12 +75,32 @@ public class NavigationActivity extends AppCompatActivity {
                 finish();
             }
         });
-        slideViewPager = (ViewPager) findViewById(R.id.slideViewPager);
-        dotIndicator = (LinearLayout) findViewById(R.id.dotIndicator);
-        viewPagerAdapter = new ViewPagerAdapter(this);
-        slideViewPager.setAdapter(viewPagerAdapter);
-        setDotIndicator(0);
+
+        ViewPager.OnPageChangeListener viewPagerListener = new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+            @Override
+            public void onPageSelected(int position) {
+                setDotIndicator(position);
+                if (position > 0) {
+                    backButton.setVisibility(View.VISIBLE);
+                } else {
+                    backButton.setVisibility(View.INVISIBLE);
+                }
+                if (position == 3){
+                    nextButton.setText("Finish");
+                } else {
+                    nextButton.setText("Next");
+                }
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        };
+
         slideViewPager.addOnPageChangeListener(viewPagerListener);
+        //slideViewPager.setPageTransformer(false, new Transformer());
     }
     public void setDotIndicator(int position) {
         dots = new TextView[4];

@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.android.snapgrid" />
+                  <option name="mobileSdkAppId" value="1:259247605320:android:db9032aaaea99db2de7a7d" />
+                  <option name="projectId" value="snapgrid-44c83" />
+                  <option name="projectNumber" value="259247605320" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

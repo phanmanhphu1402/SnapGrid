@@ -8,22 +8,11 @@
     android:orientation="vertical"
     app:flow_horizontalAlign="center">
 
-    <ImageView
-        android:id="@+id/sliderImage"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bgrwelcome"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="0dp" />
-
     <TextView
         android:id="@+id/sliderTitle"
         android:layout_width="0dp"
         android:layout_height="51dp"
-        android:layout_marginTop="552dp"
+        android:layout_marginTop="436dp"
         android:fontFamily="@font/poppins_semibold"
         android:paddingTop="20dp"
         android:text="@string/screen1"
@@ -34,7 +23,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/sliderImage" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/sliderDesc"
@@ -47,8 +36,10 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/sliderTitle"
         app:layout_constraintStart_toStartOf="@+id/sliderTitle"
-        app:layout_constraintTop_toBottomOf="@+id/sliderTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/sliderTitle"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

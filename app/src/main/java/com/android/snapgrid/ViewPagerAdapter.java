@@ -12,12 +12,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.PagerAdapter;
 public class ViewPagerAdapter extends PagerAdapter {
     Context context;
-    int sliderAllImages[] = {
-            R.drawable.bgrwelcome,
-            R.drawable.bgrwelcome1,
-            R.drawable.bgrwelcome2,
-            R.drawable.bgrwelcome3,
-    };
+//    int sliderAllImages[] = {
+//            R.drawable.bgrwelcome,
+//            R.drawable.bgrwelcome1,
+//            R.drawable.bgrwelcome2,
+//            R.drawable.bgrwelcome3,
+//    };
     int sliderAllTitle[] = {
             R.string.screen1,
             R.string.screen2,
@@ -47,10 +47,10 @@ public class ViewPagerAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.slider_screen,container,false);
-        ImageView sliderImage = (ImageView) view.findViewById(R.id.sliderImage);
+        //ImageView sliderImage = (ImageView) view.findViewById(R.id.sliderImage);
         TextView sliderTitle = (TextView) view.findViewById(R.id.sliderTitle);
         TextView sliderDesc = (TextView) view.findViewById(R.id.sliderDesc);
-        sliderImage.setImageResource(sliderAllImages[position]);
+        //sliderImage.setImageResource(sliderAllImages[position]);
         sliderTitle.setText(this.sliderAllTitle[position]);
         sliderDesc.setText(this.sliderAllDesc[position]);
         container.addView(view);
