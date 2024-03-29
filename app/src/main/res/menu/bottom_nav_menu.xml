@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Trang chủ"
+        android:icon="@drawable/baseline_home_filled_24"
+        android:id="@+id/home"/>
+    <item
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Tìm kiếm"
+        android:icon="@drawable/search"
+        android:id="@+id/search"/>
+    <item
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Tạo"
+        android:icon="@drawable/createpost"
+        android:id="@+id/createPost"/>
+    <item
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Thông báo"
+        android:icon="@drawable/notifyandchat"
+        android:id="@+id/notifyAndChat"/>
+    <item
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Tôi"
+        android:icon="@drawable/personality"
+        android:id="@+id/personality"/>
+</menu>

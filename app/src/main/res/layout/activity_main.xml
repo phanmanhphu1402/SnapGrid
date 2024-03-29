@@ -6,70 +6,92 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Detail Post"
+<!--    <Button-->
+<!--        android:id="@+id/button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:text="Detail Post"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.05"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:onClick="goToDetailPost"/>-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button7"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:text="User Information"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/button"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:onClick="goToUser"/>-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button8"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:text="Sign up"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/button"-->
+<!--        android:onClick="gotoSignUp"/>-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button10"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:text="Sign in"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/button8"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/button7"-->
+<!--        android:onClick="gotoSignIn"/>-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button11"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:text="Slider"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/button10"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/button7"-->
+<!--        android:onClick="gotoSlider"/>-->
+
+<!--    <Button-->
+<!--        android:id="@+id/button14"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:text="Navigation"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/button8"-->
+<!--        android:onClick="gotoNavigation"/>-->
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:onClick="goToDetailPost"/>
+        android:id="@+id/frame_layout">
 
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="wrap_content"
+    </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="User Information"
-        app:layout_constraintStart_toEndOf="@+id/button"
-        app:layout_constraintTop_toTopOf="parent"
-        android:onClick="goToUser"/>
-
-    <Button
-        android:id="@+id/button8"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Sign up"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        android:onClick="gotoSignUp"/>
-
-    <Button
-        android:id="@+id/button10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Sign in"
-        app:layout_constraintStart_toEndOf="@+id/button8"
-        app:layout_constraintTop_toBottomOf="@+id/button7"
-        android:onClick="gotoSignIn"/>
-
-    <Button
-        android:id="@+id/button11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Slider"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button10"
-        app:layout_constraintTop_toBottomOf="@+id/button7"
-        android:onClick="gotoSlider"/>
-
-    <Button
-        android:id="@+id/button14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Navigation"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button8"
-        android:onClick="gotoNavigation"/>
+        app:menu="@menu/bottom_nav_menu"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
