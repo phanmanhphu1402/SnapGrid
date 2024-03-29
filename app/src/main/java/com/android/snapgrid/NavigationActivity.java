@@ -41,7 +41,7 @@ public class NavigationActivity extends AppCompatActivity {
 
         slideViewPager = findViewById(R.id.slideViewPager);
         slideViewPager.setMaxPages(MAX_PAGES);
-        slideViewPager.setBackgroundAsset(R.drawable.bgrwelcome3);
+        slideViewPager.setBackgroundAsset(R.drawable.bgrwelcome);
         dotIndicator = (LinearLayout) findViewById(R.id.dotIndicator);
         viewPagerAdapter = new ViewPagerAdapter(this);
         slideViewPager.setAdapter(viewPagerAdapter);
