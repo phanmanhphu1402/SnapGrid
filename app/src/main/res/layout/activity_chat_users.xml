@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/backhome"
+        android:layout_width="59dp"
+        android:layout_height="58dp"
+        android:drawableLeft="@drawable/ic_arrow_back"
+        android:gravity="center_vertical|center_horizontal"
+        android:padding="5dp"
+        tools:ignore="MissingConstraints"
+        android:backgroundTint="@color/white"
+        />
+    <TextView
+        android:id="@+id/tinnhan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="10dp"
+        android:paddingTop="4dp"
+        android:text="Tin nhắn"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/backhome"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/menuchat"
+        android:layout_width="30dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="176dp"
+        android:backgroundTint="@color/white"
+        android:drawableLeft="@drawable/ic_more_vert"
+        android:gravity="center_vertical|center_horizontal"
+        android:padding="5dp"
+        app:layout_constraintStart_toEndOf="@+id/tinnhan"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <EditText
+        android:id="@+id/searchET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/text_box_edit"
+        android:drawableStart="@drawable/ic_search"
+        android:drawablePadding="10dp"
+        android:drawableTint="@color/colorGreyDark"
+        android:hint="Tìm kiếm..."
+        android:padding="15dp"
+        tools:ignore="MissingConstraints,UnusedAttribute"
+        app:layout_constraintTop_toBottomOf="@+id/backhome"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recyclView"
+        android:layout_marginTop="10dp"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toBottomOf="@+id/searchET"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
