@@ -14,4 +14,11 @@
     <color name="primary_color">#E60023</color>
     <color name="active_hover_color">#767676</color>
     <color name="button_color">#F1F1F1</color>
+
+    <color name="colorGreenLight">#00952E</color>
+    <color name="colorGreenMid">#00842E</color>
+    <color name="colorGreyLight">#E6E6E6</color>
+    <color name="colorGreyDark">#787878</color>
+    <color name="colorLightBlue">#FAFAFC</color>
+
 </resources>
