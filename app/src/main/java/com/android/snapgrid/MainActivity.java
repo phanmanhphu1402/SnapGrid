@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if(id == R.id.home){
-                replaceFragment(new DetailPostFragment());
+                startActivity(new Intent(MainActivity.this, HomePageActivity.class));
             }
             if(id == R.id.search){
                 replaceFragment(new DetailPostFragment());
