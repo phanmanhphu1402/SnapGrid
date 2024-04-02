@@ -13,15 +13,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.android.snapgrid.adapters.MasonryAdapter;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class HomePageActivity extends AppCompatActivity {
 
     TextView textView;
-    ArrayList images = new ArrayList<>(Arrays.asList(R.drawable.bgrwelcome, R.drawable.bgrwelcome, R.drawable.bgrwelcome,
-            R.drawable.bgrwelcome, R.drawable.bgrwelcome, R.drawable.bgrwelcome, R.drawable.bgrwelcome, R.drawable.bgrwelcome,
-            R.drawable.bgrwelcome, R.drawable.bgrwelcome));
+    ArrayList images = new ArrayList<>(Arrays.asList(R.drawable.bgrwelcome, R.drawable.test2, R.drawable.bgrwelcome,
+            R.drawable.test, R.drawable.bgrwelcome, R.drawable.bgrwelcome, R.drawable.bgrwelcome, R.drawable.bgrwelcome,
+            R.drawable.bgrwelcome, R.drawable.appa));
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,4 +41,6 @@ public class HomePageActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         recyclerView.setAdapter(new MasonryAdapter(HomePageActivity.this,images));
     }
+
+
 }

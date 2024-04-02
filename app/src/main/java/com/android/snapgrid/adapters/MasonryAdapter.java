@@ -1,4 +1,4 @@
-package com.android.snapgrid;
+package com.android.snapgrid.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.snapgrid.R;
+
 import java.util.ArrayList;
 
 public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.ViewHolder> {
@@ -18,6 +20,10 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.ViewHold
     // Constructor for initialization
     public MasonryAdapter(Context context, ArrayList images) {
         this.context = context;
+        this.images = images;
+    }
+
+    public MasonryAdapter(ArrayList images) {
         this.images = images;
     }
 
