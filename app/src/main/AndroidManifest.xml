@@ -13,7 +13,7 @@
         android:theme="@style/Theme.SnapGrid"
         tools:targetApi="31">
         <activity
-            android:name=".Activity_Splash"
+            android:name=".UserInformation"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UserInformation"
+            android:name=".Activity_Splash"
             android:exported="false" />
         <activity
             android:name=".DetailPost"
