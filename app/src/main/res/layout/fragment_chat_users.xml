@@ -6,40 +6,26 @@
     android:layout_height="match_parent"
     tools:ignore="ExtraText,MissingDefaultResource">
 
-    <Button
-        android:id="@+id/backhome"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:backgroundTint="@color/white"
-        android:drawableLeft="@drawable/baseline_arrow_back_ios_24"
-        android:gravity="center_vertical|center_horizontal"
-        android:padding="5dp"/>
-
     <TextView
         android:id="@+id/tinnhan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginBottom="10dp"
         android:paddingTop="4dp"
         android:text="Tin nhắn"
         android:textColor="@color/black"
-        android:textSize="35sp"
-        android:textStyle="bold"
-        android:layout_toRightOf="@id/backhome"/>
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/menuchat"
         android:layout_width="30dp"
-        android:layout_height="58dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="176dp"
-        android:layout_marginEnd="-2dp"
         android:backgroundTint="@color/white"
         android:drawableLeft="@drawable/ic_more_vert"
         android:gravity="center_vertical|center_horizontal"
-        android:padding="5dp"/>
+        android:padding="5dp" />
 
     <EditText
         android:id="@+id/searchET"
@@ -55,7 +41,7 @@
         android:drawablePadding="10dp"
         android:drawableTint="@color/colorGreyDark"
         android:hint="Tìm kiếm..."
-        android:padding="15dp" />
+        android:padding="12dp" />
 
     <ImageView
         android:id="@id/maiphuong"
@@ -71,12 +57,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="165dp"
+        android:layout_toRightOf="@id/maiphuong"
         android:text="Mai Phuong"
         android:textColor="@color/black"
-        android:textStyle="bold"
-        android:textSize="25dp"
-        android:layout_toRightOf="@id/maiphuong"
-        android:layout_marginTop="165dp"/>
+        android:textSize="16sp"
+        android:textStyle="bold" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -101,12 +87,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="260dp"
+        android:layout_toRightOf="@id/chunchun"
         android:text="Chun Chun"
         android:textColor="@color/black"
-        android:textStyle="bold"
-        android:textSize="25dp"
-        android:layout_toRightOf="@id/chunchun"
-        android:layout_marginTop="260dp"/>
+        android:textSize="16sp"
+        android:textStyle="bold" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
