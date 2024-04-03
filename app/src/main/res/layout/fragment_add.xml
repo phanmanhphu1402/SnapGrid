@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:layout_height="match_parent">
 
 
     <LinearLayout
@@ -97,7 +96,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:alpha="0.7"
-            android:backgroundTint="@color/red"
+            android:backgroundTint="@color/primary_color"
             android:text="Ý tưởng"
             android:textColor="@color/black" />
 
@@ -108,7 +107,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:alpha="0.7"
-            android:backgroundTint="@color/red"
+            android:backgroundTint="@color/primary_color"
             android:text="Dự án mới"
             android:textColor="@color/black" />
 
@@ -119,7 +118,7 @@
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:alpha="0.7"
-            android:backgroundTint="@color/red"
+            android:backgroundTint="@color/primary_color"
             android:text="Địa điểm cần đến"
             android:textColor="@color/black" />
 

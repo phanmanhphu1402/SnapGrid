@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.android.snapgrid.databinding.ActivityMainBinding;
+import com.android.snapgrid.fragments.ChatUsersFragment;
 import com.android.snapgrid.fragments.DetailPostFragment;
 import com.android.snapgrid.fragments.UserInformationFragment;
+import com.android.snapgrid.fragments.fragment_home_page;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,12 +24,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        replaceFragment(new UserInformationFragment());
+        replaceFragment(new fragment_home_page());
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if(id == R.id.home){
-                replaceFragment(new DetailPostFragment());
+                replaceFragment(new fragment_home_page());
             }
             if(id == R.id.search){
                 replaceFragment(new DetailPostFragment());
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 replaceFragment(new DetailPostFragment());
             }
             if(id == R.id.notifyAndChat){
-                replaceFragment(new DetailPostFragment());
+                replaceFragment(new ChatUsersFragment());
             }
             if(id == R.id.personality){
                 replaceFragment(new UserInformationFragment());
@@ -52,23 +54,8 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    public void goToDetailPost(View view) {
-        Intent intent = new Intent(this, DetailPost.class);
-        startActivity(intent);
-    }
-
-    public void goToUser(View view) {
-        Intent intent = new Intent(this, UserInformation.class);
-        startActivity(intent);
-    }
-
     public void gotoNavigation(View view) {
         Intent intent = new Intent(this, NavigationActivity.class);
-        startActivity(intent);
-    }
-
-    public void gotoSlider(View view) {
-        Intent intent = new Intent(this, DetailPost.class);
         startActivity(intent);
     }
 
