@@ -20,7 +20,7 @@ import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fragment_home_page#newInstance} factory method to
+ * Use the {@link fragment_home_page#} factory method to
  * create an instance of this fragment.
  */
 public class fragment_home_page extends Fragment {
