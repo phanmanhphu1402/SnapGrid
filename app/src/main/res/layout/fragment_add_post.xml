@@ -11,31 +11,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:weightSum="3"
         android:padding="4dp">
 
 
         <ImageView
             android:id="@+id/cancel"
-            android:layout_width="46dp"
-            android:layout_height="38dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="0"
             android:src="@drawable/baseline_reply_24" />
 
         <TextView
             android:id="@+id/createText"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:padding="8dp"
             android:text="Tạo Bảng"
-            android:textAlignment="viewStart"
             android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold"
+            android:gravity="center"
             tools:textAlignment="center" />
 
         <Button
             android:id="@+id/mybutton_id"
             style="?android:actionModeBackground"
+            android:layout_weight="0"
             android:layout_width="80dp"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
@@ -63,7 +66,7 @@
             android:textSize="20sp" />
 
         <EditText
-            android:layout_width="256dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:hint="add table" />
@@ -85,19 +88,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:weightSum="3"
         android:padding="10dp">
-
-
         <Button
             android:id="@+id/button1"
             style="?android:actionModeBackground"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:alpha="0.7"
             android:backgroundTint="@color/primary_color"
             android:text="Ý tưởng"
-            android:textColor="@color/black" />
+            android:layout_margin="4dp"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/button2"
@@ -106,20 +110,24 @@
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:alpha="0.7"
+            android:layout_weight="1"
             android:backgroundTint="@color/primary_color"
             android:text="Dự án mới"
-            android:textColor="@color/black" />
+            android:layout_margin="4dp"
+            android:textColor="@color/white" />
 
-        <Button
+        z<Button
             android:id="@+id/button3"
             style="?android:actionModeBackground"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+        android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:alpha="0.7"
             android:backgroundTint="@color/primary_color"
             android:text="Địa điểm cần đến"
-            android:textColor="@color/black" />
+        android:layout_margin="4dp"
+            android:textColor="@color/white" />
 
 
     </LinearLayout>
