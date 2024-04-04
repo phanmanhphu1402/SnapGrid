@@ -14,6 +14,7 @@ import com.android.snapgrid.fragments.AddPostFragment;
 import com.android.snapgrid.fragments.ChatUsersFragment;
 import com.android.snapgrid.fragments.Chat_Notify_Fragment;
 import com.android.snapgrid.fragments.DetailPostFragment;
+import com.android.snapgrid.fragments.SearchFragment;
 import com.android.snapgrid.fragments.UserInformationFragment;
 import com.android.snapgrid.fragments.fragment_home_page;
 
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 replaceFragment(new fragment_home_page());
             }
             if(id == R.id.search){
-                replaceFragment(new DetailPostFragment());
+                replaceFragment(new SearchFragment());
             }
             if(id == R.id.createPost){
                 replaceFragment(new AddPostFragment());

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.android.snapgrid.NotifyFragment;
 import com.android.snapgrid.R;
 import com.android.snapgrid.databinding.ActivityMainBinding;
 
@@ -30,7 +31,7 @@ public class Chat_Notify_Fragment extends Fragment {
         // Inflate the layout for this fragment
 
         View rootview = inflater.inflate(R.layout.fragment_chat__notify_, container, false);
-        ChatUsersFragment childFragment = new ChatUsersFragment();
+        NotifyFragment childFragment = new NotifyFragment();
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.frameLayout, childFragment);
         transaction.commit();
@@ -38,7 +39,7 @@ public class Chat_Notify_Fragment extends Fragment {
         btnNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ChatUsersFragment childFragment = new ChatUsersFragment();
+                NotifyFragment childFragment = new NotifyFragment();
                 FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
                 transaction.replace(R.id.frameLayout, childFragment);
                 transaction.commit();

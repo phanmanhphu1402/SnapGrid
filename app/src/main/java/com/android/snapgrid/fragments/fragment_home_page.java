@@ -45,6 +45,9 @@ public class fragment_home_page extends Fragment {
         RecyclerView recyclerView = rootview.findViewById(R.id.recyclerView);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
+//        MasonryAdapter masonryAdapter = new MasonryAdapter(images, new MasonryAdapter.OnItemClickListener({
+//
+//        }))
         recyclerView.setAdapter(new MasonryAdapter(images));
         return rootview;
     }

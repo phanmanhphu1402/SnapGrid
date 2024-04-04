@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -19,15 +21,22 @@ import com.android.snapgrid.R;
 import com.android.snapgrid.fragments.DetailPostFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.ViewHolder> {
     ArrayList images;
     Context context;
+    private OnItemClickListener mListener;
 
     // Constructor for initialization
     public MasonryAdapter(Context context, ArrayList images) {
         this.context = context;
         this.images = images;
+    }
+
+    public MasonryAdapter(ArrayList images, OnItemClickListener listener) {
+        this.images = images;
+        this.mListener = listener;
     }
 
     public MasonryAdapter(ArrayList images) {
@@ -50,10 +59,7 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.ViewHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                FragmentManager fragmentManager = ((FragmentActivity)context).getSupportFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                fragmentTransaction.replace(R.id.frame_layout, new DetailPostFragment());
-//                fragmentTransaction.commit();
+                mListener.onItemClick(position);
             }
         });
     }
