@@ -33,14 +33,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/imageView3"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:src="@drawable/appa"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:shapeAppearanceOverlay="@style/circle"
+                        android:backgroundTint="@color/black"
+                        />
 
                     <Button
                         android:id="@+id/button2"
@@ -185,13 +188,14 @@
                     android:layout_height="match_parent"
                     android:padding="8dp">
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/imageView4"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:src="@drawable/appa"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:shapeAppearanceOverlay="@style/circle"/>
 
                     <TextView
                         android:id="@+id/textView10"

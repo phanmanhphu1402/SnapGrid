@@ -13,6 +13,9 @@
         android:theme="@style/Theme.SnapGrid"
         tools:targetApi="31">
         <activity
+            android:name=".ChatToChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".UserConfigActivity"
             android:exported="false" />
         <activity
@@ -41,10 +44,10 @@
             android:exported="false" />
         <activity
             android:name=".NavigationActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>
