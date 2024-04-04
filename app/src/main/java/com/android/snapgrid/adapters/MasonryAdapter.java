@@ -7,16 +7,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.snapgrid.R;
 import com.android.snapgrid.fragments.DetailPostFragment;
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.ViewHolder> {
-    static ArrayList images;
+    static ArrayList<String> images;
+
+    private ArrayList<String> imageUrlList;
     Context context;
     private static FragmentManager fragmentManager;
     private OnItemClickListener mListener;
@@ -35,9 +40,7 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.ViewHold
     public MasonryAdapter(ArrayList images) {
         this.images = images;
     }
-
-
-    public MasonryAdapter(ArrayList images, FragmentManager fragmentManager) {
+    public MasonryAdapter(ArrayList<String> images, FragmentManager fragmentManager) {
         this.images = images;
         this.fragmentManager = fragmentManager;
     }
@@ -53,8 +56,10 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        int res = (int) images.get(position);
-        holder.imageView.setImageResource(res);
+        String image = images.get(position);
+        Glide.with(context).load(image).placeholder(R.drawable.appa).into(holder.imageView);
+//        int res = (int) images.get(position);
+//        holder.imageView.setImageResource(res);
     }
 
 
