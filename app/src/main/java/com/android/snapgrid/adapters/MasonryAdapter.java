@@ -57,7 +57,8 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String image = images.get(position);
-        Glide.with(context).load(image).placeholder(R.drawable.appa).into(holder.imageView);
+//        Glide.with(context).load(image).placeholder(R.drawable.appa).into(holder.imageView);
+        Picasso.get().load(image).placeholder(R.drawable.appa).into(holder.imageView);
 //        int res = (int) images.get(position);
 //        holder.imageView.setImageResource(res);
     }

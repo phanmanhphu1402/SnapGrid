@@ -3,6 +3,7 @@ package com.android.snapgrid.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,11 @@ import com.android.snapgrid.MainActivity;
 import com.android.snapgrid.R;
 import com.android.snapgrid.UserConfigActivity;
 import com.android.snapgrid.adapters.MasonryAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,11 +35,7 @@ import java.util.Arrays;
  */
 public class UserInformationFragment extends Fragment {
     TextView textView;
-    ArrayList images = new ArrayList<>(Arrays.asList(R.drawable.bgrwelcome, R.drawable.test2, R.drawable.bgrwelcome,
-            R.drawable.test, R.drawable.bgrwelcome, R.drawable.bgrwelcome, R.drawable.bgrwelcome, R.drawable.bgrwelcome,
-            R.drawable.bgrwelcome, R.drawable.appa,R.drawable.bgrwelcome, R.drawable.test2, R.drawable.bgrwelcome,
-            R.drawable.test, R.drawable.bgrwelcome, R.drawable.bgrwelcome, R.drawable.bgrwelcome, R.drawable.bgrwelcome,
-            R.drawable.bgrwelcome, R.drawable.appa));
+    ArrayList images;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,7 +53,27 @@ public class UserInformationFragment extends Fragment {
         RecyclerView recyclerView = rootview.findViewById(R.id.recyclerView);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
-        recyclerView.setAdapter(new MasonryAdapter(images));
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Posts");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<String> images = new ArrayList<>();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String imageUrl = snapshot.child("image").getValue(String.class);
+                    System.out.println(imageUrl);
+                    images.add(imageUrl);
+                    recyclerView.setAdapter(new MasonryAdapter(getContext(), images));
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         return rootview;
 
     }
