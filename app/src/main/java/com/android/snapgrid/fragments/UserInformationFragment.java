@@ -13,10 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.snapgrid.MainActivity;
 import com.android.snapgrid.R;
+import com.android.snapgrid.SettingActivity;
 import com.android.snapgrid.UserConfigActivity;
 import com.android.snapgrid.adapters.MasonryAdapter;
 import com.google.firebase.database.DataSnapshot;
@@ -49,6 +52,14 @@ public class UserInformationFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        ImageButton btnSetting = rootview.findViewById(R.id.btnSetting);
+        btnSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), SettingActivity.class);
+                startActivity(intent);
+            }
+        });
 
         RecyclerView recyclerView = rootview.findViewById(R.id.recyclerView);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
@@ -77,4 +88,5 @@ public class UserInformationFragment extends Fragment {
         return rootview;
 
     }
+
 }

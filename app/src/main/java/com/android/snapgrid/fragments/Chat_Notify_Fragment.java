@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentOnAttachListener;
 import androidx.fragment.app.FragmentTransaction;
@@ -14,9 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.android.snapgrid.NotifyFragment;
 import com.android.snapgrid.R;
-import com.android.snapgrid.databinding.ActivityMainBinding;
 
 /**
  * A simple {@link Fragment} subclass.
