@@ -17,6 +17,8 @@ import com.android.snapgrid.fragments.DetailPostFragment;
 import com.android.snapgrid.fragments.SearchFragment;
 import com.android.snapgrid.fragments.UserInformationFragment;
 import com.android.snapgrid.fragments.fragment_home_page;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 

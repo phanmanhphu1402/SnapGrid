@@ -22,11 +22,14 @@ import com.android.snapgrid.R;
 import com.android.snapgrid.SettingActivity;
 import com.android.snapgrid.UserConfigActivity;
 import com.android.snapgrid.adapters.MasonryAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,14 +40,26 @@ import java.util.Arrays;
  * create an instance of this fragment.
  */
 public class UserInformationFragment extends Fragment {
-    TextView textView;
+    TextView userEmail;
+    ImageView userAvatar;
     ArrayList images;
+
+    FirebaseAuth mAuth;
+    FirebaseUser user;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_user_information, container, false);
         Button btnConfigInfor = (Button)rootview.findViewById(R.id.btnConfigInfor);
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        userEmail = (TextView) rootview.findViewById(R.id.userEmail);
+        userAvatar = rootview.findViewById(R.id.userAvatar);
+        Picasso.get().load(currentUser.getPhotoUrl()).placeholder(R.drawable.appa).into(userAvatar);
+        userEmail.setText(currentUser.getEmail().toString());
         btnConfigInfor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -24,6 +24,8 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -99,20 +101,20 @@ public class Login extends AppCompatActivity {
         mCallbackManager = CallbackManager.Factory.create();
         loginButton = findViewById(R.id.login_button);
         loginButton.setReadPermissions("email", "public_profile");
-        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                handleFacebookAccessToken(loginResult.getAccessToken());
-            }
-
-            @Override
-            public void onCancel() {
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-            }
-        });
+//        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+//            @Override
+//            public void onSuccess(LoginResult loginResult) {
+//                handleFacebookAccessToken(loginResult.getAccessToken());
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//            }
+//
+//            @Override
+//            public void onError(FacebookException error) {
+//            }
+//        });
 //        btnFacebook = findViewById(R.id.btnFB);
 //        btnFacebook.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -120,35 +122,6 @@ public class Login extends AppCompatActivity {
 //                launchFacebookLogin();
 //            }
 //        });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                bỏ qua default_web_client_id nó ko phải lỗi!!
@@ -189,6 +162,15 @@ public class Login extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                                    FirebaseUser user = mAuth.getCurrentUser();
+
+                                    HashMap<String, Object> map = new HashMap<>();
+
+                                    map.put("id",user.getUid());
+                                    map.put("name",user.getDisplayName());
+//                                    map.put("profile",user.getPhotoUrl().toString());
+                                    map.put("email",user.getEmail());
+                                    database.getReference().child("users").child(user.getUid()).setValue(map);
                                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(i);
                                     finish();
@@ -245,29 +227,29 @@ public class Login extends AppCompatActivity {
 //        }
 //    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-    private void handleFacebookAccessToken(AccessToken token) {
-
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            Toast.makeText(Login.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-                    }
-                });
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
+//    private void handleFacebookAccessToken(AccessToken token) {
+//
+//        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+//        mAuth.signInWithCredential(credential)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            FirebaseUser user = mAuth.getCurrentUser();
+//                            updateUI(user);
+//                        } else {
+//                            Toast.makeText(Login.this, "Authentication failed.",
+//                                    Toast.LENGTH_SHORT).show();
+//                            updateUI(null);
+//                        }
+//                    }
+//                });
+//    }
 
     private void updateUI(FirebaseUser user) {
         if(user !=null){
@@ -283,23 +265,22 @@ public class Login extends AppCompatActivity {
         startActivityForResult(intent, RC_SIGN_IN);
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(requestCode == RC_SIGN_IN){
-//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-//
-//            try {
-//                GoogleSignInAccount account = task.getResult(ApiException.class);
-//                fireBaseAuth(account.getIdToken());
-//            }catch (Exception e){
-//                Toast.makeText(this,e.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == RC_SIGN_IN){
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                fireBaseAuth(account.getIdToken());
+            }catch (Exception e){
+                Toast.makeText(this,e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     private void fireBaseAuth(String idToken) {
-
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -313,7 +294,7 @@ public class Login extends AppCompatActivity {
                             map.put("id",user.getUid());
                             map.put("name",user.getDisplayName());
                             map.put("profile",user.getPhotoUrl().toString());
-
+                            map.put("email",user.getEmail());
                             database.getReference().child("users").child(user.getUid()).setValue(map);
 
                             Intent intent = new Intent(Login.this, MainActivity.class);
