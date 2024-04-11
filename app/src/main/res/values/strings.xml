@@ -13,7 +13,8 @@
 
     <string name="facebook_app_id">386002037678410</string>
     <string name="fb_login_protocol_scheme">fb386002037678410</string>
-    <string name="facebook_client_token">jTytdcYilorH1bHNbDUE5tn4rTQ=</string>
+    <string name="facebook_client_token">EAAFfERpWoUoBO1iCHNYuinedjUjZAcYbhjalGd2OrBKQxrbEghFRFS5CzUb35cIgJdm4dxBqZAiux8MFQQNGAu5U3qNRUgx5ZB0QnrvvHQR1UZCyW6JADmieqjr7K4QOf3NgdEwMN1XwKfhRMzT6QMNRlBRn7I0gw07w6D3kRfrNIHdlpRSqHxq9bJ9gYniuUusVuZCtQ7NqpcJvl8gZDZD</string>
+
 
 
 </resources>

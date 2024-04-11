@@ -33,6 +33,8 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginBehavior;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -95,16 +97,21 @@ public class Login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
 
-        FacebookSdk.sdkInitialize(Login.this);
-
-        // Initialize Facebook Login button
-        mCallbackManager = CallbackManager.Factory.create();
-        loginButton = findViewById(R.id.login_button);
-        loginButton.setReadPermissions("email", "public_profile");
+//        FacebookSdk.sdkInitialize(getApplicationContext());
+//
+//
+//        // Initialize Facebook Login button
+//        mCallbackManager = CallbackManager.Factory.create();
+//        loginButton = findViewById(R.id.login_button);
+//        loginButton.setReadPermissions("email", "public_profile");
+//        // Set login behavior to use Chrome Custom Tabs
+//        LoginManager.getInstance().setLoginBehavior(LoginBehavior.WEB_ONLY);
 //        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
 //            @Override
 //            public void onSuccess(LoginResult loginResult) {
-//                handleFacebookAccessToken(loginResult.getAccessToken());
+////                handleFacebookAccessToken(loginResult.getAccessToken());
+//                Intent intent = new Intent(Login.this, MainActivity.class);
+//                startActivity(intent);
 //            }
 //
 //            @Override
@@ -250,15 +257,15 @@ public class Login extends AppCompatActivity {
 //                    }
 //                });
 //    }
-
-    private void updateUI(FirebaseUser user) {
-        if(user !=null){
-            Intent intent = new Intent(Login.this, SignUp.class);
-            startActivity(intent);
-        }else{
-            Toast.makeText(this, "Please Login to continue",Toast.LENGTH_SHORT).show();
-        }
-    }
+//
+//    private void updateUI(FirebaseUser user) {
+//        if(user !=null){
+//            Intent intent = new Intent(Login.this, MainActivity.class);
+//            startActivity(intent);
+//        }else{
+//            Toast.makeText(this, "Please Login to continue",Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     private void googleLogin() {
         Intent intent = mGoogSignClient.getSignInIntent();

@@ -40,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
                 replaceFragment(new SearchFragment());
             }
             if(id == R.id.createPost){
-                replaceFragment(new AddPostFragment());
+//                replaceFragment(new AddPostFragment());
+                Intent intent = new Intent(this, PostAddingActivity.class);
+                startActivity(intent);
             }
             if(id == R.id.notifyAndChat){
                 replaceFragment(new Chat_Notify_Fragment());

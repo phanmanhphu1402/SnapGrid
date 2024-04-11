@@ -50,7 +50,7 @@ public class DetailPostFragment extends Fragment {
                 ArrayList<String> images = new ArrayList<>();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String imageUrl = snapshot.child("image").getValue(String.class);
+                    String imageUrl = snapshot.child("imageUrl").getValue(String.class);
                     System.out.println(imageUrl);
                     images.add(imageUrl);
                     recyclerView.setAdapter(new MasonryAdapter(images, getActivity().getSupportFragmentManager()));

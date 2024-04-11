@@ -24,7 +24,6 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.ViewHold
     private ArrayList<String> imageUrlList;
     Context context;
     private static FragmentManager fragmentManager;
-    private OnItemClickListener mListener;
 
     // Constructor for initialization
     public MasonryAdapter(Context context, ArrayList images) {
@@ -32,10 +31,6 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.ViewHold
         this.images = images;
     }
 
-    public MasonryAdapter(ArrayList images, OnItemClickListener listener) {
-        this.images = images;
-        this.mListener = listener;
-    }
 
     public MasonryAdapter(ArrayList images) {
         this.images = images;
