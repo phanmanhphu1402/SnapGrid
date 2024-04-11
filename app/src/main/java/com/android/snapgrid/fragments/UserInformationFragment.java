@@ -34,11 +34,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link UserInformationFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class UserInformationFragment extends Fragment {
     TextView userEmail;
     ImageView userAvatar;
@@ -85,12 +80,20 @@ public class UserInformationFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<String> images = new ArrayList<>();
-
+                String userId = currentUser.getUid();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String imageUrl = snapshot.child("imageUrl").getValue(String.class);
-                    System.out.println(imageUrl);
-                    images.add(imageUrl);
-                    recyclerView.setAdapter(new MasonryAdapter(getContext(), images));
+                    if(userId.equals(snapshot.child("idUser").getValue())){
+                        String imageUrl = snapshot.child("imageUrl").getValue(String.class);
+                        System.out.println(imageUrl);
+                        images.add(imageUrl);
+                        recyclerView.setAdapter(new MasonryAdapter(getContext(), images));
+                    }
+//                    String imageUrl = snapshot.child("imageUrl").getValue(String.class);
+//                    System.out.println(imageUrl);
+//
+//                    System.out.println(snapshot.child("idUser").getValue());
+//                    images.add(imageUrl);
+
 
                 }
             }
