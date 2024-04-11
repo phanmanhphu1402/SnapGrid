@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import com.android.snapgrid.adapters.MasonryAdapter;
 import com.android.snapgrid.R;
+import com.android.snapgrid.inter.ItemClickListener;
+import com.android.snapgrid.models.Post;
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -33,7 +36,7 @@ import java.util.Arrays;
  * Use the {@link fragment_home_page#} factory method to
  * create an instance of this fragment.
  */
-public class fragment_home_page extends Fragment {
+public class fragment_home_page extends Fragment{
     private TextView textView;
 
 
@@ -50,21 +53,28 @@ public class fragment_home_page extends Fragment {
         // Inflate the layout for this fragment
 
         View rootview = inflater.inflate(R.layout.fragment_home_page, container, false);
+
         RecyclerView recyclerView = rootview.findViewById(R.id.recyclerView);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Posts");
-
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<String> images = new ArrayList<>();
+                ArrayList<Post> postsList = new ArrayList<>();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    int idPost = Integer.parseInt(snapshot.child("idPost").getValue().toString());
+                    String idUser = snapshot.child("idUser").getValue().toString();
+                    String content = snapshot.child("content").getValue().toString();
+                    String datePost = snapshot.child("datePost").getValue().toString();
+                    int numberLike = Integer.parseInt(snapshot.child("numberLike").getValue().toString());
+                    int numberShare = Integer.parseInt(snapshot.child("numberShare").getValue().toString());
                     String imageUrl = snapshot.child("imageUrl").getValue(String.class);
-                    System.out.println(imageUrl);
-                    images.add(imageUrl);
-                    recyclerView.setAdapter(new MasonryAdapter(images, getActivity().getSupportFragmentManager()));
+                    String title = snapshot.child("title").getValue().toString();
+                    Post post = new Post(idPost, idUser, content, datePost, numberLike, numberShare, imageUrl, title);
+                    postsList.add(post);
+                    recyclerView.setAdapter(new MasonryAdapter(postsList, getActivity().getSupportFragmentManager()));
 
                 }
             }
@@ -77,4 +87,17 @@ public class fragment_home_page extends Fragment {
         return rootview;
 
     }
+
+//    Override
+//    public void onItemClick(Post post) {
+//        // Forward the item data to Fragment B
+//        DetailPostFragment fragmentB = new DetailPostFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("itemData", (Serializable) post);
+//        fragmentB.setArguments(bundle);
+//        // Replace or add Fragment B to the FragmentManager
+//        getActivity().getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.frame_layout, fragmentB)
+//                .commit();
+//    }
 }

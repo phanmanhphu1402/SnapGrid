@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -11,15 +12,18 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.snapgrid.R;
 import com.android.snapgrid.adapters.MasonryAdapter;
+import com.android.snapgrid.models.Post;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,14 +35,31 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class DetailPostFragment extends Fragment {
-
-    TextView textView;
-    ArrayList images ;
+    ImageView imageDetail;
+    TextView detailPostTitle, detailPostContent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_detail_post, container, false);
+        Bundle bundle = getArguments();
+        String image = bundle.getString("dataImage");
+        String title = bundle.getString("dataTitle");
+        String content = bundle.getString("dataContent");
+        imageDetail = rootview.findViewById(R.id.detailImage);
+        detailPostTitle = rootview.findViewById(R.id.detailPostTitle);
+        detailPostContent = rootview.findViewById(R.id.detailPostContent);
+        if(title != null){
+            detailPostTitle.setText(title);
+        }else{
+            detailPostTitle.setText("");
+        }
+        if(content != null){
+            detailPostContent.setText(content);
+        }else{
+            detailPostContent.setText("");
+        }
+        Picasso.get().load(image).placeholder(R.drawable.appa).into(imageDetail);
         RecyclerView recyclerView = rootview.findViewById(R.id.recyclerView);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
@@ -47,13 +68,20 @@ public class DetailPostFragment extends Fragment {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<String> images = new ArrayList<>();
+                ArrayList<Post> postsList = new ArrayList<>();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    int idPost = Integer.parseInt(snapshot.child("idPost").getValue().toString());
+                    String idUser = snapshot.child("idUser").getValue().toString();
+                    String content = snapshot.child("content").getValue().toString();
+                    String datePost = snapshot.child("datePost").getValue().toString();
+                    int numberLike = Integer.parseInt(snapshot.child("numberLike").getValue().toString());
+                    int numberShare = Integer.parseInt(snapshot.child("numberShare").getValue().toString());
                     String imageUrl = snapshot.child("imageUrl").getValue(String.class);
-                    System.out.println(imageUrl);
-                    images.add(imageUrl);
-                    recyclerView.setAdapter(new MasonryAdapter(images, getActivity().getSupportFragmentManager()));
+                    String title = snapshot.child("title").getValue().toString();
+                    Post post = new Post(idPost, idUser, content, datePost, numberLike, numberShare, imageUrl, title);
+                    postsList.add(post);
+                    recyclerView.setAdapter(new MasonryAdapter(postsList, getActivity().getSupportFragmentManager()));
 
                 }
             }
