@@ -126,6 +126,7 @@ public class PostAddingActivity extends AppCompatActivity {
         String title = editTitle.getText().toString();
         String content = editContent.getText().toString();
         String userPostId = currentUser.getUid();
+        String tag = autoCompleteTxt.getText().toString();
         String datePost = formattedDate;
         final StorageReference imageReference = storageReference.child(System.currentTimeMillis()+"."+getFileExtension(uri));
         imageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -134,7 +135,7 @@ public class PostAddingActivity extends AppCompatActivity {
                 imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        Post post = new Post(1, userPostId, content, formattedDate,0,0,uri.toString(), title);
+                        Post post = new Post(1, userPostId, content, formattedDate,0,0,uri.toString(), title, tag);
                         String key = databaseReference.push().getKey();
                         databaseReference.child(key).setValue(post);
                         Toast.makeText(PostAddingActivity.this,"Uploaded",Toast.LENGTH_SHORT).show();

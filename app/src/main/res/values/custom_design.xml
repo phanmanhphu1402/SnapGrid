@@ -4,4 +4,9 @@
     <style name="circle">
         <item name="cornerSize">50%</item>
     </style>
+
+    <style name="pop">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
 </resources>

@@ -91,7 +91,8 @@ public class UserInformationFragment extends Fragment {
                         int numberShare = Integer.parseInt(snapshot.child("numberShare").getValue().toString());
                         String imageUrl = snapshot.child("imageUrl").getValue(String.class);
                         String title = snapshot.child("title").getValue().toString();
-                        Post post = new Post(idPost, idUser, content, datePost, numberLike, numberShare, imageUrl, title);
+                        String tag = snapshot.child("tag").getValue().toString();
+                        Post post = new Post(idPost, idUser, content, datePost, numberLike, numberShare, imageUrl, title, tag);
                         postsList.add(post);
                         recyclerView.setAdapter(new MasonryAdapter(postsList, getActivity().getSupportFragmentManager()));
                     }

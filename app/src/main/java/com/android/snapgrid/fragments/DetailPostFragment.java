@@ -1,10 +1,15 @@
 package com.android.snapgrid.fragments;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -12,8 +17,10 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.snapgrid.R;
 import com.android.snapgrid.adapters.MasonryAdapter;
@@ -26,12 +33,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 
 public class DetailPostFragment extends Fragment {
     ImageView imageDetail;
     TextView detailPostTitle, detailPostContent;
+    ImageButton btnEditPost;
+    DialogFragment dialog;
+
+    ImageButton btnClose;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +50,14 @@ public class DetailPostFragment extends Fragment {
         String image = bundle.getString("dataImage");
         String title = bundle.getString("dataTitle");
         String content = bundle.getString("dataContent");
+        btnEditPost = rootview.findViewById(R.id.btnEditPost);
+        btnEditPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CustomDialogFragment customDialogFragment = new CustomDialogFragment();
+                customDialogFragment.show(getChildFragmentManager(),"CustomDialogFragment");
+            }
+        });
         imageDetail = rootview.findViewById(R.id.detailImage);
         detailPostTitle = rootview.findViewById(R.id.detailPostTitle);
         detailPostContent = rootview.findViewById(R.id.detailPostContent);
@@ -74,7 +91,8 @@ public class DetailPostFragment extends Fragment {
                     int numberShare = Integer.parseInt(snapshot.child("numberShare").getValue().toString());
                     String imageUrl = snapshot.child("imageUrl").getValue(String.class);
                     String title = snapshot.child("title").getValue().toString();
-                    Post post = new Post(idPost, idUser, content, datePost, numberLike, numberShare, imageUrl, title);
+                    String tag = snapshot.child("tag").getValue().toString();
+                    Post post = new Post(idPost, idUser, content, datePost, numberLike, numberShare, imageUrl, title, tag);
                     postsList.add(post);
                     recyclerView.setAdapter(new MasonryAdapter(postsList, getActivity().getSupportFragmentManager()));
 

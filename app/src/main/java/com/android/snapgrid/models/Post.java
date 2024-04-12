@@ -9,8 +9,9 @@ public class Post {
     private int numberShare;
     private String imageUrl;
     private String title;
+    private String tag;
 
-    public Post(int idPost, String idUser, String content, String datePost, int numberLike, int numberShare, String imageUrl, String title) {
+    public Post(int idPost, String idUser, String content, String datePost, int numberLike, int numberShare, String imageUrl, String title, String tag) {
         this.idPost = idPost;
         this.idUser = idUser;
         this.content = content;
@@ -19,6 +20,7 @@ public class Post {
         this.numberShare = 0;
         this.imageUrl = imageUrl;
         this.title = title;
+        this.tag = tag;
     }
 
     public String getImageUrl() {
@@ -35,6 +37,14 @@ public class Post {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public Post() {
