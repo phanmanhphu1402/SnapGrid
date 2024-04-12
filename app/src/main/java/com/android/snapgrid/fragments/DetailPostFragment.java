@@ -29,11 +29,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DetailPostFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DetailPostFragment extends Fragment {
     ImageView imageDetail;
     TextView detailPostTitle, detailPostContent;

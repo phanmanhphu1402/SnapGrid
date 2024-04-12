@@ -22,6 +22,7 @@ import com.android.snapgrid.R;
 import com.android.snapgrid.SettingActivity;
 import com.android.snapgrid.UserConfigActivity;
 import com.android.snapgrid.adapters.MasonryAdapter;
+import com.android.snapgrid.models.Post;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -37,7 +38,6 @@ import java.util.Arrays;
 public class UserInformationFragment extends Fragment {
     TextView userEmail;
     ImageView userAvatar;
-    ArrayList images;
 
     FirebaseAuth mAuth;
     FirebaseUser user;
@@ -79,22 +79,22 @@ public class UserInformationFragment extends Fragment {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<String> images = new ArrayList<>();
+                ArrayList<Post> postsList = new ArrayList<>();
                 String userId = currentUser.getUid();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     if(userId.equals(snapshot.child("idUser").getValue())){
+                        int idPost = Integer.parseInt(snapshot.child("idPost").getValue().toString());
+                        String idUser = snapshot.child("idUser").getValue().toString();
+                        String content = snapshot.child("content").getValue().toString();
+                        String datePost = snapshot.child("datePost").getValue().toString();
+                        int numberLike = Integer.parseInt(snapshot.child("numberLike").getValue().toString());
+                        int numberShare = Integer.parseInt(snapshot.child("numberShare").getValue().toString());
                         String imageUrl = snapshot.child("imageUrl").getValue(String.class);
-                        System.out.println(imageUrl);
-                        images.add(imageUrl);
-                        recyclerView.setAdapter(new MasonryAdapter(getContext(), images));
+                        String title = snapshot.child("title").getValue().toString();
+                        Post post = new Post(idPost, idUser, content, datePost, numberLike, numberShare, imageUrl, title);
+                        postsList.add(post);
+                        recyclerView.setAdapter(new MasonryAdapter(postsList, getActivity().getSupportFragmentManager()));
                     }
-//                    String imageUrl = snapshot.child("imageUrl").getValue(String.class);
-//                    System.out.println(imageUrl);
-//
-//                    System.out.println(snapshot.child("idUser").getValue());
-//                    images.add(imageUrl);
-
-
                 }
             }
 

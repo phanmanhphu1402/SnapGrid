@@ -1,25 +1,19 @@
 package com.android.snapgrid.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.snapgrid.R;
-import com.android.snapgrid.ShipDataActivity;
 import com.android.snapgrid.fragments.DetailPostFragment;
-import com.android.snapgrid.inter.ItemClickListener;
 import com.android.snapgrid.models.Post;
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -30,7 +24,6 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.ViewHold
     private static ArrayList<Post> postsList;
     Context context;
     private static FragmentManager fragmentManager;
-    private static ItemClickListener itemClickListener;
 
     // Constructor for initialization
     public MasonryAdapter(Context context, ArrayList images) {

@@ -76,12 +76,14 @@ public class Login extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Intent i = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(i);
-            finish();
-        }
+        updateUI(currentUser);
+//        if(currentUser != null){
+//            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+//            startActivity(i);
+//            finish();
+//        }
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -258,14 +260,14 @@ public class Login extends AppCompatActivity {
 //                });
 //    }
 //
-//    private void updateUI(FirebaseUser user) {
-//        if(user !=null){
-//            Intent intent = new Intent(Login.this, MainActivity.class);
-//            startActivity(intent);
-//        }else{
-//            Toast.makeText(this, "Please Login to continue",Toast.LENGTH_SHORT).show();
-//        }
-//    }
+    private void updateUI(FirebaseUser user) {
+        if(user !=null){
+            Intent intent = new Intent(Login.this, MainActivity.class);
+            startActivity(intent);
+        }else{
+            Toast.makeText(this, "Please Login to continue",Toast.LENGTH_SHORT).show();
+        }
+    }
 
     private void googleLogin() {
         Intent intent = mGoogSignClient.getSignInIntent();
