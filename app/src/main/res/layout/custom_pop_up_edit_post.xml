@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnEdit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:backgroundTint="#00FFFFFF"
@@ -41,7 +41,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btnClose" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/btnCopyLink"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:backgroundTint="#00FFFFFF"
@@ -50,10 +50,10 @@
             android:textColor="@color/main_text_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button3" />
+            app:layout_constraintTop_toBottomOf="@+id/btnEdit" />
 
         <Button
-            android:id="@+id/button9"
+            android:id="@+id/btnDownload"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:backgroundTint="#00FFFFFF"
@@ -62,10 +62,10 @@
             android:textColor="@color/main_text_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button4" />
+            app:layout_constraintTop_toBottomOf="@+id/btnCopyLink" />
 
         <Button
-            android:id="@+id/button10"
+            android:id="@+id/btnCloseRed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -74,6 +74,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button9" />
+            app:layout_constraintTop_toBottomOf="@+id/btnDownload" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

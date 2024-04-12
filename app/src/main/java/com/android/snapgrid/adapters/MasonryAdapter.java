@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.snapgrid.R;
+import com.android.snapgrid.fragments.CustomDialogFragment;
 import com.android.snapgrid.fragments.DetailPostFragment;
 import com.android.snapgrid.models.Post;
 import com.squareup.picasso.Picasso;
@@ -71,9 +72,9 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.ViewHold
         @Override
         public void onClick(View view) {
             DetailPostFragment fragment = new DetailPostFragment();
+            CustomDialogFragment customDialogFragment = new CustomDialogFragment();
             Bundle result = new Bundle();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-
             String image = postsList.get(getAdapterPosition()).getImageUrl();
             String title = postsList.get(getAdapterPosition()).getTitle();
             String content = postsList.get(getAdapterPosition()).getContent();
@@ -81,6 +82,7 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.ViewHold
             result.putString("dataTitle", title);
             result.putString("dataContent", content);
             fragment.setArguments(result);
+            customDialogFragment.setArguments(result);
             transaction.replace(R.id.frame_layout, fragment);
             transaction.addToBackStack(null);
             transaction.commit();

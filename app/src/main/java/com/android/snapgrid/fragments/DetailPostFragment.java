@@ -50,12 +50,18 @@ public class DetailPostFragment extends Fragment {
         String image = bundle.getString("dataImage");
         String title = bundle.getString("dataTitle");
         String content = bundle.getString("dataContent");
+        Bundle result = new Bundle();
+
         btnEditPost = rootview.findViewById(R.id.btnEditPost);
         btnEditPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CustomDialogFragment customDialogFragment = new CustomDialogFragment();
                 customDialogFragment.show(getChildFragmentManager(),"CustomDialogFragment");
+                result.putString("dataImage", image);
+                result.putString("dataTitle", title);
+                result.putString("dataContent", content);
+                customDialogFragment.setArguments(result);
             }
         });
         imageDetail = rootview.findViewById(R.id.detailImage);

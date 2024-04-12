@@ -37,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -67,53 +68,111 @@ public class PostAddingActivity extends AppCompatActivity {
         btnAddPost = findViewById(R.id.btnAddPost);
         editTitle = findViewById(R.id.editTitle);
         editContent = findViewById(R.id.editContent);
-
-        ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult o) {
-                        if(o.getResultCode() == Activity.RESULT_OK){
-                            Intent data = o.getData();
-                            uriImage = data.getData();
-                            postImage.setImageURI(uriImage);
-                        }else{
-                            Toast.makeText(PostAddingActivity.this,"No Image Selected", Toast.LENGTH_SHORT).show();
+        String image = getIntent().getStringExtra("dataImage");
+        String title = getIntent().getStringExtra("dataTitle");
+        String content = getIntent().getStringExtra("dataContent");
+        if(image != null){
+            Picasso.get().load(image).into(postImage);
+            editTitle.setText(title);
+            editContent.setText(content);
+            ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult o) {
+                            if(o.getResultCode() == Activity.RESULT_OK){
+                                Intent data = o.getData();
+                                uriImage = data.getData();
+                                postImage.setImageURI(uriImage);
+                            }else{
+                                Toast.makeText(PostAddingActivity.this,"No Image Selected", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
+
+            );
+
+            postImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent photoPicker = new Intent();
+                    photoPicker.setAction(Intent.ACTION_GET_CONTENT);
+                    photoPicker.setType("image/*");
+                    activityResultLauncher.launch(photoPicker);
                 }
-
-        );
-
-        postImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent photoPicker = new Intent();
-                photoPicker.setAction(Intent.ACTION_GET_CONTENT);
-                photoPicker.setType("image/*");
-                activityResultLauncher.launch(photoPicker);
-            }
-        });
-        btnAddPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(uriImage != null){
-                    uploadToFireBase(uriImage);
-                }else{
-                    Toast.makeText(PostAddingActivity.this, "Please select Image",Toast.LENGTH_SHORT).show();
+            });
+            btnAddPost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(uriImage != null){
+                        uploadToFireBase(uriImage);
+                    }else{
+                        Toast.makeText(PostAddingActivity.this, "Please select Image",Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
-        autoCompleteTxt = (AutoCompleteTextView) findViewById(R.id.auto_complete_txt);
-        adapterItems = new ArrayAdapter<String>(this,R.layout.item_tag,items);
-        autoCompleteTxt.setAdapter(adapterItems);
-        autoCompleteTxt.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            });
+            autoCompleteTxt = (AutoCompleteTextView) findViewById(R.id.auto_complete_txt);
+            adapterItems = new ArrayAdapter<String>(this,R.layout.item_tag,items);
+            autoCompleteTxt.setAdapter(adapterItems);
+            autoCompleteTxt.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String item = adapterView.getItemAtPosition(i).toString();
-            }
-        });
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    String item = adapterView.getItemAtPosition(i).toString();
+                }
+            });
+        }else{
+            ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult o) {
+                            if(o.getResultCode() == Activity.RESULT_OK){
+                                Intent data = o.getData();
+                                uriImage = data.getData();
+                                postImage.setImageURI(uriImage);
+                            }else{
+                                Toast.makeText(PostAddingActivity.this,"No Image Selected", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+            );
+
+            postImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent photoPicker = new Intent();
+                    photoPicker.setAction(Intent.ACTION_GET_CONTENT);
+                    photoPicker.setType("image/*");
+                    activityResultLauncher.launch(photoPicker);
+                }
+            });
+            btnAddPost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(uriImage != null){
+                        uploadToFireBase(uriImage);
+                    }else{
+                        Toast.makeText(PostAddingActivity.this, "Please select Image",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            autoCompleteTxt = (AutoCompleteTextView) findViewById(R.id.auto_complete_txt);
+            adapterItems = new ArrayAdapter<String>(this,R.layout.item_tag,items);
+            autoCompleteTxt.setAdapter(adapterItems);
+            autoCompleteTxt.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    String item = adapterView.getItemAtPosition(i).toString();
+                }
+            });
+        }
+
+
+
+
     }
 
     private void uploadToFireBase(Uri uri) {
