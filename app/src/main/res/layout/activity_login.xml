@@ -130,13 +130,20 @@
 <!--                    android:textSize="16sp"-->
 <!--                    android:textStyle="bold" />-->
 
-                <com.facebook.login.widget.LoginButton
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/login_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="30dp" />
+                    style="@android:style/Widget.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="55dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/btn_background"
+                    android:drawableEnd="@drawable/facebook"
+                    android:padding="16dp"
+                    android:text="Facebook"
+                    android:textColor="#3b608c"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnGoogle"
@@ -170,7 +177,5 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,9 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SnapGrid"
         tools:targetApi="31">
-        <activity
-            android:name=".ShipDataActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".ShipDataActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".PostAddingActivity"
             android:exported="false" />
@@ -45,7 +45,7 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".Activity_Splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,7 +63,7 @@
             android:name=".NavigationActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity_Splash"
+            android:name=".Login"
             android:exported="false" />
 
         <meta-data
