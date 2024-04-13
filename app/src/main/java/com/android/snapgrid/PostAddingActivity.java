@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.snapgrid.databinding.ActivityMainBinding;
@@ -30,6 +31,7 @@ import com.android.snapgrid.fragments.AddPostFragment;
 import com.android.snapgrid.models.Post;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +41,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -46,19 +50,25 @@ import java.util.Date;
 import java.util.Locale;
 
 public class PostAddingActivity extends AppCompatActivity {
-    String[] items = {"Kì ảo", "Phiêu lưu", "Chilling", "Sắc đẹp", "Hành động", "Xã hội", "Hoạt hình", "Buồn", "Vui", "Hỗn loạn", "Sắc màu", "Cảm hứng", "Giấc mơ"};
+    String[] items = {"Kì ảo", "Phiêu lưu", "Chilling",
+            "Sắc đẹp", "Hành động", "Xã hội",
+            "Hoạt hình", "Buồn", "Vui",
+            "Hỗn loạn", "Sắc màu", "Cảm hứng",
+            "Giấc mơ", "Game", "Thực tế",
+            "Thiên nhiên", "Đời thường", "Học đường"};
     AutoCompleteTextView autoCompleteTxt;
     ArrayAdapter<String> adapterItems;
-    ActivityMainBinding binding = null;
-    ImageButton btnAddImage;
+    ShapeableImageView btnDelete;
 
+    TextView heading;
     Uri uriImage;
     ImageView postImage;
-    Button btnAddPost;
+    Button btnAddPost, btnReup;
     EditText editTitle, editContent;
     FirebaseAuth mAuth;
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference("Post");
     final private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Posts");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,118 +78,120 @@ public class PostAddingActivity extends AppCompatActivity {
         btnAddPost = findViewById(R.id.btnAddPost);
         editTitle = findViewById(R.id.editTitle);
         editContent = findViewById(R.id.editContent);
+        btnDelete = findViewById(R.id.btnDelete);
+        btnReup = findViewById(R.id.btnReup);
+        heading = findViewById(R.id.createText);
+        autoCompleteTxt = (AutoCompleteTextView) findViewById(R.id.auto_complete_txt);
         String image = getIntent().getStringExtra("dataImage");
         String title = getIntent().getStringExtra("dataTitle");
         String content = getIntent().getStringExtra("dataContent");
-        if(image != null){
-            Picasso.get().load(image).into(postImage);
+        String tag = getIntent().getStringExtra("dataTag");
+        String idPost = getIntent().getStringExtra("dataIdPost");
+        if(image != null) {
+//            Picasso.get().load(image).into(postImage);
             editTitle.setText(title);
             editContent.setText(content);
-            ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
-                    new ActivityResultContracts.StartActivityForResult(),
-                    new ActivityResultCallback<ActivityResult>() {
-                        @Override
-                        public void onActivityResult(ActivityResult o) {
-                            if(o.getResultCode() == Activity.RESULT_OK){
-                                Intent data = o.getData();
-                                uriImage = data.getData();
-                                postImage.setImageURI(uriImage);
-                            }else{
-                                Toast.makeText(PostAddingActivity.this,"No Image Selected", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
+            autoCompleteTxt.setText(tag);
+            btnAddPost.setVisibility(View.INVISIBLE);
+            btnDelete.setVisibility(View.VISIBLE);
+            btnReup.setVisibility(View.VISIBLE);
+            heading.setText("Edit post");
 
-            );
-
-            postImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent photoPicker = new Intent();
-                    photoPicker.setAction(Intent.ACTION_GET_CONTENT);
-                    photoPicker.setType("image/*");
-                    activityResultLauncher.launch(photoPicker);
-                }
-            });
-            btnAddPost.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(uriImage != null){
-                        uploadToFireBase(uriImage);
-                    }else{
-                        Toast.makeText(PostAddingActivity.this, "Please select Image",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-            autoCompleteTxt = (AutoCompleteTextView) findViewById(R.id.auto_complete_txt);
-            adapterItems = new ArrayAdapter<String>(this,R.layout.item_tag,items);
-            autoCompleteTxt.setAdapter(adapterItems);
-            autoCompleteTxt.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    String item = adapterView.getItemAtPosition(i).toString();
-                }
-            });
-        }else{
-            ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
-                    new ActivityResultContracts.StartActivityForResult(),
-                    new ActivityResultCallback<ActivityResult>() {
-                        @Override
-                        public void onActivityResult(ActivityResult o) {
-                            if(o.getResultCode() == Activity.RESULT_OK){
-                                Intent data = o.getData();
-                                uriImage = data.getData();
-                                postImage.setImageURI(uriImage);
-                            }else{
-                                Toast.makeText(PostAddingActivity.this,"No Image Selected", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-
-            );
-
-            postImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent photoPicker = new Intent();
-                    photoPicker.setAction(Intent.ACTION_GET_CONTENT);
-                    photoPicker.setType("image/*");
-                    activityResultLauncher.launch(photoPicker);
-                }
-            });
-            btnAddPost.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(uriImage != null){
-                        uploadToFireBase(uriImage);
-                    }else{
-                        Toast.makeText(PostAddingActivity.this, "Please select Image",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-            autoCompleteTxt = (AutoCompleteTextView) findViewById(R.id.auto_complete_txt);
-            adapterItems = new ArrayAdapter<String>(this,R.layout.item_tag,items);
-            autoCompleteTxt.setAdapter(adapterItems);
-            autoCompleteTxt.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    String item = adapterView.getItemAtPosition(i).toString();
-                }
-            });
         }
+        ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult o) {
+                        if(o.getResultCode() == Activity.RESULT_OK){
+                            Intent data = o.getData();
+                            uriImage = data.getData();
+                            postImage.setImageURI(uriImage);
+                        }else{
+                            Toast.makeText(PostAddingActivity.this,"No Image Selected", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+        );
+        btnReup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                reUpLoadToFireBase(uriImage);
+                if(uriImage != null){
+                    reUpLoadToFireBase(uriImage, image, idPost);
+                }else{
+                    Toast.makeText(getApplicationContext(),"Please select an Image",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        postImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent photoPicker = new Intent();
+                photoPicker.setAction(Intent.ACTION_GET_CONTENT);
+                photoPicker.setType("image/*");
+                activityResultLauncher.launch(photoPicker);
+            }
+        });
+        btnAddPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(uriImage != null){
+                    uploadToFireBase(uriImage);
+                }else{
+                    Toast.makeText(PostAddingActivity.this, "Please select Image",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deletePost(image, idPost);
+            }
+        });
+        autoCompleteTxt = (AutoCompleteTextView) findViewById(R.id.auto_complete_txt);
+        adapterItems = new ArrayAdapter<String>(this,R.layout.item_tag,items);
+        autoCompleteTxt.setAdapter(adapterItems);
+        autoCompleteTxt.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = adapterView.getItemAtPosition(i).toString();
+            }
+        });
+    }
 
+    private void deletePost(String image, String idPost) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference1 = storage.getReferenceFromUrl(image);
+        storageReference1.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                databaseReference.child(idPost).removeValue();
+                Toast.makeText(PostAddingActivity.this,"Deleted",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
 
-
-
+    private void reUpLoadToFireBase(Uri uri, String image, String idPost) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference1 = storage.getReferenceFromUrl(image);
+        storageReference1.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                databaseReference.child(idPost).removeValue();
+            }
+        });
+        uploadToFireBase(uri);
     }
 
     private void uploadToFireBase(Uri uri) {
+
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         LocalDate currentDate = LocalDate.now();
-        System.out.println("Current Date: " + currentDate);
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedDate = currentDate.format(dateFormatter);
         String title = editTitle.getText().toString();
@@ -188,14 +200,18 @@ public class PostAddingActivity extends AppCompatActivity {
         String tag = autoCompleteTxt.getText().toString();
         String datePost = formattedDate;
         final StorageReference imageReference = storageReference.child(System.currentTimeMillis()+"."+getFileExtension(uri));
+        System.out.println("Addup asfasgagavaada");
+        System.out.println(uri);
+        System.out.println(imageReference.toString());
         imageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        Post post = new Post(1, userPostId, content, formattedDate,0,0,uri.toString(), title, tag);
                         String key = databaseReference.push().getKey();
+                        Post post = new Post(key, userPostId, content, formattedDate,0,0,uri.toString(), title, tag);
+
                         databaseReference.child(key).setValue(post);
                         Toast.makeText(PostAddingActivity.this,"Uploaded",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(PostAddingActivity.this,MainActivity.class);

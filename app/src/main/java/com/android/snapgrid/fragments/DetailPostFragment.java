@@ -25,6 +25,8 @@ import android.widget.Toast;
 import com.android.snapgrid.R;
 import com.android.snapgrid.adapters.MasonryAdapter;
 import com.android.snapgrid.models.Post;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +41,7 @@ public class DetailPostFragment extends Fragment {
     TextView detailPostTitle, detailPostContent;
     ImageButton btnEditPost;
     DialogFragment dialog;
+    FirebaseAuth mAuth;
 
     ImageButton btnClose;
 
@@ -46,12 +49,16 @@ public class DetailPostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_detail_post, container, false);
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
         Bundle bundle = getArguments();
         String image = bundle.getString("dataImage");
         String title = bundle.getString("dataTitle");
         String content = bundle.getString("dataContent");
+        String tag = bundle.getString("dataTag");
+        String idPost = bundle.getString("dataIdPost");
+        String idUser = bundle.getString("dataIdUser");
         Bundle result = new Bundle();
-
         btnEditPost = rootview.findViewById(R.id.btnEditPost);
         btnEditPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +68,9 @@ public class DetailPostFragment extends Fragment {
                 result.putString("dataImage", image);
                 result.putString("dataTitle", title);
                 result.putString("dataContent", content);
+                result.putString("dataTag", tag);
+                result.putString("dataIdPost", idPost);
+                result.putString("dataIdUser", idUser);
                 customDialogFragment.setArguments(result);
             }
         });
@@ -89,7 +99,8 @@ public class DetailPostFragment extends Fragment {
                 ArrayList<Post> postsList = new ArrayList<>();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    int idPost = Integer.parseInt(snapshot.child("idPost").getValue().toString());
+//                    int idPost = Integer.parseInt(snapshot.child("idPost").getValue().toString());
+                    String idPost = snapshot.getKey().toString();
                     String idUser = snapshot.child("idUser").getValue().toString();
                     String content = snapshot.child("content").getValue().toString();
                     String datePost = snapshot.child("datePost").getValue().toString();

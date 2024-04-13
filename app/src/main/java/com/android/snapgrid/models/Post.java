@@ -1,7 +1,7 @@
 package com.android.snapgrid.models;
 
 public class Post {
-    private int idPost;
+    private String idPost;
     private String idUser;
     private String content;
     private String datePost;
@@ -11,7 +11,7 @@ public class Post {
     private String title;
     private String tag;
 
-    public Post(int idPost, String idUser, String content, String datePost, int numberLike, int numberShare, String imageUrl, String title, String tag) {
+    public Post(String idPost, String idUser, String content, String datePost, int numberLike, int numberShare, String imageUrl, String title, String tag) {
         this.idPost = idPost;
         this.idUser = idUser;
         this.content = content;
@@ -50,11 +50,11 @@ public class Post {
     public Post() {
     }
 
-    public int getIdPost() {
+    public String getIdPost() {
         return idPost;
     }
 
-    public void setIdPost(int idPost) {
+    public void setIdPost(String idPost) {
         this.idPost = idPost;
     }
 

@@ -78,9 +78,15 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.ViewHold
             String image = postsList.get(getAdapterPosition()).getImageUrl();
             String title = postsList.get(getAdapterPosition()).getTitle();
             String content = postsList.get(getAdapterPosition()).getContent();
+            String tag = postsList.get(getAdapterPosition()).getTag();
+            String idPost = postsList.get(getAdapterPosition()).getIdPost();
+            String idUser = postsList.get(getAdapterPosition()).getIdUser();
             result.putString("dataImage", image);
             result.putString("dataTitle", title);
             result.putString("dataContent", content);
+            result.putString("dataTag", tag);
+            result.putString("dataIdPost", idPost);
+            result.putString("dataIdUser", idUser);
             fragment.setArguments(result);
             customDialogFragment.setArguments(result);
             transaction.replace(R.id.frame_layout, fragment);

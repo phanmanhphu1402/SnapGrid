@@ -57,7 +57,9 @@ public class fragment_home_page extends Fragment{
                 ArrayList<Post> postsList = new ArrayList<>();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    int idPost = Integer.parseInt(snapshot.child("idPost").getValue().toString());
+                    System.out.println(snapshot.getKey().toString());
+//                    int idPost = Integer.parseInt(snapshot.child("idPost").getValue().toString());
+                    String idPost = snapshot.getKey().toString();
                     String idUser = snapshot.child("idUser").getValue().toString();
                     String content = snapshot.child("content").getValue().toString();
                     String datePost = snapshot.child("datePost").getValue().toString();

@@ -83,7 +83,8 @@ public class UserInformationFragment extends Fragment {
                 String userId = currentUser.getUid();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     if(userId.equals(snapshot.child("idUser").getValue())){
-                        int idPost = Integer.parseInt(snapshot.child("idPost").getValue().toString());
+//                        int idPost = Integer.parseInt(snapshot.child("idPost").getValue().toString());
+                        String idPost = snapshot.getKey().toString();
                         String idUser = snapshot.child("idUser").getValue().toString();
                         String content = snapshot.child("content").getValue().toString();
                         String datePost = snapshot.child("datePost").getValue().toString();
