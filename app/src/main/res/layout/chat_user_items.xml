@@ -5,20 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<<<<<<< HEAD
     <RelativeLayout
         android:layout_width="match_parent"
-=======
-<!--    <de.hdodenhof.circleimageview.CircleImageView-->
-<!--        android:layout_width="65dp"-->
-<!--        android:layout_height="65dp"-->
-<!--        android:src="@mipmap/ic_chunchun_icon"-->
-<!--    />-->
-
-    <TextView
-        android:id="@+id/nameTV"
-        android:layout_width="wrap_content"
->>>>>>> 034946e6ec4cb79b90892d04656bb70c0775c07a
         android:layout_height="wrap_content"
         android:id="@+id/chat_bar">
 
@@ -90,6 +78,7 @@
         />
     
     <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
