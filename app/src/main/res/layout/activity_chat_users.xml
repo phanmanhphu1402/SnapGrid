@@ -57,7 +57,7 @@
         android:hint="Tìm kiếm..."
         android:padding="15dp" />
 
-    <ImageView
+    <ImageButton
         android:id="@id/maiphuong"
         android:layout_width="75dp"
         android:layout_height="75dp"
