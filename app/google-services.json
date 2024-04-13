@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "259247605320",
+    "firebase_url": "https://snapgrid-44c83-default-rtdb.firebaseio.com",
     "project_id": "snapgrid-44c83",
     "storage_bucket": "snapgrid-44c83.appspot.com"
   },
@@ -12,7 +13,28 @@
           "package_name": "com.android.snapgrid"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "259247605320-3cvfud9ouv6qumjt7b43gdglh747isi7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.snapgrid",
+            "certificate_hash": "cc2f9fe3a7d0cd9293e79d8c77f338b0a3d01475"
+          }
+        },
+        {
+          "client_id": "259247605320-ti0fncq9m3ggoppiv78ivc9vm55jqu2g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.snapgrid",
+            "certificate_hash": "8d3cad75c622968ac7d5b1cd6c3504e6d9f8ad34"
+          }
+        },
+        {
+          "client_id": "259247605320-kol8mhfee09m3qit8ka488kk9l01qbrp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAaphPkYvMeIJeqnZxaf_ljub5rp7S9p00"
@@ -20,7 +42,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "259247605320-kol8mhfee09m3qit8ka488kk9l01qbrp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

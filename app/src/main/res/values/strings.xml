@@ -10,4 +10,10 @@
     <string name="screen2desc">Your photos stay private until you  choose to share them. </string>
     <string name="screen3desc">Search, edit, and organize in seconds.</string>
     <string name="screen4desc">Share will friend, family, and the word.</string>
+
+    <string name="facebook_app_id">339270372034008</string>
+    <string name="fb_login_protocol_scheme">fb339270372034008</string>
+    <string name="facebook_client_token">EAAE0kIoCBdgBOwRi6UB0NiNdv2VSTY74buNCmryjq9KD09Qc3FYL5JrfjnqbGfyBmYZCDkoxB7XQbC51P68lEuDiVP4rpZCW3EQXZCfRsGzvQiA9ZB9nZCGfqKyyZCKZCdmAZAfJWCpJSjuelEbVwHLG8KVpAjyihnE4eXRT9ZApxNw9kuu4fqKeOhe2f</string>
+
+
 </resources>

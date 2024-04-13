@@ -10,10 +10,15 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.android.snapgrid.databinding.ActivityMainBinding;
+import com.android.snapgrid.fragments.AddPostFragment;
 import com.android.snapgrid.fragments.ChatUsersFragment;
+import com.android.snapgrid.fragments.Chat_Notify_Fragment;
 import com.android.snapgrid.fragments.DetailPostFragment;
+import com.android.snapgrid.fragments.SearchFragment;
 import com.android.snapgrid.fragments.UserInformationFragment;
 import com.android.snapgrid.fragments.fragment_home_page;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,13 +37,15 @@ public class MainActivity extends AppCompatActivity {
                 replaceFragment(new fragment_home_page());
             }
             if(id == R.id.search){
-                replaceFragment(new DetailPostFragment());
+                replaceFragment(new SearchFragment());
             }
             if(id == R.id.createPost){
-                replaceFragment(new DetailPostFragment());
+//                replaceFragment(new AddPostFragment());
+                Intent intent = new Intent(this, PostAddingActivity.class);
+                startActivity(intent);
             }
             if(id == R.id.notifyAndChat){
-                replaceFragment(new ChatUsersFragment());
+                replaceFragment(new Chat_Notify_Fragment());
             }
             if(id == R.id.personality){
                 replaceFragment(new UserInformationFragment());
@@ -52,20 +59,5 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout,fragment);
         fragmentTransaction.commit();
-    }
-
-    public void gotoNavigation(View view) {
-        Intent intent = new Intent(this, NavigationActivity.class);
-        startActivity(intent);
-    }
-
-    public void gotoSignIn(View view) {
-        Intent intent = new Intent(this, Login.class);
-        startActivity(intent);
-    }
-
-    public void gotoSignUp(View view) {
-        Intent intent = new Intent(this, SignUp.class);
-        startActivity(intent);
     }
 }
