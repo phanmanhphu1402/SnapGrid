@@ -54,7 +54,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Login extends AppCompatActivity {
 
@@ -174,10 +176,19 @@ public class Login extends AppCompatActivity {
                                     FirebaseUser user = mAuth.getCurrentUser();
 
                                     HashMap<String, Object> map = new HashMap<>();
-
+                                    List friendList = new ArrayList();
+                                    friendList.add("Thuy");
+                                    friendList.add("Phu");
+                                    friendList.add("Truong");
+                                    friendList.add("Thi");
                                     map.put("id",user.getUid());
                                     map.put("name",user.getDisplayName());
-//                                    map.put("profile",user.getPhotoUrl().toString());
+                                    try {
+                                        map.put("profile",user.getPhotoUrl().toString());
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
+                                    map.put("followings",friendList);
                                     map.put("email",user.getEmail());
                                     database.getReference().child("users").child(user.getUid()).setValue(map);
                                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
@@ -296,15 +307,18 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@androidx.annotation.NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             FirebaseUser user = mAuth.getCurrentUser();
-
                             HashMap<String, Object> map = new HashMap<>();
-
+                            List friendList = new ArrayList();
+                            friendList.add("Thuy");
+                            friendList.add("Phu");
+                            friendList.add("Truong");
+                            friendList.add("Thi");
                             map.put("id",user.getUid());
                             map.put("name",user.getDisplayName());
                             map.put("profile",user.getPhotoUrl().toString());
                             map.put("email",user.getEmail());
+                            map.put("followings",friendList);
                             database.getReference().child("users").child(user.getUid()).setValue(map);
-
                             Intent intent = new Intent(Login.this, MainActivity.class);
                             startActivity(intent);
                         }else{
