@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/imageButton5"
+            android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#00FFFFFF"
@@ -27,7 +27,7 @@
             app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
 
         <Button
-            android:id="@+id/button7"
+            android:id="@+id/save_profile_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/button_color"
@@ -43,8 +43,8 @@
             android:text="Chỉnh sửa hồ sơ"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button7"
-            app:layout_constraintStart_toEndOf="@+id/imageButton5"
+            app:layout_constraintEnd_toStartOf="@+id/save_profile_button"
+            app:layout_constraintStart_toEndOf="@+id/back_button"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -74,10 +74,11 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/avatar_image_view"
                 android:layout_width="150dp"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:layout_marginTop="16dp"
+                android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
                 android:src="@drawable/cuptoast"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +87,7 @@
                 app:shapeAppearanceOverlay="@style/circle"/>
 
             <Button
-                android:id="@+id/button8"
+                android:id="@+id/edit_avatar_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -95,7 +96,7 @@
                 android:textColor="@color/main_text_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+                app:layout_constraintTop_toBottomOf="@+id/avatar_image_view" />
 
             <TextView
                 android:id="@+id/textView22"
@@ -105,10 +106,11 @@
                 android:layout_marginTop="16dp"
                 android:text="Tên"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button8" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_avatar_button" />
 
             <EditText
-                android:id="@+id/editTextText3"
+
+                android:id="@+id/edit_last_name_input"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -128,10 +130,10 @@
                 android:layout_marginTop="16dp"
                 android:text="Họ"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextText3" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_last_name_input" />
 
             <EditText
-                android:id="@+id/editTextText4"
+                android:id="@+id/edit_first_name_input"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -151,10 +153,10 @@
                 android:layout_marginTop="16dp"
                 android:text="Tên người dùng"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextText4" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_first_name_input" />
 
             <EditText
-                android:id="@+id/editTextText5"
+                android:id="@+id/edit_full_name_input"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -174,10 +176,10 @@
                 android:layout_marginTop="16dp"
                 android:text="Giới thiệu"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextText5" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_full_name_input" />
 
             <EditText
-                android:id="@+id/editTextTextMultiLine"
+                android:id="@+id/edit_description_input"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
