@@ -3,7 +3,7 @@ package com.android.snapgrid.models;
 public class Event {
     private int idEvent;
     private String nameEvent;
-    private String descripton;
+    private String description;
     private String location;
     private String timeStart;
     private String timeEnd;
@@ -12,10 +12,10 @@ public class Event {
     public Event() {
     }
 
-    public Event(int idEvent, String nameEvent, String descripton, String location, String timeStart, String timeEnd, int idCreator) {
+    public Event(int idEvent, String nameEvent, String description, String location, String timeStart, String timeEnd, int idCreator) {
         this.idEvent = idEvent;
         this.nameEvent = nameEvent;
-        this.descripton = descripton;
+        this.description = description;
         this.location = location;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
@@ -38,12 +38,12 @@ public class Event {
         this.nameEvent = nameEvent;
     }
 
-    public String getDescripton() {
-        return descripton;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripton(String descripton) {
-        this.descripton = descripton;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getLocation() {
