@@ -20,7 +20,7 @@
             android:padding="5dp" />
 
         <ImageView
-            android:id="@id/maiphuong"
+            android:id="@id/profileImage"
             android:layout_width="wrap_content"
             android:layout_height="65dp"
             android:drawablePadding="10dp"
@@ -35,23 +35,11 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="10dp"
-            android:layout_toEndOf="@+id/maiphuong"
+            android:layout_toEndOf="@+id/profileImage"
             android:text="Mai Phuong"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/messageTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/nameTV"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="184dp"
-            android:layout_toEndOf="@+id/maiphuong"
-            android:text="Activity \n Mỹ nhân như họa"
-            android:textColor="@color/colorGreyDark" />
 
         <Button
             android:id="@+id/menuchat"
