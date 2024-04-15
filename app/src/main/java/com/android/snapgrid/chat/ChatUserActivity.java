@@ -1,22 +1,20 @@
-package com.android.snapgrid;
+package com.android.snapgrid.chat;
 
+import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.snapgrid.R;
 import com.android.snapgrid.adapters.ChaterAdapter;
 import com.android.snapgrid.models.ChatUserModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +30,8 @@ public class ChatUserActivity extends AppCompatActivity {
 
         init();
         fetchUserData();
+
+        clickListener();
     }
 
     void init(){
@@ -58,4 +58,25 @@ public class ChatUserActivity extends AppCompatActivity {
             }
         });
     }
+
+    void clickListener(){
+        adapter.OnStarChat(new ChaterAdapter.OnStarChat() {
+            @Override
+            public void clicked(int position, List<String> uids) {
+
+                String oppositeUID;
+                if(!uids.get(0).equalsIgnoreCase(user.getUid())){
+                    oppositeUID = uids.get(0);
+                } else {
+                    oppositeUID = uids.get(1);
+                }
+
+                Intent intent = new Intent(ChatUserActivity.this, ChatActivity.class);
+                intent.putExtra("uid", oppositeUID);
+                startActivity(intent);
+
+            }
+        });
+    }
+
 }
