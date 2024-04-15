@@ -45,9 +45,17 @@ dependencies {
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.3.2'
+<<<<<<< HEAD
     implementation 'androidx.activity:activity:1.8.2'
 
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+=======
+    implementation 'androidx.activity:activity:1.8.0'
+
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+
+>>>>>>> 4c99d625eb1c07cb3a53b58dd2a2d6d88824b9cf
     implementation 'androidx.activity:activity:1.8.2'
     implementation 'com.google.firebase:firebase-database:20.3.1'
     implementation 'com.google.firebase:firebase-core:21.1.1'
