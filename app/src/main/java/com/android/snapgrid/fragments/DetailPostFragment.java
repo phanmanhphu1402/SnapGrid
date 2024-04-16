@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.android.snapgrid.Login;
 import com.android.snapgrid.R;
 import com.android.snapgrid.adapters.MasonryAdapter;
 import com.android.snapgrid.models.Post;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,8 +40,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DetailPostFragment extends Fragment {
-    ImageView imageDetail;
-    TextView detailPostTitle, detailPostContent;
+    ImageView imageDetail, imgProfile;
+    TextView detailPostTitle, detailPostContent, txtNameProfile;
     // Firebase reference
     DatabaseReference mDatabase;
     // Firebase user
@@ -87,6 +89,8 @@ public class DetailPostFragment extends Fragment {
         detailPostTitle = rootview.findViewById(R.id.detailPostTitle);
         detailPostContent = rootview.findViewById(R.id.detailPostContent);// Khởi tạo Firebase
         btnFollow = rootview.findViewById(R.id.buttonFollow);
+        imgProfile = rootview.findViewById(R.id.imageViewAvatar);
+        txtNameProfile = rootview.findViewById(R.id.textViewNameProfile);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser == null) {
@@ -140,6 +144,25 @@ public class DetailPostFragment extends Fragment {
 
             }
         });
+
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(idUser);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String userName = dataSnapshot.child("name").getValue(String.class);
+                    String userImageUrl = dataSnapshot.child("profile").getValue(String.class);
+                    txtNameProfile.setText(userName);
+                    Picasso.get().load(userImageUrl).placeholder(R.drawable.appa).into(imgProfile);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Xử lý lỗi nếu có
+                Log.e("FirebaseError", "Error fetching user data: " + databaseError.getMessage());
+            }
+        });
         btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,7 +170,6 @@ public class DetailPostFragment extends Fragment {
                 followingsMap.put(idUser,true);
                 mDatabase.child("users").child(currentUserId).child("followings").setValue(followingsMap);
                 followUser(currentUserId, idUser);
-
             }
         });
         return rootview;
@@ -196,4 +218,5 @@ public class DetailPostFragment extends Fragment {
             }
         });
     }
+
 }

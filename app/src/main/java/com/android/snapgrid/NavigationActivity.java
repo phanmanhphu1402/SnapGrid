@@ -15,6 +15,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import com.android.snapgrid.adapters.ViewPagerAdapter;
+
 public class NavigationActivity extends AppCompatActivity {
 
     LinearLayout dotIndicator;
