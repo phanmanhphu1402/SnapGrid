@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class UserInformationFragment extends Fragment {
-    TextView userEmail, txtFollow, flclick;
+    TextView userEmail, txtFollow, flclick, username;
     ImageView userAvatar;
     DatabaseReference mDatabase;
     FirebaseAuth mAuth;
@@ -59,7 +59,9 @@ public class UserInformationFragment extends Fragment {
         flclick = rootview.findViewById(R.id.tvfollow);
         userEmail = (TextView) rootview.findViewById(R.id.userEmail);
         userAvatar = rootview.findViewById(R.id.userAvatar);
+        username = rootview.findViewById(R.id.nameprofile);
         Picasso.get().load(currentUser.getPhotoUrl()).placeholder(R.drawable.appa).into(userAvatar);
+        username.setText(currentUser.getDisplayName().toString());
         userEmail.setText(currentUser.getEmail().toString());
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
