@@ -58,6 +58,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
+                android:id="@+id/nameprofile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
@@ -79,7 +80,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView12"
+                    android:id="@+id/txtPeopleFollowing"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -97,7 +98,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/txtFollowing"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -106,7 +107,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textView15"
+                    android:id="@+id/tvfollow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

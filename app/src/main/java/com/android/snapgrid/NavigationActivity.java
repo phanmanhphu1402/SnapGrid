@@ -15,10 +15,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import com.android.snapgrid.adapters.ViewPagerAdapter;
+
 public class NavigationActivity extends AppCompatActivity {
 
     LinearLayout dotIndicator;
-    Button backButton, nextButton, skipButton;
+    Button backButton, nextButton, skipButton, LoginButton;
     TextView[] dots;
     private static final int MAX_PAGES = 4;
     ViewPagerAdapter viewPagerAdapter;
@@ -38,6 +40,7 @@ public class NavigationActivity extends AppCompatActivity {
         backButton = findViewById(R.id.backButton);
         nextButton = findViewById(R.id.nextButton);
         skipButton = findViewById(R.id.skipButton);
+        LoginButton = findViewById(R.id.btnLogin);
 
         slideViewPager = findViewById(R.id.slideViewPager);
         slideViewPager.setMaxPages(MAX_PAGES);
@@ -75,7 +78,14 @@ public class NavigationActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        LoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(NavigationActivity.this, Login.class);
+                startActivity(i);
+                finish();
+            }
+        });
         ViewPager.OnPageChangeListener viewPagerListener = new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
