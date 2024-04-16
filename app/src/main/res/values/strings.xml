@@ -14,6 +14,8 @@
     <string name="facebook_app_id">339270372034008</string>
     <string name="fb_login_protocol_scheme">fb339270372034008</string>
     <string name="facebook_client_token">EAAE0kIoCBdgBOwRi6UB0NiNdv2VSTY74buNCmryjq9KD09Qc3FYL5JrfjnqbGfyBmYZCDkoxB7XQbC51P68lEuDiVP4rpZCW3EQXZCfRsGzvQiA9ZB9nZCGfqKyyZCKZCdmAZAfJWCpJSjuelEbVwHLG8KVpAjyihnE4eXRT9ZApxNw9kuu4fqKeOhe2f</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 
 </resources>

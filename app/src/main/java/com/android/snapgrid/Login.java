@@ -176,11 +176,8 @@ public class Login extends AppCompatActivity {
                                     FirebaseUser user = mAuth.getCurrentUser();
 
                                     HashMap<String, Object> map = new HashMap<>();
-                                    List friendList = new ArrayList();
-                                    friendList.add("Thuy");
-                                    friendList.add("Phu");
-                                    friendList.add("Truong");
-                                    friendList.add("Thi");
+                                    HashMap<String, Boolean> followingsMap = new HashMap<>();
+                                    followingsMap.put("friendId1", true);
                                     map.put("id",user.getUid());
                                     map.put("name",user.getDisplayName());
                                     try {
@@ -188,7 +185,7 @@ public class Login extends AppCompatActivity {
                                     }catch (Exception e){
                                         e.printStackTrace();
                                     }
-                                    map.put("followings",friendList);
+                                    map.put("followings",followingsMap);
                                     map.put("email",user.getEmail());
                                     database.getReference().child("users").child(user.getUid()).setValue(map);
                                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
@@ -307,17 +304,14 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@androidx.annotation.NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             FirebaseUser user = mAuth.getCurrentUser();
+                            HashMap<String, Boolean> followingsMap = new HashMap<>();
+                            followingsMap.put("friendId1", true);
                             HashMap<String, Object> map = new HashMap<>();
-                            List friendList = new ArrayList();
-                            friendList.add("Thuy");
-                            friendList.add("Phu");
-                            friendList.add("Truong");
-                            friendList.add("Thi");
                             map.put("id",user.getUid());
                             map.put("name",user.getDisplayName());
                             map.put("profile",user.getPhotoUrl().toString());
                             map.put("email",user.getEmail());
-                            map.put("followings",friendList);
+                            map.put("followings", followingsMap);
                             database.getReference().child("users").child(user.getUid()).setValue(map);
                             Intent intent = new Intent(Login.this, MainActivity.class);
                             startActivity(intent);
@@ -326,5 +320,5 @@ public class Login extends AppCompatActivity {
                         }
                     }
                 });
-    }
+        }
 }
