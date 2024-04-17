@@ -3,9 +3,7 @@ package com.android.snapgrid.fragments;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -13,12 +11,11 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.snapgrid.adapters.MasonryAdapter;
 import com.android.snapgrid.R;
-import com.bumptech.glide.Glide;
+import com.android.snapgrid.models.Post;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,14 +23,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link fragment_home_page#} factory method to
  * create an instance of this fragment.
  */
-public class fragment_home_page extends Fragment {
+public class fragment_home_page extends Fragment{
     private TextView textView;
 
 
@@ -50,21 +46,31 @@ public class fragment_home_page extends Fragment {
         // Inflate the layout for this fragment
 
         View rootview = inflater.inflate(R.layout.fragment_home_page, container, false);
+
         RecyclerView recyclerView = rootview.findViewById(R.id.recyclerView);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Posts");
-
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<String> images = new ArrayList<>();
+                ArrayList<Post> postsList = new ArrayList<>();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String imageUrl = snapshot.child("image").getValue(String.class);
-                    System.out.println(imageUrl);
-                    images.add(imageUrl);
-                    recyclerView.setAdapter(new MasonryAdapter(images, getActivity().getSupportFragmentManager()));
+                    System.out.println(snapshot.getKey().toString());
+//                    int idPost = Integer.parseInt(snapshot.child("idPost").getValue().toString());
+                    String idPost = snapshot.getKey().toString();
+                    String idUser = snapshot.child("idUser").getValue().toString();
+                    String content = snapshot.child("content").getValue().toString();
+                    String datePost = snapshot.child("datePost").getValue().toString();
+                    int numberLike = Integer.parseInt(snapshot.child("numberLike").getValue().toString());
+                    int numberShare = Integer.parseInt(snapshot.child("numberShare").getValue().toString());
+                    String imageUrl = snapshot.child("imageUrl").getValue(String.class);
+                    String title = snapshot.child("title").getValue().toString();
+                    String tag = snapshot.child("tag").getValue().toString();
+                    Post post = new Post(idPost, idUser, content, datePost, numberLike, numberShare, imageUrl, title, tag);
+                    postsList.add(post);
+                    recyclerView.setAdapter(new MasonryAdapter(postsList, getActivity().getSupportFragmentManager()));
 
                 }
             }

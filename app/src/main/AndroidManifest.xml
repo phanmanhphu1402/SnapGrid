@@ -3,7 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.android.snapgrid">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
 
     <application
@@ -17,6 +29,15 @@
         android:theme="@style/Theme.SnapGrid"
         tools:targetApi="31">
 
+        <activity
+            android:name=".chat.ChatActivity"
+            android:exported="false" />
+        <!-- <activity -->
+        <!-- android:name=".ShipDataActivity" -->
+        <!-- android:exported="false" /> -->
+        <activity
+            android:name=".PostAddingActivity"
+            android:exported="false" />
         <activity
             android:name=".FacebookAuthActivity"
             android:exported="false" />
@@ -78,22 +99,24 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
 
-                <meta-data
+        <meta-data
             android:name="com.facebook.sdk.ClientToken"
             android:value="@string/facebook_client_token" />
     </application>

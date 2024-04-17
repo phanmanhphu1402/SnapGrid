@@ -2,52 +2,87 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="5">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="3"
-        android:padding="4dp">
+        android:padding="4dp"
+        android:weightSum="3">
 
 
-        <ImageView
-            android:id="@+id/cancel"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_weight="0"
-            android:src="@drawable/baseline_reply_24" />
+        <ImageButton
+            android:id="@+id/imageButton12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#00FFFFFF"
+            app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
 
         <TextView
             android:id="@+id/createText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
+            android:gravity="center"
             android:padding="8dp"
-            android:text="Tạo Bảng"
+            android:text="Tạo bài viết"
             android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold"
-            android:gravity="center"
             tools:textAlignment="center" />
 
         <Button
-            android:id="@+id/mybutton_id"
+            android:id="@+id/btnAddPost"
             style="?android:actionModeBackground"
-            android:layout_weight="0"
             android:layout_width="80dp"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
+            android:layout_weight="0"
             android:alpha="0.7"
-            android:backgroundTint="@color/grey"
+            android:backgroundTint="@color/primary_color"
             android:text="Tạo"
-            android:textColor="@color/black" />
+            android:textColor="@color/button_color" />
 
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hình ảnh:"
+            android:textColor="@color/main_text_color"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btnAddImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/add_post"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+        <ImageView
+            android:id="@+id/postImage"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnAddImage"
+            app:srcCompat="@drawable/add_post_img" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/layout1"
@@ -61,114 +96,59 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="0dp"
-            android:text="Thêm bảng"
+            android:text="Tiêu đề:"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:hint="add table" />
+            android:layout_height="wrap_content" />
 
 
     </LinearLayout>
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="Hoặc chọn trong các mục sau:"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
-
     <LinearLayout
-        android:id="@+id/layout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp"
-        android:weightSum="5">
-
-        <Button
-            android:id="@+id/button1"
-            style="?android:actionModeBackground"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="2dp"
-            android:layout_weight="2"
-            android:alpha="0.7"
-            android:backgroundTint="@color/primary_color"
-            android:maxLines="2"
-            android:text="Ý tưởng"
-            android:textColor="@color/white" />
-
-        <Button
-            android:id="@+id/button2"
-            style="?android:actionModeBackground"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="4dp"
-            android:layout_weight="1.5"
-            android:alpha="0.7"
-            android:backgroundTint="@color/primary_color"
-            android:text="Dự án mới"
-            android:textColor="@color/white" />
-
-        <Button
-            android:id="@+id/button3"
-            style="?android:actionModeBackground"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="2dp"
-            android:layout_weight="1.5"
-            android:alpha="0.7"
-            android:backgroundTint="@color/primary_color"
-            android:text="Địa điểm cần đến"
-            android:textColor="@color/white" />
-
-
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="Cộng tác viên"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
-
-    <LinearLayout
-        android:id="@+id/layoutLive"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp">
-
-
-        <ImageButton
-            android:id="@+id/imageButton2"
-            style="?android:actionModeBackground"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:alpha="0.7"
-            app:srcCompat="@drawable/baseline_person_add_24" />
+        android:padding="10dp">
 
         <TextView
-            android:layout_width="94dp"
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="15dp"
-            android:text="Mời bạn bè"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:text="Mô tả:"
+            android:textColor="@color/main_text_color"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/editContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="text" />
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:hint="Chọn Tag">
+
+            <AutoCompleteTextView
+                android:id="@+id/auto_complete_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </LinearLayout>

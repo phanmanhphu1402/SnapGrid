@@ -1,7 +1,7 @@
 package com.android.snapgrid.models;
 
 public class User {
-    private int id;
+    private String id;
     private String name;
     private String email;
     private String password;
@@ -12,11 +12,19 @@ public class User {
     private String dataJoin;
     private int status;
 
+    private String firstName;
+
+    private String lastName;
+
+    private  String description;
+
+    private String profile;
+
     public User() {
 
     }
 
-    public User(int id, String name, String email, String password, String dateOfBirth, int gender, String address, String avatar, String dataJoin, int status) {
+    public User(String id, String name, String email, String password, String dateOfBirth, int gender, String address, String avatar, String dataJoin, int status) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -29,11 +37,11 @@ public class User {
         this.status = status;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -107,5 +115,39 @@ public class User {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
+    public String getProfile() {
+        return profile;
     }
 }

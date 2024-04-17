@@ -1,4 +1,4 @@
-package com.android.snapgrid;
+package com.android.snapgrid.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.PagerAdapter;
+
+import com.android.snapgrid.R;
+
 public class ViewPagerAdapter extends PagerAdapter {
     Context context;
 //    int sliderAllImages[] = {

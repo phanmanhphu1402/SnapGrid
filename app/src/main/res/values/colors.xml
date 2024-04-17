@@ -20,6 +20,10 @@
     <color name="colorGreyLight">#E6E6E6</color>
     <color name="colorGreyDark">#787878</color>
     <color name="colorLightBlue">#FAFAFC</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="black_overlay">#66000000</color>
 
->>>>>>> e1596828d807e1bf3ad0ebaf58aa544c92b6e597
 </resources>

@@ -5,78 +5,96 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    <de.hdodenhof.circleimageview.CircleImageView-->
-<!--        android:layout_width="65dp"-->
-<!--        android:layout_height="65dp"-->
-<!--        android:src="@mipmap/ic_chunchun_icon"-->
-<!--    />-->
-
-    <TextView
-        android:id="@+id/nameTV"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="66dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="10dp"
-        android:text="Mai Phuong"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        android:id="@+id/chat_bar">
 
-    <TextView
-        android:id="@+id/messageTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/nameTV"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="235dp"
-        android:text="Activity \n Mỹ nhân như họa"
-        android:textColor="@color/colorGreyDark" />
+        <Button
+            android:id="@+id/backhome"
+            android:layout_width="30dp"
+            android:layout_height="60dp"
+            android:backgroundTint="@color/white"
+            android:drawableLeft="@drawable/baseline_arrow_back_ios_24"
+            android:gravity="center_vertical|center_horizontal"
+            android:padding="5dp" />
 
-    <Button
-        android:id="@+id/menuchat"
-        android:layout_width="26dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="176dp"
-        android:layout_marginEnd="2dp"
-        android:backgroundTint="@color/white"
-        android:drawableLeft="@drawable/ic_more_vert"
-        android:gravity="center_vertical|center_horizontal"
-        android:padding="5dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="0dp" />
+        <ImageView
+            android:id="@id/profileImage"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:drawablePadding="10dp"
+            android:layout_toEndOf="@+id/backhome"
+            android:padding="5dp"
+            android:src="@mipmap/ic_chunchun_icon" />
 
-    <EditText
-        android:id="@+id/input_chat"
-        android:layout_width="361dp"
+        <TextView
+            android:id="@+id/nameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toEndOf="@+id/profileImage"
+            android:text="Mai Phuong"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/menuchat"
+            android:layout_width="26dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="176dp"
+            android:layout_marginEnd="2dp"
+            android:backgroundTint="@color/white"
+            android:drawableLeft="@drawable/ic_more_vert"
+            android:gravity="center_vertical|center_horizontal"
+            android:padding="5dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/chat_bottom"
+        android:layout_below="@+id/chat_bar" />
+    
+    <RelativeLayout
+
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/text_box_edit"
-        android:drawablePadding="10dp"
-        android:drawableTint="@color/colorGreyDark"
-        android:hint="Nhắn tin"
-        android:padding="15dp"
-        tools:ignore="MissingConstraints,UnusedAttribute" />
-
-    <Button
-        android:id="@+id/sendchat"
-        android:layout_width="39dp"
-        android:layout_height="61dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="2dp"
-        android:layout_marginBottom="-3dp"
-        android:backgroundTint="@color/colorLightBlue"
-        android:drawableLeft="@drawable/ic_send_chat"
-        android:gravity="center_vertical|center_horizontal"
         android:padding="5dp"
-        app:layout_constraintStart_toEndOf="@+id/input_chat"
-        tools:ignore="MissingConstraints" />
+        android:id="@+id/chat_bottom"
+        android:background="@drawable/text_box_edit">
+
+        <EditText
+            android:id="@+id/input_chat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="-5dp"
+            android:layout_toLeftOf="@+id/btn_send"
+            android:drawableTint="@color/colorGreyDark"
+            android:hint="Nhắn tin..."
+            />
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/btn_send"
+            android:background="@drawable/ic_send_chat"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            />
+
+    </RelativeLayout>
 
 </RelativeLayout>
