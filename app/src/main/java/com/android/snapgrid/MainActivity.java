@@ -6,8 +6,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.snapgrid.databinding.ActivityMainBinding;
 import com.android.snapgrid.fragments.AddPostFragment;
@@ -20,11 +23,18 @@ import com.android.snapgrid.fragments.fragment_home_page;
 
 public class MainActivity extends AppCompatActivity {
 
+
+
     ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         replaceFragment(new fragment_home_page());

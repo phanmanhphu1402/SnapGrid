@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".SignUp">
+    tools:context=".SignUpActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="0dp"
@@ -35,11 +35,11 @@
                 android:layout_marginStart="32dp"
                 android:text="Sign Up"
                 android:textColor="#6672FF"
-                android:textSize="40dp"
+                android:textSize="40sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView2" />
-
+            <!--tên -->
             <EditText
                 android:id="@+id/edtFullName"
                 android:layout_width="0dp"
@@ -60,8 +60,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+            <!--email -->
             <EditText
-                android:id="@+id/edtEmailSignUp"
+                android:id="@+id/edtEmail"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="32dp"
@@ -80,8 +81,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edtFullName" />
 
+            <!--pass -->
             <EditText
-                android:id="@+id/edtPassworsSignUp"
+                android:id="@+id/edtPassword"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="32dp"
@@ -98,7 +100,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edtEmailSignUp" />
+                app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
 
             <ImageView
                 android:id="@+id/SignUpButton"
@@ -107,7 +109,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edtPassworsSignUp"
+                app:layout_constraintTop_toBottomOf="@+id/edtPassword"
                 app:srcCompat="@drawable/btn_arraw1" />
 
             <TextView
@@ -117,12 +119,24 @@
                 android:layout_marginTop="56dp"
                 android:text="Already member? Login."
                 android:textColor="#3b608c"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/SignUpButton" />
+
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Register"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Login"
+                android:layout_marginTop="32dp" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

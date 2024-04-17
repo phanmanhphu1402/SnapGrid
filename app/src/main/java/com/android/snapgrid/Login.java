@@ -152,7 +152,7 @@ public class Login extends AppCompatActivity {
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                bỏ qua default_web_client_id nó ko phải lỗi!!
-                .requestIdToken(getString(R.string.default_web_client_id))
+             //   .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail().build();
 
         mGoogSignClient = GoogleSignIn.getClient(this,gso);
@@ -206,7 +206,7 @@ public class Login extends AppCompatActivity {
         SignUpText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Login.this, SignUp.class);
+                Intent i = new Intent(Login.this, SignUpActivity.class);
                 startActivity(i);
                 finish();
             }
@@ -271,7 +271,7 @@ public class Login extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         if(user !=null){
-            Intent intent = new Intent(Login.this, SignUp.class);
+            Intent intent = new Intent(Login.this, SignUpActivity.class);
             startActivity(intent);
         }else{
             Toast.makeText(this, "Please Login to continue",Toast.LENGTH_SHORT).show();

@@ -49,7 +49,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void gotoSignup(View view) {
-        Intent intent = new Intent(SettingActivity.this, SignUp.class);
+        Intent intent = new Intent(SettingActivity.this, SignUpActivity.class);
         startActivity(intent);
     }
 }
