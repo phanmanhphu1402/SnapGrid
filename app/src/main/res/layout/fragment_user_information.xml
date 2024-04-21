@@ -135,9 +135,10 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/textView16"
-                android:layout_width="match_parent"
+            <Button
+                android:layout_gravity="center"
+                android:id="@+id/showPostsSaved"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Đã lưu"
                 android:textAlignment="center"

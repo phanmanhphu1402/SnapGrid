@@ -8,16 +8,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-<<<<<<< HEAD
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
-
-=======
->>>>>>> f4dde289555e3eb4cb9c098f31a09b678717f67f
 import com.android.snapgrid.databinding.ActivityMainBinding;
 import com.android.snapgrid.fragments.Chat_Notify_Fragment;
 import com.android.snapgrid.fragments.SearchFragment;

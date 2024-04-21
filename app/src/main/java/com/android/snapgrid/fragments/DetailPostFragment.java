@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +25,7 @@ import com.android.snapgrid.Login;
 import com.android.snapgrid.R;
 import com.android.snapgrid.adapters.MasonryAdapter;
 import com.android.snapgrid.models.Post;
+import com.android.snapgrid.models.PostSaved;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,10 +36,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class DetailPostFragment extends Fragment {
     ImageView imageDetail, imgProfile;
@@ -46,12 +53,16 @@ public class DetailPostFragment extends Fragment {
     DatabaseReference mDatabase;
     // Firebase user
     private FirebaseUser currentUser;
-    ImageButton btnEditPost;
+    ImageButton btnEditPost, savePostBtn;
     DialogFragment dialog;
     FirebaseAuth mAuth;
     FirebaseDatabase database;
     Button btnFollow;
     ImageButton btnClose;
+
+    private FirebaseFirestore store;
+
+    private PostSaved postSaved = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,8 +80,9 @@ public class DetailPostFragment extends Fragment {
         Bundle result = new Bundle();
         btnEditPost = rootview.findViewById(R.id.btnEditPost);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        store = FirebaseFirestore.getInstance();
 
-        checkFL(currentUserId,idUser);
+        checkFL(currentUserId, idUser);
         btnEditPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,6 +103,7 @@ public class DetailPostFragment extends Fragment {
         btnFollow = rootview.findViewById(R.id.buttonFollow);
         imgProfile = rootview.findViewById(R.id.imageViewAvatar);
         txtNameProfile = rootview.findViewById(R.id.textViewNameProfile);
+        savePostBtn = rootview.findViewById(R.id.savePostBtn);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser == null) {
@@ -167,11 +180,69 @@ public class DetailPostFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 HashMap<String, Boolean> followingsMap = new HashMap<>();
-                followingsMap.put(idUser,true);
+                followingsMap.put(idUser, true);
                 mDatabase.child("users").child(currentUserId).child("followings").setValue(followingsMap);
                 followUser(currentUserId, idUser);
             }
         });
+
+        // store.collection(String.format("PostSaved/%s",idUser)).document().
+        DatabaseReference postSavedRef = FirebaseDatabase.getInstance().getReference("posts_saved");
+
+        postSavedRef.child(currentUserId).child(Objects.requireNonNull(idPost)).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    postSaved = snapshot.getValue(PostSaved.class);
+                }
+                if (postSaved != null) {
+                    if (postSaved.isSaved()) {
+                        savePostBtn.setImageResource(R.drawable.share_yellow_color);
+                    } else {
+                        savePostBtn.setImageResource(R.drawable.share_black_color);
+                    }
+                } else {
+                    savePostBtn.setImageResource(R.drawable.share_black_color);
+                }
+                savePostBtn.setClickable(true);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        savePostBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(DetailPostFragment.class.getName(), "Test");
+                savePostBtn.setClickable(false);
+                if (postSaved == null) {
+                    postSaved = new PostSaved(idPost, new Date(), false);
+                }
+                boolean currentSaved = postSaved.isSaved();
+                postSaved.setSaved(!currentSaved);
+                postSavedRef.child(currentUserId).child(Objects.requireNonNull(idPost)).setValue(postSaved, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                        String action = "save";
+                        if (!postSaved.isSaved()) {
+                            action = "remove";
+                        }
+                        String status = "successfully";
+                        if (error != null) {
+                            status = "failed";
+                            Log.d(DetailPostFragment.class.getName(), error.getMessage());
+                            // Rollback
+                            postSaved.setSaved(currentSaved);
+                        }
+                        Toast.makeText(requireContext(), String.format("%s post is %s", action, status), Toast.LENGTH_SHORT).show();
+                        savePostBtn.setClickable(true);
+                    }
+                });
+            }
+        });
+
         return rootview;
 
     }

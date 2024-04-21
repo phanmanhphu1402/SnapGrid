@@ -270,11 +270,7 @@ public class Login extends AppCompatActivity {
 //
     private void updateUI(FirebaseUser user) {
         if(user !=null){
-<<<<<<< HEAD
-            Intent intent = new Intent(Login.this, SignUpActivity.class);
-=======
             Intent intent = new Intent(Login.this, MainActivity.class);
->>>>>>> f4dde289555e3eb4cb9c098f31a09b678717f67f
             startActivity(intent);
         }else{
             Toast.makeText(this, "Please Login to continue",Toast.LENGTH_SHORT).show();

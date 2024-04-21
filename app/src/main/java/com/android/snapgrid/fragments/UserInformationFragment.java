@@ -28,6 +28,8 @@ import com.android.snapgrid.SettingActivity;
 import com.android.snapgrid.UserConfigActivity;
 import com.android.snapgrid.adapters.MasonryAdapter;
 import com.android.snapgrid.models.Post;
+import com.android.snapgrid.models.PostSaved;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +41,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class UserInformationFragment extends Fragment {
     TextView userEmail, txtFollow, flclick, username;
@@ -47,6 +50,12 @@ public class UserInformationFragment extends Fragment {
     FirebaseAuth mAuth;
     FirebaseUser user;
 
+    private Button showPostsSaved;
+
+    private ArrayList<Post> globalPostsList = new ArrayList<>();
+
+
+    private ArrayList<String> savePostIdsList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,6 +69,7 @@ public class UserInformationFragment extends Fragment {
         userEmail = (TextView) rootview.findViewById(R.id.userEmail);
         userAvatar = rootview.findViewById(R.id.userAvatar);
         username = rootview.findViewById(R.id.nameprofile);
+        showPostsSaved = rootview.findViewById(R.id.showPostsSaved);
         Picasso.get().load(currentUser.getPhotoUrl()).placeholder(R.drawable.appa).into(userAvatar);
         username.setText(currentUser.getDisplayName().toString());
         userEmail.setText(currentUser.getEmail().toString());
@@ -107,6 +117,7 @@ public class UserInformationFragment extends Fragment {
                     Log.d("FollowingList", "No following users.");
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Xử lý lỗi nếu có
@@ -117,23 +128,25 @@ public class UserInformationFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Post> postsList = new ArrayList<>();
+                globalPostsList.clear();
                 String userId = currentUser.getUid();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    if (userId.equals(snapshot.child("idUser").getValue())) {
 //                        int idPost = Integer.parseInt(snapshot.child("idPost").getValue().toString());
-                        String idPost = snapshot.getKey().toString();
-                        String idUser = snapshot.child("idUser").getValue().toString();
-                        String content = snapshot.child("content").getValue().toString();
-                        String datePost = snapshot.child("datePost").getValue().toString();
-                        int numberLike = Integer.parseInt(snapshot.child("numberLike").getValue().toString());
-                        int numberShare = Integer.parseInt(snapshot.child("numberShare").getValue().toString());
-                        String imageUrl = snapshot.child("imageUrl").getValue(String.class);
-                        String title = snapshot.child("title").getValue().toString();
-                        String tag = snapshot.child("tag").getValue().toString();
-                        Post post = new Post(idPost, idUser, content, datePost, numberLike, numberShare, imageUrl, title, tag);
+                    String idPost = snapshot.getKey().toString();
+                    String idUser = snapshot.child("idUser").getValue().toString();
+                    String content = snapshot.child("content").getValue().toString();
+                    String datePost = snapshot.child("datePost").getValue().toString();
+                    int numberLike = Integer.parseInt(snapshot.child("numberLike").getValue().toString());
+                    int numberShare = Integer.parseInt(snapshot.child("numberShare").getValue().toString());
+                    String imageUrl = snapshot.child("imageUrl").getValue(String.class);
+                    String title = snapshot.child("title").getValue().toString();
+                    String tag = snapshot.child("tag").getValue().toString();
+                    Post post = new Post(idPost, idUser, content, datePost, numberLike, numberShare, imageUrl, title, tag);
+                    if (userId.equals(snapshot.child("idUser").getValue())) {
                         postsList.add(post);
                         recyclerView.setAdapter(new MasonryAdapter(postsList, getActivity().getSupportFragmentManager()));
                     }
+                    globalPostsList.add(post);
                 }
             }
 
@@ -159,8 +172,70 @@ public class UserInformationFragment extends Fragment {
                 }
             }
         });
+
+
+        FirebaseDatabase.getInstance().getReference("posts_saved").child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                savePostIdsList.clear();
+                if (snapshot.exists()) {
+                    for (DataSnapshot ss : snapshot.getChildren()) {
+                        PostSaved postSaved = ss.getValue(PostSaved.class);
+                        assert postSaved != null;
+                        if (postSaved.isSaved()) {
+                            savePostIdsList.add(postSaved.postId);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        showPostsSaved.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<Post> showList = new ArrayList<>();
+                for (Post post : globalPostsList) {
+                    if (postInListId(post, savePostIdsList)) {
+                        showList.add(post);
+                    }
+                }
+                View postsSavedDialogView = getLayoutInflater().inflate(R.layout.bottom_sheet_dialog_show_posts_saved, null);
+                BottomSheetDialog postsSavedDialog = new BottomSheetDialog(requireContext());
+                postsSavedDialog.setContentView(postsSavedDialogView);
+                postsSavedDialog.setCanceledOnTouchOutside(true);
+                postsSavedDialog.setDismissWithAnimation(true);
+                RecyclerView postsSavedDialogRecyclerView = postsSavedDialogView.findViewById(R.id.rv_posts_saved);
+                StaggeredGridLayoutManager postsSavedDialogStaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
+                postsSavedDialogRecyclerView.setLayoutManager(postsSavedDialogStaggeredGridLayoutManager);
+                postsSavedDialogRecyclerView.setAdapter(new MasonryAdapter(showList, getActivity().getSupportFragmentManager()));
+                postsSavedDialogRecyclerView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        postsSavedDialog.cancel();
+                    }
+                });
+                postsSavedDialog.show();
+            }
+        });
+
+
         return rootview;
 
+    }
+
+
+    private boolean postInListId(Post post, List<String> ids) {
+        for (int idx = 0; idx < ids.size(); idx++) {
+            if (ids.get(idx).equals(post.getIdPost())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
