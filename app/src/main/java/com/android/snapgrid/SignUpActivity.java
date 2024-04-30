@@ -1,11 +1,14 @@
 package com.android.snapgrid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,17 +29,21 @@ public class SignUpActivity extends AppCompatActivity {
 
     private EditText edtFullName, edtEmail, edtPassword;
     private Button btnRegister;
+    private ImageView signUpButton; // Thêm biến này để tham chiếu đến ImageView
+    private TextView Login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up); // Thay your_layout_name với tên file layout của bạn
+        setContentView(R.layout.activity_sign_up);
 
         // Khởi tạo view
         edtFullName = findViewById(R.id.edtFullName);
         edtEmail = findViewById(R.id.edtEmail);
         edtPassword = findViewById(R.id.edtPassword);
         btnRegister = findViewById(R.id.btnRegister);
+        signUpButton = findViewById(R.id.SignUpButton); // Khởi tạo ImageView bằng findViewById
+        Login = findViewById(R.id.Login); // Thêm dòng này
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +52,35 @@ public class SignUpActivity extends AppCompatActivity {
                 registerUser();
             }
         });
+
+
+        // Thiết lập OnClickListener cho signUpButton
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Tạo một Intent để chuyển từ SignUpActivity sang LoginActivity
+                Intent intent = new Intent(SignUpActivity.this, Login.class);
+                startActivity(intent);
+                finish(); // Kết thúc SignUpActivity để người dùng không quay lại khi bấm nút back
+            }
+        });
+
+
+        // Đặt OnClickListener cho TextView
+        Login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Chuyển đến LoginActivity
+                Intent intent = new Intent(SignUpActivity.this, Login.class);
+                startActivity(intent);
+                finish(); // Kết thúc SignUpActivity để người dùng không quay lại khi bấm nút back
+            }
+        });
     }
+
+
+
+
 
     private void registerUser() {
         String fullName = edtFullName.getText().toString().trim();
@@ -127,4 +162,6 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
 }
