@@ -16,7 +16,6 @@
         android:id="@+id/frame_layout">
 
     </FrameLayout>
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"

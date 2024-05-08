@@ -59,6 +59,7 @@ public class CustomDialogFragment extends DialogFragment {
         WindowManager.LayoutParams params = window.getAttributes();
         params.gravity = Gravity.BOTTOM;  // Set the dialog position to the bottom
         window.setAttributes(params);
+        window.getAttributes().windowAnimations = R.style.DialogAnimation;
         Bundle bundle = getArguments();
         btnClose = view.findViewById(R.id.btnCloseRed);
         btnClose.setOnClickListener(new View.OnClickListener() {

@@ -136,7 +136,7 @@ public class Login extends AppCompatActivity {
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                bỏ qua default_web_client_id nó ko phải lỗi!!
-             //   .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail().build();
 
         mGoogSignClient = GoogleSignIn.getClient(this,gso);
@@ -244,7 +244,7 @@ public class Login extends AppCompatActivity {
 //        }
 //    }
 
-//    @Override
+    //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        mCallbackManager.onActivityResult(requestCode, resultCode, data);
 //        super.onActivityResult(requestCode, resultCode, data);
@@ -285,7 +285,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-            if(requestCode == RC_SIGN_IN){
+        if(requestCode == RC_SIGN_IN){
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
@@ -320,5 +320,5 @@ public class Login extends AppCompatActivity {
                         }
                     }
                 });
-        }
+    }
 }

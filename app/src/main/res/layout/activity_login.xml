@@ -18,13 +18,15 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="332dp"
             android:layout_above="@id/constraintLayout"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="50dp"
+            android:scaleType="fitXY"
             app:srcCompat="@drawable/top_background1" />
         <TextView
             android:id="@+id/textView"
@@ -44,9 +46,12 @@
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true">
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="-1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="50dp">
 
             <EditText
                 android:id="@+id/editTextEmail"
@@ -65,7 +70,7 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/editTextPassword"
@@ -122,20 +127,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/startButton">
 
-<!--                <androidx.appcompat.widget.AppCompatButton-->
-<!--                    android:id="@+id/btnFB"-->
-<!--                    style="@android:style/Widget.Button"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="55dp"-->
-<!--                    android:layout_marginEnd="8dp"-->
-<!--                    android:layout_weight="0.5"-->
-<!--                    android:background="@drawable/btn_background"-->
-<!--                    android:drawableEnd="@drawable/facebook"-->
-<!--                    android:padding="16dp"-->
-<!--                    android:text="Facebook"-->
-<!--                    android:textColor="#3b608c"-->
-<!--                    android:textSize="16sp"-->
-<!--                    android:textStyle="bold" />-->
+                <!--                <androidx.appcompat.widget.AppCompatButton-->
+                <!--                    android:id="@+id/btnFB"-->
+                <!--                    style="@android:style/Widget.Button"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="55dp"-->
+                <!--                    android:layout_marginEnd="8dp"-->
+                <!--                    android:layout_weight="0.5"-->
+                <!--                    android:background="@drawable/btn_background"-->
+                <!--                    android:drawableEnd="@drawable/facebook"-->
+                <!--                    android:padding="16dp"-->
+                <!--                    android:text="Facebook"-->
+                <!--                    android:textColor="#3b608c"-->
+                <!--                    android:textSize="16sp"-->
+                <!--                    android:textStyle="bold" />-->
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/login_button"
