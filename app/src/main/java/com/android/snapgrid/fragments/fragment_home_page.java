@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.android.snapgrid.adapters.MasonryAdapter;
 import com.android.snapgrid.R;
+import com.android.snapgrid.models.Comments;
 import com.android.snapgrid.models.Post;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -55,7 +56,7 @@ public class fragment_home_page extends Fragment{
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Post> postsList = new ArrayList<>();
-
+                ArrayList<Comments> commentsArrayList = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     System.out.println(snapshot.getKey().toString());
 //                    int idPost = Integer.parseInt(snapshot.child("idPost").getValue().toString());
@@ -64,11 +65,11 @@ public class fragment_home_page extends Fragment{
                     String content = snapshot.child("content").getValue().toString();
                     String datePost = snapshot.child("datePost").getValue().toString();
                     int numberLike = Integer.parseInt(snapshot.child("numberLike").getValue().toString());
-                    int numberShare = Integer.parseInt(snapshot.child("numberShare").getValue().toString());
+                    int numberComment = Integer.parseInt(snapshot.child("numberComment").getValue().toString());
                     String imageUrl = snapshot.child("imageUrl").getValue(String.class);
                     String title = snapshot.child("title").getValue().toString();
                     String tag = snapshot.child("tag").getValue().toString();
-                    Post post = new Post(idPost, idUser, content, datePost, numberLike, numberShare, imageUrl, title, tag);
+                    Post post = new Post(idPost, idUser, content, datePost, numberLike, numberComment, commentsArrayList, imageUrl, title, tag);
                     postsList.add(post);
                     recyclerView.setAdapter(new MasonryAdapter(postsList, getActivity().getSupportFragmentManager()));
 

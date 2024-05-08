@@ -80,7 +80,6 @@ public class ChaterAdapter extends RecyclerView.Adapter<ChaterAdapter.ChatUserHo
                             assert task.getException() != null;
                             Toast.makeText(context, "Error!" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
 

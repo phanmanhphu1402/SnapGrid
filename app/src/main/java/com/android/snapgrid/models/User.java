@@ -1,40 +1,48 @@
 package com.android.snapgrid.models;
 
+import java.util.ArrayList;
+
 public class User {
     private String id;
     private String name;
     private String email;
     private String password;
-    private String dateOfBirth;
-    private int gender;
-    private String address;
     private String avatar;
     private String dataJoin;
-    private int status;
-
-    private String firstName;
-
-    private String lastName;
-
+    private ArrayList followers;
+    private ArrayList followings;
     private  String description;
-
-    private String profile;
 
     public User() {
 
     }
 
-    public User(String id, String name, String email, String password, String dateOfBirth, int gender, String address, String avatar, String dataJoin, int status) {
+    public User(String id, String name, String email, String password, String avatar, String dataJoin, ArrayList followers, ArrayList followings, String description) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.dateOfBirth = dateOfBirth;
-        this.gender = gender;
-        this.address = address;
         this.avatar = avatar;
         this.dataJoin = dataJoin;
-        this.status = status;
+        this.followers = followers;
+        this.followings = followings;
+        this.description = description;
+    }
+
+    public ArrayList getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(ArrayList followers) {
+        this.followers = followers;
+    }
+
+    public ArrayList getFollowings() {
+        return followings;
+    }
+
+    public void setFollowings(ArrayList followings) {
+        this.followings = followings;
     }
 
     public String getId() {
@@ -69,30 +77,6 @@ public class User {
         this.password = password;
     }
 
-    public String getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public int getGender() {
-        return gender;
-    }
-
-    public void setGender(int gender) {
-        this.gender = gender;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getAvatar() {
         return avatar;
     }
@@ -109,32 +93,6 @@ public class User {
         this.dataJoin = dataJoin;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-
     public void setDescription(String description) {
         this.description = description;
     }
@@ -143,11 +101,4 @@ public class User {
         return description;
     }
 
-    public void setProfile(String profile) {
-        this.profile = profile;
-    }
-
-    public String getProfile() {
-        return profile;
-    }
 }

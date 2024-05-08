@@ -13,23 +13,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.snapgrid.ChatToChatActivity;
 import com.android.snapgrid.R;
+import com.android.snapgrid.models.User;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.ViewHolder>{
-    ArrayList images;
-    ArrayList names;
-    ArrayList chats;
+    private ArrayList<User> users;
 
     private static Fragment fragment;
 
-    public ChatUserAdapter(Fragment fragment, ArrayList images, ArrayList names, ArrayList chats) {
+    public ChatUserAdapter(Fragment fragment, ArrayList users) {
         this.fragment = fragment;
-        this.images = images;
-        this.names = names;
-        this.chats = chats;
+        this.users = users;
     }
 
     @NonNull
@@ -42,36 +40,35 @@ public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        int res = (int) images.get(position);
-        holder.imageView.setImageResource(res);
-        String name = (String) names.get(position);
+        Picasso.get().load(users.get(position).getAvatar()).placeholder(R.drawable.appa).into(holder.imageView);
+        String name = users.get(position).getName();
+        String id = users.get(position).getId();
         holder.nameView.setText(name);
-        String chat = (String) chats.get(position);
-        holder.chatView.setText(chat);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(fragment.getActivity(), ChatToChatActivity.class);
+                intent.putExtra("hisName", name);
+                intent.putExtra("hisUid", id);
+                intent.putExtra("hisImage", id);
+                fragment.startActivity(intent);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return images.size();
+        return users.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    static class ViewHolder extends RecyclerView.ViewHolder{
         ImageView imageView;
         TextView nameView;
-        TextView chatView;
         ViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.img_avatar_chat);
             nameView = itemView.findViewById(R.id.name_chat);
-            chatView = itemView.findViewById(R.id.message);
-            itemView.setOnClickListener(this);
 
-        }
-
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(fragment.getActivity(), ChatToChatActivity.class);
-            fragment.startActivity(intent);
         }
     }
 }

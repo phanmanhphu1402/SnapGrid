@@ -1,60 +1,60 @@
 package com.android.snapgrid.models;
 
 public class Message {
-    private int idMessage;
-    private int idSender;
-    private int idRecipient;
-    private String content;
-    private String timeSent;
+    private String message;
+    private String sender;
+    private String receiver;
+    private String time;
+    private  boolean isSeen;
 
     public Message() {
     }
 
-    public Message(int idMessage, int idSender, int idRecipient, String content, String timeSent) {
-        this.idMessage = idMessage;
-        this.idSender = idSender;
-        this.idRecipient = idRecipient;
-        this.content = content;
-        this.timeSent = timeSent;
+    public Message(String message, String sender, String receiver, String time, boolean isSeen) {
+        this.message = message;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.time = time;
+        this.isSeen = isSeen;
     }
 
-    public int getIdMessage() {
-        return idMessage;
+    public String getMessage() {
+        return message;
     }
 
-    public void setIdMessage(int idMessage) {
-        this.idMessage = idMessage;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public int getIdSender() {
-        return idSender;
+    public String getSender() {
+        return sender;
     }
 
-    public void setIdSender(int idSender) {
-        this.idSender = idSender;
+    public void setSender(String sender) {
+        this.sender = sender;
     }
 
-    public int getIdRecipient() {
-        return idRecipient;
+    public String getReceiver() {
+        return receiver;
     }
 
-    public void setIdRecipient(int idRecipient) {
-        this.idRecipient = idRecipient;
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
     }
 
-    public String getContent() {
-        return content;
+    public String getTime() {
+        return time;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public String getTimeSent() {
-        return timeSent;
+    public boolean isSeen() {
+        return isSeen;
     }
 
-    public void setTimeSent(String timeSent) {
-        this.timeSent = timeSent;
+    public void setSeen(boolean isSeen) {
+        isSeen = isSeen;
     }
 }

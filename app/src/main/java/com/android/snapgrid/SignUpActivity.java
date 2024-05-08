@@ -22,7 +22,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -103,13 +106,20 @@ public class SignUpActivity extends AppCompatActivity {
                             // Đăng ký thành công, lấy UID và lưu thông tin người dùng vào Firestore
                             FirebaseUser firebaseUser = task.getResult().getUser();
                             if (firebaseUser != null) {
+                                ArrayList<String> followingList = new ArrayList<String>();
+                                ArrayList<String> followerList = new ArrayList<String>();
+                                LocalDate currentDate = LocalDate.now();
                                 String uid = firebaseUser.getUid(); // Lấy UID
                                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                                 Map<String, Object> user = new HashMap<>();
                                 user.put("FullName", fullName);
                                 user.put("Email", email);
                                 user.put("ID", uid); // UID từ Firebase Auth được lưu như là ID trong document
-
+                                user.put("Followers", followerList);
+                                user.put("Followings", followingList);
+                                user.put("Avatar", "");
+                                user.put("Decription", "");
+                                user.put("DateJoin", currentDate);
                                 // Không nên lưu mật khẩu. Bỏ dòng này:
                                 user.put("Password", password);
 

@@ -16,6 +16,7 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.CAMERA" />
+    
 
 
     <application
@@ -28,6 +29,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SnapGrid"
         tools:targetApi="31">
+        <provider
+            android:authorities="com.android.snapgrid.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/paths"/>
+        </provider>
+
 
         <activity
             android:name=".chat.ChatActivity"
@@ -37,9 +48,6 @@
         <!-- android:exported="false" /> -->
         <activity
             android:name=".PostAddingActivity"
-            android:exported="false" />
-        <activity
-            android:name=".FacebookAuthActivity"
             android:exported="false" />
         <activity
             android:name=".ConfigAccountActivity"

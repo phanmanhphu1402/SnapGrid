@@ -1,44 +1,38 @@
 package com.android.snapgrid.models;
 
 public class Comments {
-    private int idComment;
-    private int idPost;
-    private int idUser;
+    private String idComment;
+    private String idUser;
     private String content;
-    private String dataComment;
+    private String dateComment;
+    private String imageUser;
+    private String nameUser;
 
     public Comments() {
     }
 
-    public Comments(int idComment, int idPost, int idUser, String content, String dataComment) {
+    public Comments(String idComment, String idUser, String content, String dateComment, String imageUser, String nameUser) {
         this.idComment = idComment;
-        this.idPost = idPost;
         this.idUser = idUser;
         this.content = content;
-        this.dataComment = dataComment;
+        this.dateComment = dateComment;
+        this.imageUser = imageUser;
+        this.nameUser = nameUser;
     }
 
-    public int getIdComment() {
+    public String getIdComment() {
         return idComment;
     }
 
-    public void setIdComment(int idComment) {
+    public void setIdComment(String idComment) {
         this.idComment = idComment;
     }
 
-    public int getIdPost() {
-        return idPost;
-    }
-
-    public void setIdPost(int idPost) {
-        this.idPost = idPost;
-    }
-
-    public int getIdUser() {
+    public String getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(int idUser) {
+    public void setIdUser(String idUser) {
         this.idUser = idUser;
     }
 
@@ -50,11 +44,27 @@ public class Comments {
         this.content = content;
     }
 
-    public String getDataComment() {
-        return dataComment;
+    public String getDateComment() {
+        return dateComment;
     }
 
-    public void setDataComment(String dataComment) {
-        this.dataComment = dataComment;
+    public void setDateComment(String dateComment) {
+        this.dateComment = dateComment;
+    }
+
+    public String getImageUser() {
+        return imageUser;
+    }
+
+    public void setImageUser(String imageUser) {
+        this.imageUser = imageUser;
+    }
+
+    public String getNameUser() {
+        return nameUser;
+    }
+
+    public void setNameUser(String nameUser) {
+        this.nameUser = nameUser;
     }
 }

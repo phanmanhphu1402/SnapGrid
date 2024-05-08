@@ -62,10 +62,6 @@ public class UserConfigActivity extends AppCompatActivity {
 
     private Button editAvatarBtn;
 
-    private EditText editLastNameInput;
-
-    private EditText editFirstNameInput;
-
 
     private EditText editFullNameInput;
 
@@ -88,8 +84,6 @@ public class UserConfigActivity extends AppCompatActivity {
         saveProfileBtn = findViewById(R.id.save_profile_button);
         avatarImageView = findViewById(R.id.avatar_image_view);
         editAvatarBtn = findViewById(R.id.edit_avatar_button);
-        editLastNameInput = findViewById(R.id.edit_last_name_input);
-        editFirstNameInput = findViewById(R.id.edit_first_name_input);
         editFullNameInput = findViewById(R.id.edit_full_name_input);
         editDescriptionInput = findViewById(R.id.edit_description_input);
         backBtn.setOnClickListener(v -> {
@@ -102,57 +96,11 @@ public class UserConfigActivity extends AppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
-        userRef = FirebaseDatabase.getInstance().getReference("users");
-
-        userRef.child(Objects.requireNonNull(fUser).getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue() != null) {
-                    User user = snapshot.getValue(User.class);
-                    if (user != null) {
-                        editLastNameInput.setText(Objects.requireNonNull(user).getLastName());
-                        editFirstNameInput.setText(Objects.requireNonNull(user).getFirstName());
-                        editFullNameInput.setText(Objects.requireNonNull(user).getName());
-                        editDescriptionInput.setText(Objects.requireNonNull(user).getDescription());
-                        String avatarUrl = user.getProfile();
-                        Log.d(UserConfigActivity.class.getName(), Objects.requireNonNull(user.getProfile()));
-                        if (user.getProfile() == null) {
-                            avatarUrl = "http://image10.bizrate-images.com/resize?sq=60&uid=2216744464";
-                        }
-                        try {
-                            Picasso picasso = Picasso.get();
-                            picasso.setIndicatorsEnabled(true); // Optional: Show indicators for debugging
-                            picasso.setLoggingEnabled(true); // Optional: Enable logging for debugging
-                            picasso.load(avatarUrl).into(avatarImageView);
-                        } catch (Exception e) {
-                            Log.d(UserConfigActivity.class.getName(), String.format("Load avatar failed %s", e.getMessage()));
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         saveProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Map<String, Object> userUpdates = new HashMap<>();
-                if (editFirstNameInput.getText().toString().length() == 0) {
-                    Toast.makeText(UserConfigActivity.this, "Missing first name", Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
-                    userUpdates.put("firstName", editFirstNameInput.getText().toString());
-                }
-                if (editLastNameInput.getText().toString().length() == 0) {
-                    Toast.makeText(UserConfigActivity.this, "Missing last name", Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
-                    userUpdates.put("lastName", editLastNameInput.getText().toString());
-                }
                 if (editFullNameInput.getText().toString().length() == 0) {
                     Toast.makeText(UserConfigActivity.this, "Missing name", Toast.LENGTH_SHORT).show();
                     return;
@@ -161,8 +109,6 @@ public class UserConfigActivity extends AppCompatActivity {
                 }
                 Log.d(UserConfigActivity.class.getName(), userUpdates.toString());
                 userUpdates.put("description", editDescriptionInput.getText().toString());
-                editLastNameInput.setInputType(InputType.TYPE_NULL);
-                editFirstNameInput.setInputType(InputType.TYPE_NULL);
                 editFullNameInput.setInputType(InputType.TYPE_NULL);
                 editDescriptionInput.setInputType(InputType.TYPE_NULL);
                 userRef.child(Objects.requireNonNull(fUser).getUid()).updateChildren(userUpdates, new DatabaseReference.CompletionListener() {
@@ -175,9 +121,6 @@ public class UserConfigActivity extends AppCompatActivity {
                             notify = Toast.makeText(UserConfigActivity.this, "Update profiles success!", Toast.LENGTH_SHORT);
                         }
                         notify.show();
-                        // Restore editable
-                        editLastNameInput.setInputType(InputType.TYPE_CLASS_TEXT);
-                        editFirstNameInput.setInputType(InputType.TYPE_CLASS_TEXT);
                         editFullNameInput.setInputType(InputType.TYPE_CLASS_TEXT);
                         editDescriptionInput.setInputType(InputType.TYPE_CLASS_TEXT);
                     }

@@ -27,6 +27,7 @@ import com.android.snapgrid.R;
 import com.android.snapgrid.SettingActivity;
 import com.android.snapgrid.UserConfigActivity;
 import com.android.snapgrid.adapters.MasonryAdapter;
+import com.android.snapgrid.models.Comments;
 import com.android.snapgrid.models.Post;
 import com.android.snapgrid.models.PostSaved;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -128,6 +129,7 @@ public class UserInformationFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Post> postsList = new ArrayList<>();
+                ArrayList<Comments> commentsArrayList = new ArrayList<>();
                 globalPostsList.clear();
                 String userId = currentUser.getUid();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -137,11 +139,11 @@ public class UserInformationFragment extends Fragment {
                     String content = snapshot.child("content").getValue().toString();
                     String datePost = snapshot.child("datePost").getValue().toString();
                     int numberLike = Integer.parseInt(snapshot.child("numberLike").getValue().toString());
-                    int numberShare = Integer.parseInt(snapshot.child("numberShare").getValue().toString());
+                    int numberComment = Integer.parseInt(snapshot.child("numberComment").getValue().toString());
                     String imageUrl = snapshot.child("imageUrl").getValue(String.class);
                     String title = snapshot.child("title").getValue().toString();
                     String tag = snapshot.child("tag").getValue().toString();
-                    Post post = new Post(idPost, idUser, content, datePost, numberLike, numberShare, imageUrl, title, tag);
+                    Post post = new Post(idPost, idUser, content, datePost, numberLike, numberComment, commentsArrayList, imageUrl, title, tag);
                     if (userId.equals(snapshot.child("idUser").getValue())) {
                         postsList.add(post);
                         recyclerView.setAdapter(new MasonryAdapter(postsList, getActivity().getSupportFragmentManager()));

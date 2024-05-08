@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.android.snapgrid.databinding.ActivityMainBinding;
 import com.android.snapgrid.fragments.AddPostFragment;
+import com.android.snapgrid.models.Comments;
 import com.android.snapgrid.models.Post;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,6 +47,7 @@ import org.w3c.dom.Text;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -200,7 +202,7 @@ public class PostAddingActivity extends AppCompatActivity {
         String tag = autoCompleteTxt.getText().toString();
         String datePost = formattedDate;
         final StorageReference imageReference = storageReference.child(System.currentTimeMillis()+"."+getFileExtension(uri));
-        System.out.println("Addup asfasgagavaada");
+        ArrayList<Comments> commentsArrayList = new ArrayList<>();
         System.out.println(uri);
         System.out.println(imageReference.toString());
         imageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -210,7 +212,7 @@ public class PostAddingActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Uri uri) {
                         String key = databaseReference.push().getKey();
-                        Post post = new Post(key, userPostId, content, formattedDate,0,0,uri.toString(), title, tag);
+                        Post post = new Post(key, userPostId, content, formattedDate, 0,commentsArrayList.size(), commentsArrayList,uri.toString(), title, tag);
 
                         databaseReference.child(key).setValue(post);
                         Toast.makeText(PostAddingActivity.this,"Uploaded",Toast.LENGTH_SHORT).show();

@@ -138,12 +138,12 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/button6"
+                    android:id="@+id/btnShare"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_marginStart="24dp"
                     android:backgroundTint="@color/button_color"
-                    android:text="Detail"
+                    android:text="Share"
                     android:textColor="@color/main_text_color"
                     app:layout_constraintStart_toEndOf="@+id/imageButton"
                     app:layout_constraintTop_toTopOf="parent" />
