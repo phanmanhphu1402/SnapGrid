@@ -51,12 +51,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Login extends AppCompatActivity {
 
@@ -135,8 +138,8 @@ public class Login extends AppCompatActivity {
 //        });
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                bỏ qua default_web_client_id nó ko phải lỗi!!
-             //   .requestIdToken(getString(R.string.default_web_client_id))
+//                bỏ qua default_web_client_id nó ko phải lỗi, nó là tính năng!!
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail().build();
 
         mGoogSignClient = GoogleSignIn.getClient(this,gso);
@@ -190,6 +193,7 @@ public class Login extends AppCompatActivity {
                                     database.getReference().child("users").child(user.getUid()).setValue(map);
                                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(i);
+                                    finish();
                                     finish();
                                 } else {
 
@@ -303,18 +307,29 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@androidx.annotation.NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            HashMap<String, Boolean> followingsMap = new HashMap<>();
-                            followingsMap.put("friendId1", true);
-                            HashMap<String, Object> map = new HashMap<>();
-                            map.put("id",user.getUid());
-                            map.put("name",user.getDisplayName());
-                            map.put("profile",user.getPhotoUrl().toString());
-                            map.put("email",user.getEmail());
-                            map.put("followings", followingsMap);
-                            database.getReference().child("users").child(user.getUid()).setValue(map);
-                            Intent intent = new Intent(Login.this, MainActivity.class);
-                            startActivity(intent);
+                            ArrayList<String> followingList = new ArrayList<String>();
+                            ArrayList<String> followerList = new ArrayList<String>();
+                            LocalDate currentDate = LocalDate.now();
+                            FirebaseUser currentUser = mAuth.getCurrentUser();
+
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            Map<String, Object> user = new HashMap<>();
+                            user.put("FullName", currentUser.getDisplayName());
+                            user.put("Email", currentUser.getEmail());
+                            user.put("ID", currentUser.getUid()); // UID từ Firebase Auth được lưu như là ID trong document
+                            user.put("Followers", followerList);
+                            user.put("Followings", followingList);
+                            user.put("Avatar", currentUser.getPhotoUrl().toString());
+                            user.put("Decription", "");
+                            user.put("DateJoin", currentDate);
+                            // Không nên lưu mật khẩu. Bỏ dòng này:
+                            user.put("Password", "Gmail");
+
+                            // Lưu thông tin người dùng vào Firestore
+                            db.collection("User").document(currentUser.getUid()).set(user);
+                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(i);
+                            finish();
                         }else{
                             Toast.makeText(Login.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                         }

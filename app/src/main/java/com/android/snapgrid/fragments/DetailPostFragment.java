@@ -367,12 +367,6 @@ public class DetailPostFragment extends Fragment {
                             String imageUser = snapshot.child("imageUser").getValue().toString();
                             String nameUser = snapshot.child("nameUser").getValue().toString();
                             Comments comment = new Comments(idComment, idUser, commentText, dateComment, imageUser, nameUser);
-                            System.out.println("Username:"+ nameUser);
-                            System.out.println("Username:"+ idUser);
-                            System.out.println("Username:"+ imageUser);
-                            System.out.println("Username:"+ idComment);
-                            System.out.println("Username:"+ dateComment);
-                            System.out.println("Username:"+ commentText);
                             commentsArrayList.add(comment);
                             commentAdapter = new CommentAdapter(commentsArrayList, getActivity().getSupportFragmentManager());
                             commentAdapter.notifyDataSetChanged();
@@ -416,7 +410,7 @@ public class DetailPostFragment extends Fragment {
             bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
             stream.flush();
             stream.close();
-            uri = FileProvider.getUriForFile(getContext(), "com.android.snapgrid.fileprovider", file);
+            uri = FileProvider.getUriForFile(getContext(), "com.android.snapgrid", file);
         }catch (Exception e){
             Toast.makeText(getContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
         }
