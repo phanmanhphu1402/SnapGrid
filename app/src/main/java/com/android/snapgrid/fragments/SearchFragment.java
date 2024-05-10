@@ -29,14 +29,11 @@ import java.util.List;
 
 public class SearchFragment extends Fragment {
     private RecyclerView recyclerView;
-    private PostAdapter adapter;
     private EditText editTextSearch;
-    private ImageButton imageButtonSearch;
+    private PostAdapter adapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
@@ -44,31 +41,41 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Liên kết RecyclerView
         recyclerView = view.findViewById(R.id.recyclerViewSearchResults);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        // Khởi tạo danh sách bài viết và adapter
         List<Post> postList = new ArrayList<>();
-        adapter = new PostAdapter(view.getContext(), postList);
-        recyclerView.setAdapter(adapter);
+        adapter = new PostAdapter(view.getContext(), postList, post -> {
+            // Chuyển sang DetailPostFragment
+            Bundle bundle = new Bundle();
+            bundle.putString("dataImage", post.getImageUrl());
+            bundle.putString("dataTitle", post.getTitle());
+            bundle.putString("dataContent", post.getContent());
+            bundle.putString("dataIdPost", post.getIdPost());
+            bundle.putString("dataIdUser", post.getIdUser());
 
-        // Liên kết nút tìm kiếm và EditText
-        editTextSearch = view.findViewById(R.id.editTextSearch);
-        imageButtonSearch = view.findViewById(R.id.imageButtonSearch);
+            DetailPostFragment detailPostFragment = new DetailPostFragment();
+            detailPostFragment.setArguments(bundle);
 
-        // Thiết lập sự kiện tìm kiếm khi nhấn nút
-        imageButtonSearch.setOnClickListener(v -> {
-            String query = editTextSearch.getText().toString().trim();
-            Log.d("SearchFragment", "Nút tìm kiếm được bấm với từ khóa: " + query);
-            performSearch(query); // Gọi hàm tìm kiếm với từ khóa đã nhập
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frame_layout, detailPostFragment)
+                    .addToBackStack(null)
+                    .commit();
         });
 
-        // Bạn có thể thực hiện truy vấn ban đầu với tất cả dữ liệu
+        recyclerView.setAdapter(adapter);
+
+        editTextSearch = view.findViewById(R.id.editTextSearch);
+        ImageButton imageButtonSearch = view.findViewById(R.id.imageButtonSearch);
+
+        imageButtonSearch.setOnClickListener(v -> {
+            String query = editTextSearch.getText().toString().trim();
+            performSearch(query); // Thực hiện tìm kiếm dựa trên tiêu đề
+        });
+
         performSearch(""); // Truy vấn với chuỗi rỗng để hiển thị tất cả bài viết
     }
 
-    // Phương thức để tìm kiếm bài viết dựa trên tiêu đề
     private void performSearch(String query) {
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Posts");
         Query searchQuery = databaseRef.orderByChild("title").startAt(query).endAt(query + "\uf8ff");
@@ -82,10 +89,7 @@ public class SearchFragment extends Fragment {
                     searchResults.add(post);
                 }
 
-                // Ghi nhật ký số lượng bài viết tìm thấy
-                Log.d("SearchFragment", "Số lượng bài viết tìm thấy: " + searchResults.size());
-
-                adapter.updateData(searchResults);
+                adapter.updateData(searchResults); // Cập nhật danh sách trong adapter
             }
 
             @Override
@@ -94,7 +98,5 @@ public class SearchFragment extends Fragment {
             }
         });
     }
-
-
-
 }
+

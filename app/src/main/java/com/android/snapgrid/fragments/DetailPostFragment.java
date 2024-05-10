@@ -68,6 +68,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 
+
+
 public class DetailPostFragment extends Fragment {
     ImageView imageDetail, imgProfile;
     TextView detailPostTitle, detailPostContent, txtNameProfile;
@@ -465,5 +467,7 @@ public class DetailPostFragment extends Fragment {
             }
         });
     }
+
+
 
 }

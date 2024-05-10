@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.snapgrid.R;
@@ -20,10 +19,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     private List<Post> postList;
     private LayoutInflater mInflater;
+    private OnPostClickListener onPostClickListener;
 
-    public PostAdapter(Context context, List<Post> postList) {
+    // Giao diện để xử lý sự kiện nhấp chuột
+    public interface OnPostClickListener {
+        void onPostClick(Post post);
+    }
+
+    // Constructor để khởi tạo adapter
+    public PostAdapter(Context context, List<Post> postList, OnPostClickListener listener) {
         mInflater = LayoutInflater.from(context);
         this.postList = postList;
+        this.onPostClickListener = listener;
     }
 
     @NonNull
@@ -39,13 +46,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.postTitle.setText(currentPost.getTitle());
         holder.postContent.setText(currentPost.getContent());
         holder.postDate.setText(currentPost.getDatePost());
-        // Thêm mã để hiển thị hình ảnh sử dụng Glide hoặc Picasso ở đây
 
         // Sử dụng Glide để hiển thị hình ảnh
         Glide.with(holder.itemView.getContext())
                 .load(currentPost.getImageUrl())
-                .centerCrop() // hoặc transform(new CenterCrop(), new RoundedCorners(16)) nếu bạn muốn bo góc ảnh
+                .centerCrop()
                 .into(holder.postImage);
+
+        // Gán sự kiện nhấp chuột
+        holder.itemView.setOnClickListener(v -> {
+            if (onPostClickListener != null) {
+                onPostClickListener.onPostClick(currentPost);
+            }
+        });
     }
 
     @Override
