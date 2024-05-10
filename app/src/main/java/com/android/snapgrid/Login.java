@@ -51,12 +51,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Login extends AppCompatActivity {
 
@@ -79,11 +82,6 @@ public class Login extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
-//        if(currentUser != null){
-//            Intent i = new Intent(getApplicationContext(), MainActivity.class);
-//            startActivity(i);
-//            finish();
-//        }
     }
 
 
@@ -101,41 +99,7 @@ public class Login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
 
-//        FacebookSdk.sdkInitialize(getApplicationContext());
-//
-//
-//        // Initialize Facebook Login button
-//        mCallbackManager = CallbackManager.Factory.create();
-//        loginButton = findViewById(R.id.login_button);
-//        loginButton.setReadPermissions("email", "public_profile");
-//        // Set login behavior to use Chrome Custom Tabs
-//        LoginManager.getInstance().setLoginBehavior(LoginBehavior.WEB_ONLY);
-//        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-//            @Override
-//            public void onSuccess(LoginResult loginResult) {
-////                handleFacebookAccessToken(loginResult.getAccessToken());
-//                Intent intent = new Intent(Login.this, MainActivity.class);
-//                startActivity(intent);
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//            }
-//
-//            @Override
-//            public void onError(FacebookException error) {
-//            }
-//        });
-//        btnFacebook = findViewById(R.id.btnFB);
-//        btnFacebook.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                launchFacebookLogin();
-//            }
-//        });
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                bỏ qua default_web_client_id nó ko phải lỗi!!
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail().build();
 
@@ -191,6 +155,7 @@ public class Login extends AppCompatActivity {
                                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(i);
                                     finish();
+                                    finish();
                                 } else {
 
                                     Toast.makeText(Login.this, "Authentication failed.",
@@ -211,63 +176,6 @@ public class Login extends AppCompatActivity {
             }
         });
     }
-
-//    private void launchFacebookLogin() {
-//        String url = FACEBOOK_LOGIN_URL +
-//                "?client_id=" + FACEBOOK_APP_ID +
-//                "&redirect_uri=" + REDIRECT_URI +
-//                "&scope=email,public_profile";
-//
-//        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-//        CustomTabsIntent customTabsIntent = builder.build();
-//        customTabsIntent.launchUrl(this, Uri.parse(url));
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//
-//        // Check if the activity was launched by Facebook login
-//        Uri uri = getIntent().getData();
-//        if (uri != null && uri.toString().startsWith(REDIRECT_URI)) {
-//            // Extract access token and handle login success
-//            String accessToken = uri.getQueryParameter("access_token");
-//            if (accessToken != null) {
-//                // Handle successful login
-//                Toast.makeText(this, "Logged in successfully", Toast.LENGTH_SHORT).show();
-//                Intent i = new Intent(getApplicationContext(), MainActivity.class);
-//                startActivity(i);
-//            } else {
-//                // Handle login failure
-//                Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
-
-    //    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        mCallbackManager.onActivityResult(requestCode, resultCode, data);
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
-//    private void handleFacebookAccessToken(AccessToken token) {
-//
-//        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-//        mAuth.signInWithCredential(credential)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//                            FirebaseUser user = mAuth.getCurrentUser();
-//                            updateUI(user);
-//                        } else {
-//                            Toast.makeText(Login.this, "Authentication failed.",
-//                                    Toast.LENGTH_SHORT).show();
-//                            updateUI(null);
-//                        }
-//                    }
-//                });
-//    }
-//
     private void updateUI(FirebaseUser user) {
         if(user !=null){
             Intent intent = new Intent(Login.this, MainActivity.class);
@@ -303,18 +211,29 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@androidx.annotation.NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            HashMap<String, Boolean> followingsMap = new HashMap<>();
-                            followingsMap.put("friendId1", true);
-                            HashMap<String, Object> map = new HashMap<>();
-                            map.put("id",user.getUid());
-                            map.put("name",user.getDisplayName());
-                            map.put("profile",user.getPhotoUrl().toString());
-                            map.put("email",user.getEmail());
-                            map.put("followings", followingsMap);
-                            database.getReference().child("users").child(user.getUid()).setValue(map);
-                            Intent intent = new Intent(Login.this, MainActivity.class);
-                            startActivity(intent);
+                            ArrayList<String> followingList = new ArrayList<String>();
+                            ArrayList<String> followerList = new ArrayList<String>();
+                            LocalDate currentDate = LocalDate.now();
+                            FirebaseUser currentUser = mAuth.getCurrentUser();
+
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            Map<String, Object> user = new HashMap<>();
+                            user.put("FullName", currentUser.getDisplayName());
+                            user.put("Email", currentUser.getEmail());
+                            user.put("ID", currentUser.getUid()); // UID từ Firebase Auth được lưu như là ID trong document
+                            user.put("Followers", followerList);
+                            user.put("Followings", followingList);
+                            user.put("Avatar", currentUser.getPhotoUrl().toString());
+                            user.put("Decription", "");
+                            user.put("DateJoin", currentDate);
+                            // Không nên lưu mật khẩu. Bỏ dòng này:
+                            user.put("Password", "Gmail");
+
+                            // Lưu thông tin người dùng vào Firestore
+                            db.collection("User").document(currentUser.getUid()).set(user);
+                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(i);
+                            finish();
                         }else{
                             Toast.makeText(Login.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                         }

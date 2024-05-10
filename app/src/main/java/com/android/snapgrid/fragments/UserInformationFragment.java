@@ -64,15 +64,16 @@ public class UserInformationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_user_information, container, false);
         Button btnConfigInfor = (Button) rootview.findViewById(R.id.btnConfigInfor);
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        String currentUserId = currentUser.getUid();
         txtFollow = rootview.findViewById(R.id.txtFollowing);
         flclick = rootview.findViewById(R.id.tvfollow);
         userEmail = (TextView) rootview.findViewById(R.id.userEmail);
         userAvatar = rootview.findViewById(R.id.userAvatar);
         username = rootview.findViewById(R.id.nameprofile);
         showPostsSaved = rootview.findViewById(R.id.showPostsSaved);
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String currentUserId = currentUser.getUid();
+
         Picasso.get().load(currentUser.getPhotoUrl()).placeholder(R.drawable.appa).into(userAvatar);
         username.setText(currentUser.getDisplayName().toString());
         userEmail.setText(currentUser.getEmail().toString());
