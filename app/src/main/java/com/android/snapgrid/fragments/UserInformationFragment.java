@@ -1,9 +1,11 @@
 package com.android.snapgrid.fragments;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -92,6 +94,11 @@ public class UserInformationFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        //Đổi màu icon khi bật darkmode
+        if(isNight()){
+            btnSetting.setColorFilter(ContextCompat.getColor(getContext(), R.color.white));
+        }
 
         RecyclerView recyclerView = rootview.findViewById(R.id.recyclerView);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
@@ -226,11 +233,15 @@ public class UserInformationFragment extends Fragment {
             }
         });
 
-
         return rootview;
-
     }
 
+    //check nightmode
+    private boolean isNight(){
+        int config = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        boolean isNightMode = Configuration.UI_MODE_NIGHT_YES == config;
+        return isNightMode;
+    }
 
     private boolean postInListId(Post post, List<String> ids) {
         for (int idx = 0; idx < ids.size(); idx++) {

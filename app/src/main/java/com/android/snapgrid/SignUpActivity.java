@@ -20,6 +20,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDate;
@@ -29,11 +31,10 @@ import java.util.List;
 import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
-
     private EditText edtFullName, edtEmail, edtPassword;
     private Button btnRegister;
-    private ImageView signUpButton; // Thêm biến này để tham chiếu đến ImageView
-    private TextView Login;
+    private ImageView signUpButton; // Tham chiếu đến ImageView mũi tên
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
         edtEmail = findViewById(R.id.edtEmail);
         edtPassword = findViewById(R.id.edtPassword);
         btnRegister = findViewById(R.id.btnRegister);
-        signUpButton = findViewById(R.id.SignUpButton); // Khởi tạo ImageView bằng findViewById
-        Login = findViewById(R.id.Login); // Thêm dòng này
+        signUpButton = findViewById(R.id.SignUpButton);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,36 +54,17 @@ public class SignUpActivity extends AppCompatActivity {
                 // Đăng ký người dùng
                 registerUser();
             }
+
         });
 
-
-        // Thiết lập OnClickListener cho signUpButton
+        // Thiết lập sự kiện chuyển hướng sang trang đăng nhập khi nhấn nút mũi tên
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Tạo một Intent để chuyển từ SignUpActivity sang LoginActivity
-                Intent intent = new Intent(SignUpActivity.this, Login.class);
-                startActivity(intent);
-                finish(); // Kết thúc SignUpActivity để người dùng không quay lại khi bấm nút back
-            }
-        });
-
-
-        // Đặt OnClickListener cho TextView
-        Login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Chuyển đến LoginActivity
-                Intent intent = new Intent(SignUpActivity.this, Login.class);
-                startActivity(intent);
-                finish(); // Kết thúc SignUpActivity để người dùng không quay lại khi bấm nút back
+                navigateToLogin();
             }
         });
     }
-
-
-
-
 
     private void registerUser() {
         String fullName = edtFullName.getText().toString().trim();
@@ -97,45 +78,64 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         // Tiến hành đăng ký người dùng với Firebase Authentication
-
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Đăng ký thành công, lấy UID và lưu thông tin người dùng vào Firestore
+                            // Đăng ký thành công, lấy UID và lưu thông tin người dùng vào Firestore và Realtime Database
                             FirebaseUser firebaseUser = task.getResult().getUser();
                             if (firebaseUser != null) {
-                                ArrayList<String> followingList = new ArrayList<String>();
-                                ArrayList<String> followerList = new ArrayList<String>();
-                                LocalDate currentDate = LocalDate.now();
                                 String uid = firebaseUser.getUid(); // Lấy UID
+
+                                // Tạo thông tin người dùng cho Firestore
                                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-                                Map<String, Object> user = new HashMap<>();
-                                user.put("FullName", fullName);
-                                user.put("Email", email);
-                                user.put("ID", uid); // UID từ Firebase Auth được lưu như là ID trong document
-                                user.put("Followers", followerList);
-                                user.put("Followings", followingList);
-                                user.put("Avatar", "");
-                                user.put("Decription", "");
-                                user.put("DateJoin", currentDate);
-                                // Không nên lưu mật khẩu. Bỏ dòng này:
-                                user.put("Password", password);
+                                Map<String, Object> userFirestore = new HashMap<>();
+                                userFirestore.put("FullName", fullName);
+                                userFirestore.put("Email", email);
+                                userFirestore.put("ID", uid);
+                                userFirestore.put("Followers", 0);
+                                userFirestore.put("Followings", 0);
+                                userFirestore.put("Avatar", "");
+                                userFirestore.put("Description", "");
+                                userFirestore.put("DateJoin", 0);
 
                                 // Lưu thông tin người dùng vào Firestore
-                                db.collection("User").document(uid).set(user)
+                                db.collection("User").document(uid).set(userFirestore)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 Toast.makeText(SignUpActivity.this, "User information saved to Firestore.", Toast.LENGTH_SHORT).show();
-                                                // Chuyển hướng người dùng hoặc cập nhật giao diện người dùng
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(SignUpActivity.this, "Error saving user information.", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(SignUpActivity.this, "Error saving user information to Firestore.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                // Tạo thông tin người dùng cho Realtime Database
+                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                DatabaseReference usersRef = database.getReference("users");
+                                Map<String, Object> userRealtime = new HashMap<>();
+                                userRealtime.put("email", email);
+                                userRealtime.put("name", fullName);
+                                userRealtime.put("followings", 0);
+                                userRealtime.put("profile", "");
+
+                                // Lưu thông tin người dùng vào Realtime Database
+                                usersRef.child(uid).setValue(userRealtime)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Toast.makeText(SignUpActivity.this, "User information saved to Realtime Database.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(SignUpActivity.this, "Error saving user information to Realtime Database.", Toast.LENGTH_SHORT).show();
                                             }
                                         });
                             }
@@ -147,31 +147,10 @@ public class SignUpActivity extends AppCompatActivity {
                 });
     }
 
-    private void saveUserInformation(String fullName, String email) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid(); // Lấy UID của người dùng hiện tại
-
-        Map<String, Object> user = new HashMap<>();
-        user.put("FullName", fullName);
-        user.put("Email", email);
-
-        // Sử dụng UID làm document ID cho collection User
-        db.collection("User").document(userId)
-                .set(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(SignUpActivity.this, "User registered successfully", Toast.LENGTH_SHORT).show();
-                        // Chuyển đến activity khác hoặc cập nhật UI tại đây
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(SignUpActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+    // Hàm chuyển hướng sang LoginActivity
+    private void navigateToLogin() {
+        Intent intent = new Intent(SignUpActivity.this, Login.class);
+        startActivity(intent);
+        finish();
     }
-
-
 }

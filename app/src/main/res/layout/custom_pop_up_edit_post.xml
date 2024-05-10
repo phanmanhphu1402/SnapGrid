@@ -8,8 +8,7 @@
     android:elevation="10dp"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:theme="@style/circle">
-
+    android:background="@drawable/dialog_bg">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +16,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:theme="@style/circle">
-
         <ImageButton
             android:id="@+id/btnClose"
             android:layout_width="wrap_content"
