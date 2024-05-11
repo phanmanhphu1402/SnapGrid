@@ -33,11 +33,23 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 import com.android.snapgrid.models.Message;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class ChatToChatActivity extends AppCompatActivity {
     TextView receiverName;
@@ -59,7 +71,10 @@ public class ChatToChatActivity extends AppCompatActivity {
 
     String currentUserId;
     String id;
+    String userName;
     String image;
+
+    String otherUserToken;
 
 
     @Override
@@ -70,10 +85,10 @@ public class ChatToChatActivity extends AppCompatActivity {
         btnSendMessage = (android.widget.ImageButton) findViewById(R.id.btnSendMessage);
         editMessage = (EditText) findViewById(R.id.input_chat);
         Intent intent = getIntent();
-        String name = intent.getStringExtra("hisName");
-        image = intent.getStringExtra("hisImage");
+//        String name = intent.getStringExtra("hisName");
+//        image = intent.getStringExtra("hisImage");
         id = intent.getStringExtra("hisUid");
-        receiverName.setText(name);
+
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -90,15 +105,18 @@ public class ChatToChatActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         // Handle the found user document
-                        String userId = document.getString("ID");
-                        System.out.println(userId);
+                        id = document.getString("ID");
+                        userName = document.getString("FullName");
+                        otherUserToken = document.getString("fcmToken");
                         // You can retrieve other user data here
+                        receiverName.setText(userName);
                     }
                 } else {
                     Log.d("TAG", "Error getting documents: ", task.getException());
                 }
             }
         });
+
 
         btnSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,15 +126,74 @@ public class ChatToChatActivity extends AppCompatActivity {
                     Toast.makeText(ChatToChatActivity.this, "Cant send empty message", Toast.LENGTH_SHORT).show();
                 }else{
                     sendMessage(message);
+                    sendNotification(message);
                 }
             }
         });
-
         readMessage();
-
         seenMessage();
 
 
+    }
+    private void sendNotification(String message){
+        CollectionReference usersRef = db.collection("User");
+        Query query = usersRef.whereEqualTo("ID", currentUserId);
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String currentId = document.getString("ID");
+                        String currentUserName = document.getString("FullName");
+                        try {
+                            JSONObject jsonObject = new JSONObject();
+
+                            JSONObject notificationObj = new JSONObject();
+                            notificationObj.put("title", currentUserName);
+                            notificationObj.put("body", message);
+
+                            JSONObject dataObj = new JSONObject();
+                            dataObj.put("userId", currentId);
+
+                            jsonObject.put("notification", notificationObj);
+                            jsonObject.put("data", dataObj);
+                            jsonObject.put("to", otherUserToken);
+
+                            callApi(jsonObject);
+
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                } else {
+                    Log.d("TAG", "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    private void callApi(JSONObject jsonObject){
+        MediaType JSON = MediaType.get("application/json");
+
+        OkHttpClient client = new OkHttpClient();
+        String url = "https://fcm.googleapis.com/fcm/send";
+        RequestBody body = RequestBody.create(jsonObject.toString(),JSON);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .header("Authorization", "Bearer AAAAPFxchkg:APA91bFEUdq2umjc1q0KnG2sVE_PWICJbb3YR19u7F3yfgNKtz1u3zVj0-cmxSmv5FQcW2HmqqTt5Yondql3BdXZNhgxRVc1RBBneSk9YBKdRMJTMNA9Hqkbt0twKm_DOwH2lL3wvRy0")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+
+            }
+        });
     }
 
     private void seenMessage() {
