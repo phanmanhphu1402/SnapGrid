@@ -51,6 +51,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.security.MessageDigest;
@@ -75,12 +77,35 @@ public class Login extends AppCompatActivity {
 
     CallbackManager mCallbackManager;
     LoginButton loginButton;
+    private FirebaseFirestore db;
 
     @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        System.out.println("Login go first");
+        db = FirebaseFirestore.getInstance();
+        CollectionReference usersRef = db.collection("User");
+
+        if (getIntent().getExtras()!=null){
+            String userId = getIntent().getExtras().getString("userId");
+            System.out.println("It fucking Work");
+            usersRef.document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@androidx.annotation.NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        Intent intent = new Intent(Login.this, ChatToChatActivity.class);
+                        intent.putExtra("hisName", "Tang Thuy");
+                        intent.putExtra("hisUid", userId);
+                        intent.putExtra("hisImage", userId);
+                        startActivity(intent);
+                    }
+                }
+            });
+        }else{
+
+        }
         updateUI(currentUser);
     }
 
