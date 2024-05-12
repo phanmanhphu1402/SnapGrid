@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.android.snapgrid.adapters.ChatMessageAdapter;
 import com.android.snapgrid.adapters.ChatUserAdapter;
+import com.android.snapgrid.service.APIService;
+import com.android.snapgrid.service.RetrofitClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,6 +39,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.android.snapgrid.models.Message;
 
@@ -50,6 +54,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
+
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChatToChatActivity extends AppCompatActivity {
     TextView receiverName;
@@ -125,12 +133,14 @@ public class ChatToChatActivity extends AppCompatActivity {
                 if(TextUtils.isEmpty(message)){
                     Toast.makeText(ChatToChatActivity.this, "Cant send empty message", Toast.LENGTH_SHORT).show();
                 }else{
-                    sendMessage(message);
+//                    sendMessage(message);
+                    sendMessageRetrofit(message);
                     sendNotification(message);
                 }
             }
         });
-        readMessage();
+        callApiGetListMessage();
+//        readMessage();
         seenMessage();
 
 
@@ -268,11 +278,88 @@ public class ChatToChatActivity extends AppCompatActivity {
         hashMap.put("isSeen", false);
         databaseReference.child("Chats").push().setValue(hashMap);
         editMessage.setText("");
+        callApiGetListMessage();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         userRefForSeen.removeEventListener(seenListener);
+    }
+
+    private void callApiGetListMessage(){
+        messageList = new ArrayList<>();
+
+
+        // Create service
+        APIService service = RetrofitClient.getClient().create(APIService.class);
+
+        // Call API to fetch list of users
+        retrofit2.Call<Map<String, Message>> call = service.getMessages();
+        call.enqueue(new retrofit2.Callback<Map<String, Message>>() {
+            @Override
+            public void onResponse(retrofit2.Call<Map<String, Message>> call, retrofit2.Response<Map<String, Message>> response) {
+                if (response.isSuccessful()) {
+                    messageList.clear();
+                    Map<String, Message> messageMap = response.body();
+                    List<Message> messages = new ArrayList<>(messageMap.values());
+                    // Handle list of users
+                    for (Message message : messages) {
+                        if(message.getReceiver().equals(currentUserId) && message.getSender().equals(id) ||
+                                message.getReceiver().equals(id) && message.getSender().equals(currentUserId)){
+                            messageList.add(message);
+                        }
+                        chatMessageAdapter = new ChatMessageAdapter(ChatToChatActivity.this, messageList, image);
+                        chatMessageAdapter.notifyDataSetChanged();
+                        recyclerView.setAdapter(chatMessageAdapter);
+                    }
+
+                } else {
+                    // Handle error
+                    System.out.println("Active: Call onResponse");
+                    Log.e("PostData", "Error: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<Map<String, Message>> call, Throwable t) {
+                // Handle failure
+                System.out.println("Active: Call Onfail");
+                Log.e("PostData", "Failure: " + t.getMessage());
+            }
+        });
+    }
+
+    private void sendMessageRetrofit(String message){
+        String timeSend = String.valueOf(System.currentTimeMillis());
+        Message messageObj = new Message();
+        messageObj.setMessage(message);
+        messageObj.setSeen(false);
+        messageObj.setReceiver(id);
+        messageObj.setTime(timeSend);
+        messageObj.setSender(currentUserId);
+        editMessage.setText("");
+        // Create service
+        APIService service = RetrofitClient.getClient().create(APIService.class);
+
+        // Call API to fetch list of users
+        retrofit2.Call<Void> call = service.createMessage(messageObj);
+        call.enqueue(new retrofit2.Callback<Void>() {
+            @Override
+            public void onResponse(retrofit2.Call<Void> call, retrofit2.Response<Void> response) {
+                if(response.isSuccessful()){
+                    System.out.println("Active: Successs");
+                    callApiGetListMessage();
+
+                }else{
+                    Log.e("PostData", "Error: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<Void> call, Throwable throwable) {
+                Log.e("PostFailureData", "Failure: " + throwable.getMessage());
+            }
+        });
     }
 }
