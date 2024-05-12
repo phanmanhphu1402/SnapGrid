@@ -67,7 +67,7 @@ public class Login extends AppCompatActivity {
 
     //Button startButton;
     ImageView startButton;
-    TextView SignUpText;
+    TextView SignUpText, ForgotPassword;
     EditText editTextEmail, editTextPassword;
     FirebaseAuth mAuth;
     FirebaseDatabase database;
@@ -200,6 +200,16 @@ public class Login extends AppCompatActivity {
                 finish();
             }
         });
+        ForgotPassword = findViewById(R.id.textForgotPassword);
+        ForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Login.this, Forgot_Password.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
     }
     private void updateUI(FirebaseUser user) {
         if(user !=null){

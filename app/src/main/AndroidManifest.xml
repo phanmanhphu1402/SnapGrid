@@ -9,11 +9,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    
-
 
     <application
         android:allowBackup="true"
@@ -25,22 +23,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SnapGrid"
         tools:targetApi="31">
-        <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/logo"/>
+        <activity
+            android:name=".Forgot_Password"
+            android:exported="false" />
 
-        <meta-data android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/primary_color"/>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/logo" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/primary_color" />
+
         <provider
-            android:authorities="com.android.snapgrid"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="com.android.snapgrid"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/paths"/>
-        </provider>
-
-        <!-- <activity -->
+                android:resource="@xml/paths" />
+        </provider> <!-- <activity -->
         <!-- android:name=".ShipDataActivity" -->
         <!-- android:exported="false" /> -->
         <activity
@@ -75,16 +77,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".SignUpActivity"
-            android:exported="true">
-        </activity>
-
-
-
-
-
+            android:exported="true"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="false" />
@@ -115,10 +110,12 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <service android:name=".service.FCMNotificationService"
+
+        <service
+            android:name=".service.FCMNotificationService"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
@@ -126,6 +123,5 @@
             android:name="com.facebook.sdk.ClientToken"
             android:value="@string/facebook_client_token" />
     </application>
-
 
 </manifest>
