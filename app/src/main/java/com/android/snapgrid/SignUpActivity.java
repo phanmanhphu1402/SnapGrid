@@ -40,7 +40,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SignUpActivity extends AppCompatActivity {
+public class    SignUpActivity extends AppCompatActivity {
     private EditText edtFullName, edtEmail, edtPassword;
     private TextView LoginBtn;
     private ImageView signUpButton; // Tham chiếu đến ImageView mũi tên
