@@ -1,6 +1,7 @@
 package com.android.snapgrid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -22,11 +23,20 @@ public class Activity_Splash extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        // Kiểm tra trạng thái trong SharedPreferences
+        SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        boolean isFirstRun = prefs.getBoolean("isFirstRun", true);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(Activity_Splash.this, NavigationActivity.class));
-                finish();
+                if (isFirstRun){
+                    startActivity(new Intent(Activity_Splash.this, NavigationActivity.class));
+                    finish();
+                }else{
+                    startActivity(new Intent(Activity_Splash.this, MainActivity.class));
+                    finish();
+                }
             }
         },2000);
     }

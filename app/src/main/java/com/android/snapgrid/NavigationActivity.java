@@ -1,6 +1,7 @@
 package com.android.snapgrid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -64,6 +65,11 @@ public class NavigationActivity extends AppCompatActivity {
                 if (getItem(0) < 3)
                     slideViewPager.setCurrentItem(getItem(1), true);
                 else {
+                    SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putBoolean("isFirstRun", false);
+                    editor.apply();
+
                     Intent i = new Intent(NavigationActivity.this, Login.class);
                     startActivity(i);
                     finish();
@@ -73,6 +79,11 @@ public class NavigationActivity extends AppCompatActivity {
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("isFirstRun", false);
+                editor.apply();
+
                 Intent i = new Intent(NavigationActivity.this, Login.class);
                 startActivity(i);
                 finish();
@@ -81,6 +92,11 @@ public class NavigationActivity extends AppCompatActivity {
         LoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("isFirstRun", false);
+                editor.apply();
+
                 Intent i = new Intent(NavigationActivity.this, Login.class);
                 startActivity(i);
                 finish();

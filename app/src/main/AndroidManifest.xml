@@ -69,7 +69,7 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".Activity_Splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -87,7 +87,7 @@
             android:name=".NavigationActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity_Splash"
+            android:name=".Login"
             android:exported="false" />
 
         <meta-data
