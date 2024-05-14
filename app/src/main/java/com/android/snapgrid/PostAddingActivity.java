@@ -14,6 +14,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 
 import com.android.snapgrid.databinding.ActivityMainBinding;
 import com.android.snapgrid.fragments.AddPostFragment;
+import com.android.snapgrid.fragments.LoadingFragment;
 import com.android.snapgrid.models.Comments;
 import com.android.snapgrid.models.Post;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -58,6 +60,7 @@ public class PostAddingActivity extends AppCompatActivity {
             "Hỗn loạn", "Sắc màu", "Cảm hứng",
             "Giấc mơ", "Game", "Thực tế",
             "Thiên nhiên", "Đời thường", "Học đường"};
+    private LoadingFragment loadingFragment;
     AutoCompleteTextView autoCompleteTxt;
     ArrayAdapter<String> adapterItems;
     ShapeableImageView btnDelete;
@@ -190,6 +193,7 @@ public class PostAddingActivity extends AppCompatActivity {
     }
 
     private void uploadToFireBase(Uri uri) {
+        showLoading();
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -213,17 +217,33 @@ public class PostAddingActivity extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         String key = databaseReference.push().getKey();
                         Post post = new Post(key, userPostId, content, formattedDate, 0,commentsArrayList.size(), commentsArrayList,uri.toString(), title, tag);
-
                         databaseReference.child(key).setValue(post);
+                        hideLoading();
                         Toast.makeText(PostAddingActivity.this,"Uploaded",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(PostAddingActivity.this,MainActivity.class);
                         startActivity(intent);
+                        finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        hideLoading();
+                        Toast.makeText(PostAddingActivity.this, "Failed to upload file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
     }
-
+    private void showLoading() {
+        loadingFragment = new LoadingFragment();
+        loadingFragment.show(getSupportFragmentManager(), "loading");
+    }
+    private void hideLoading() {
+        if (loadingFragment != null) {
+            loadingFragment.dismiss();
+            loadingFragment = null;
+        }
+    }
     private String getFileExtension(Uri uri){
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
