@@ -17,14 +17,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
             android:id="@+id/imageView2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:scaleType="fitXY"
             android:layout_above="@+id/constraintLayout"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:scaleType="fitStart"
             app:srcCompat="@drawable/top_background1" />
 
         <TextView
