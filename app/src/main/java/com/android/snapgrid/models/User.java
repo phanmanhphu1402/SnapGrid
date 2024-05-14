@@ -31,7 +31,9 @@ public class User {
 
     }
 
-    public User(String id, String name, String email, String password, String avatar, String dataJoin, ArrayList followers, ArrayList followings, String description, String fcmToken) {
+    public User(String id, String name, String email,
+                String password, String avatar, String dataJoin,
+                ArrayList followers, ArrayList followings, String description, String fcmToken) {
         this.id = id;
         this.name = name;
         this.email = email;

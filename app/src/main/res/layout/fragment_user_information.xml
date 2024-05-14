@@ -49,6 +49,8 @@
                     android:id="@+id/userAvatar"
                     android:layout_width="160dp"
                     android:layout_height="160dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/cuptoast"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

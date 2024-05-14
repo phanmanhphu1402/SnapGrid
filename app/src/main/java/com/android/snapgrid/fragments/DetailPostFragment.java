@@ -3,6 +3,7 @@ package com.android.snapgrid.fragments;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -42,6 +43,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -66,26 +68,29 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 
 
 public class DetailPostFragment extends Fragment {
     ImageView imageDetail, imgProfile;
-    TextView detailPostTitle, detailPostContent, txtNameProfile;
+    TextView detailPostTitle, detailPostContent, txtNameProfile, txtFollowerCount, txtCommentCount, txtComment;
     // Firebase reference
     DatabaseReference mDatabase;
+    DatabaseReference PostDatabase = FirebaseDatabase.getInstance().getReference().child("Posts");;
     // Firebase user
-    private FirebaseUser currentUser;
+    private FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();;
     ImageButton btnEditPost, savePostBtn;
     DialogFragment dialog;
     FirebaseAuth mAuth;
     FirebaseDatabase database;
+    String currentUserId = currentUser.getUid();
     Button btnFollow, btnShare;
     ImageButton btnClose;
 
     String currentUserImage, currentUserName;
-    private FirebaseFirestore db;
 
     private FirebaseFirestore store;
 
@@ -98,8 +103,8 @@ public class DetailPostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_detail_post, container, false);
         mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        String currentUserId = currentUser.getUid();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         Bundle bundle = getArguments();
         String image = bundle.getString("dataImage");
         String title = bundle.getString("dataTitle");
@@ -109,13 +114,24 @@ public class DetailPostFragment extends Fragment {
         String idUser = bundle.getString("dataIdUser");
         Bundle result = new Bundle();
         btnEditPost = rootview.findViewById(R.id.btnEditPost);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        store = FirebaseFirestore.getInstance();
-        EditText commentEdt = rootview.findViewById(R.id.editTextText);
-        db = FirebaseFirestore.getInstance();
-
+        txtFollowerCount = rootview.findViewById(R.id.followerCountText);
+        imageDetail = rootview.findViewById(R.id.detailImage);
+        detailPostTitle = rootview.findViewById(R.id.detailPostTitle);
+        detailPostContent = rootview.findViewById(R.id.detailPostContent);// Khởi tạo Firebase
+        btnFollow = rootview.findViewById(R.id.buttonFollow);
+        btnShare = rootview.findViewById(R.id.btnShare);
+        imgProfile = rootview.findViewById(R.id.imageViewAvatar);
+        txtNameProfile = rootview.findViewById(R.id.textViewNameProfile);
+        savePostBtn = rootview.findViewById(R.id.savePostBtn);
+        txtCommentCount = rootview.findViewById(R.id.txtCommentCount);
+        txtComment = rootview.findViewById(R.id.comment);
+        if(currentUserId.equals(idUser)){
+            btnFollow.setVisibility(View.GONE);
+        }
 
         checkFL(currentUserId, idUser);
+        System.out.println(currentUserId);
+        System.out.println(idUser);
         btnEditPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,15 +146,39 @@ public class DetailPostFragment extends Fragment {
                 customDialogFragment.setArguments(result);
             }
         });
-        imageDetail = rootview.findViewById(R.id.detailImage);
-        detailPostTitle = rootview.findViewById(R.id.detailPostTitle);
-        detailPostContent = rootview.findViewById(R.id.detailPostContent);// Khởi tạo Firebase
-        btnFollow = rootview.findViewById(R.id.buttonFollow);
-        btnShare = rootview.findViewById(R.id.btnShare);
-        imgProfile = rootview.findViewById(R.id.imageViewAvatar);
-        txtNameProfile = rootview.findViewById(R.id.textViewNameProfile);
-        savePostBtn = rootview.findViewById(R.id.savePostBtn);
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+
+        PostDatabase.child(idPost).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    int numberComment = 0;
+                    String postTitle = dataSnapshot.child("title").getValue(String.class);
+                    String content = dataSnapshot.child("content").getValue(String.class);
+                    String imageUrl = dataSnapshot.child("imageUrl").getValue(String.class);
+                    String datePost = dataSnapshot.child("datePost").getValue(String.class);
+                    int numberLike = dataSnapshot.child("numberLike").getValue(Integer.class);
+                    String tag = dataSnapshot.child("tag").getValue(String.class);
+                    Map<String, Object> comments = (Map<String, Object>) dataSnapshot.child("Comments").getValue();
+                    if(comments==null){
+                        numberComment = 0;
+                    }else{
+                        numberComment = comments.size();
+                    }
+
+                    detailPostTitle.setText(postTitle);
+                    detailPostContent.setText(content);
+                    txtCommentCount.setText(numberComment+"");
+                    Picasso.get().load(imageUrl).placeholder(R.drawable.user_default).into(imageDetail);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         if (currentUser == null) {
             // Người dùng chưa đăng nhập, quay về trang đăng nhập hoặc thực hiện hành động phù hợp
@@ -147,18 +187,6 @@ public class DetailPostFragment extends Fragment {
             startActivity(i);
             getActivity().finish(); // Kết thúc Activity chứa Fragment
         }
-
-        if (title != null) {
-            detailPostTitle.setText(title);
-        } else {
-            detailPostTitle.setText("");
-        }
-        if (content != null) {
-            detailPostContent.setText(content);
-        } else {
-            detailPostContent.setText("");
-        }
-        Picasso.get().load(image).placeholder(R.drawable.appa).into(imageDetail);
         RecyclerView recyclerView = rootview.findViewById(R.id.recyclerView);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
@@ -195,36 +223,43 @@ public class DetailPostFragment extends Fragment {
 
             }
         });
-        CollectionReference usersRef = db.collection("User");
-        usersRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        database = FirebaseDatabase.getInstance();
+        DatabaseReference usersRef = database.getReference("Users");
+        usersRef.child(currentUserId).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (DocumentSnapshot document : task.getResult()) {
-                        // Convert each document to a User object
-                        String name = (String) document.get("FullName");
-                        String image = (String) document.get("Avatar");
-                        if(document.get("ID").equals(currentUserId)){
-                            currentUserImage = image;
-                            currentUserName = name;
-                        }
-
-                    }
-                } else {
-                    Log.e("Error", "Error getting documents: ", task.getException());
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    // Convert each document to a User object
+                    String name = (String) dataSnapshot.child("name").getValue(String.class);
+                    String image = (String) dataSnapshot.child("profile").getValue(String.class);
+                    currentUserImage = image;
+                    currentUserName = name;
                 }
             }
         });
 
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(idUser);
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(idUser);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     String userName = dataSnapshot.child("name").getValue(String.class);
                     String userImageUrl = dataSnapshot.child("profile").getValue(String.class);
+                    Map<String, Object> userFollowings = (Map<String, Object>) dataSnapshot.child("followings").getValue();
+                    if(userFollowings==null){
+                        txtFollowerCount.setText(0+" Người theo dõi");
+                    }else{
+                        txtFollowerCount.setText(userFollowings.size()+" Người theo dõi");
+                    }
+
                     txtNameProfile.setText(userName);
-                    Picasso.get().load(userImageUrl).placeholder(R.drawable.appa).into(imgProfile);
+                    if(userImageUrl.isEmpty()){
+                        Drawable drawable = getResources().getDrawable(R.drawable.user_default);
+                        imgProfile.setImageDrawable(drawable);
+                    }else{
+                        Picasso.get().load(userImageUrl).placeholder(R.drawable.appa).into(imgProfile);
+                    }
+
                 }
             }
 
@@ -239,7 +274,8 @@ public class DetailPostFragment extends Fragment {
             public void onClick(View v) {
                 HashMap<String, Boolean> followingsMap = new HashMap<>();
                 followingsMap.put(idUser, true);
-                mDatabase.child("users").child(currentUserId).child("followings").setValue(followingsMap);
+                DatabaseReference usersRef = database.getReference("Users");
+                usersRef.child(currentUserId).child("followings").child(idUser).setValue(followingsMap);
                 followUser(currentUserId, idUser);
             }
         });
@@ -320,7 +356,7 @@ public class DetailPostFragment extends Fragment {
         FirebaseUser finalCurrentUser = currentUser;
         DatabaseReference commentRef = FirebaseDatabase.getInstance().getReference("Posts").child(idPost).child("Comments");
 
-        commentEdt.setOnClickListener(new View.OnClickListener() {
+        txtComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 View postsCommentDialogView = getLayoutInflater().inflate(R.layout.bottom_sheet_dialog_comments, null);
@@ -420,8 +456,9 @@ public class DetailPostFragment extends Fragment {
     }
 
     private void checkFL(String currentUserId, String userId) {
+
         // Kiểm tra xem người dùng hiện tại đã follow người dùng của bài đăng này chưa
-        DatabaseReference followingRef = mDatabase.child("users").child(currentUserId).child("followings").child(userId);
+        DatabaseReference followingRef = mDatabase.child("Users").child(currentUserId).child("followings").child(userId);
         followingRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

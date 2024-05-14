@@ -1,6 +1,7 @@
 package com.android.snapgrid.adapters;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,13 @@ public class ChatUserAdapter extends RecyclerView.Adapter<ChatUserAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Picasso.get().load(users.get(position).getAvatar()).placeholder(R.drawable.appa).into(holder.imageView);
+
+        if(users.get(position).getAvatar().isEmpty()){
+            Drawable drawable = fragment.getContext().getDrawable(R.drawable.user_default);
+            holder.imageView.setImageDrawable(drawable);
+        }else{
+            Picasso.get().load(users.get(position).getAvatar()).placeholder(R.drawable.user_default).into(holder.imageView);
+        }
         String name = users.get(position).getName();
         String id = users.get(position).getId();
         holder.nameView.setText(name);

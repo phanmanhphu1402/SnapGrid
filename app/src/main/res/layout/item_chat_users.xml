@@ -22,12 +22,13 @@
         android:id="@+id/img_avatar_chat"
         android:layout_width="72dp"
         android:layout_height="72dp"
+        android:adjustViewBounds="true"
+        android:backgroundTint="@color/black"
         android:drawablePadding="10dp"
         android:padding="5dp"
+        android:scaleType="centerCrop"
         android:src="@mipmap/ic_chunchun_icon"
-        android:adjustViewBounds="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/circle"
-        android:backgroundTint="@color/black"/>
+        app:shapeAppearanceOverlay="@style/circle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

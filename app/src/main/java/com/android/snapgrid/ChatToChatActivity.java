@@ -93,39 +93,32 @@ public class ChatToChatActivity extends AppCompatActivity {
         btnSendMessage = (android.widget.ImageButton) findViewById(R.id.btnSendMessage);
         editMessage = (EditText) findViewById(R.id.input_chat);
         Intent intent = getIntent();
-//        String name = intent.getStringExtra("hisName");
-//        image = intent.getStringExtra("hisImage");
         id = intent.getStringExtra("hisUid");
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         currentUserId = currentUser.getUid();
-        CollectionReference usersRef = db.collection("User");
-        Query query = usersRef.whereEqualTo("ID", id);
-        recyclerView = findViewById(R.id.recycleMessages);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
 
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        userRef.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        // Handle the found user document
-                        id = document.getString("ID");
-                        userName = document.getString("FullName");
-                        otherUserToken = document.getString("fcmToken");
-                        // You can retrieve other user data here
-                        receiverName.setText(userName);
-                    }
-                } else {
-                    Log.d("TAG", "Error getting documents: ", task.getException());
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    id = dataSnapshot.child("id").getValue(String.class);
+                    userName = dataSnapshot.child("name").getValue(String.class);
+                    otherUserToken = dataSnapshot.child("fcmToken").getValue(String.class);
+                    receiverName.setText(userName);
                 }
             }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
         });
-
-
         btnSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,51 +126,53 @@ public class ChatToChatActivity extends AppCompatActivity {
                 if(TextUtils.isEmpty(message)){
                     Toast.makeText(ChatToChatActivity.this, "Cant send empty message", Toast.LENGTH_SHORT).show();
                 }else{
-//                    sendMessage(message);
                     sendMessageRetrofit(message);
                     sendNotification(message);
                 }
             }
         });
+        recyclerView = findViewById(R.id.recycleMessages);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+
         callApiGetListMessage();
-//        readMessage();
         seenMessage();
 
 
     }
     private void sendNotification(String message){
-        CollectionReference usersRef = db.collection("User");
-        Query query = usersRef.whereEqualTo("ID", currentUserId);
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        userRef.child(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        String currentId = document.getString("ID");
-                        String currentUserName = document.getString("FullName");
-                        try {
-                            JSONObject jsonObject = new JSONObject();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    String currentId = dataSnapshot.child("id").getValue(String.class);
+                    String currentUserName = dataSnapshot.child("name").getValue(String.class);
+                    try {
+                        JSONObject jsonObject = new JSONObject();
 
-                            JSONObject notificationObj = new JSONObject();
-                            notificationObj.put("title", currentUserName);
-                            notificationObj.put("body", message);
+                        JSONObject notificationObj = new JSONObject();
+                        notificationObj.put("title", currentUserName);
+                        notificationObj.put("body", message);
 
-                            JSONObject dataObj = new JSONObject();
-                            dataObj.put("userId", currentId);
+                        JSONObject dataObj = new JSONObject();
+                        dataObj.put("userId", currentId);
 
-                            jsonObject.put("notification", notificationObj);
-                            jsonObject.put("data", dataObj);
-                            jsonObject.put("to", otherUserToken);
+                        jsonObject.put("notification", notificationObj);
+                        jsonObject.put("data", dataObj);
+                        jsonObject.put("to", otherUserToken);
 
-                            callApi(jsonObject);
+                        callApi(jsonObject);
 
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
                     }
-                } else {
-                    Log.d("TAG", "Error getting documents: ", task.getException());
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
@@ -224,6 +219,7 @@ public class ChatToChatActivity extends AppCompatActivity {
                         ds.getRef().updateChildren(hasSeenHashMap);
                     }
                 }
+                callApiGetListMessage();
             }
 
             @Override
@@ -231,54 +227,6 @@ public class ChatToChatActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void readMessage() {
-        messageList = new ArrayList<>();
-        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("Chats");
-        dbref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                messageList.clear();
-                for(DataSnapshot ds: dataSnapshot.getChildren()){
-                    String chat = ds.child("message").getValue().toString();
-                    String sender = ds.child("sender").getValue().toString();
-                    String receiver = ds.child("receiver").getValue().toString();
-                    Boolean isSeen = (Boolean)ds.child("isSeen").getValue();
-                    String time =  ds.child("time").getValue().toString();
-                    System.out.println(time);
-                    Message message = new Message(chat, sender, receiver, time, isSeen);
-                    if(message.getReceiver().equals(currentUserId) && message.getSender().equals(id) ||
-                            message.getReceiver().equals(id) && message.getSender().equals(currentUserId)){
-                        messageList.add(message);
-                    }
-
-                    chatMessageAdapter = new ChatMessageAdapter(ChatToChatActivity.this, messageList, image);
-                    chatMessageAdapter.notifyDataSetChanged();
-                    recyclerView.setAdapter(chatMessageAdapter);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void sendMessage(String message) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-
-        String timeSend = String.valueOf(System.currentTimeMillis());
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("sender", currentUserId);
-        hashMap.put("receiver", id);
-        hashMap.put("message", message);
-        hashMap.put("time", timeSend);
-        hashMap.put("isSeen", false);
-        databaseReference.child("Chats").push().setValue(hashMap);
-        editMessage.setText("");
-        callApiGetListMessage();
     }
 
     @Override
@@ -302,17 +250,21 @@ public class ChatToChatActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     messageList.clear();
                     Map<String, Message> messageMap = response.body();
-                    List<Message> messages = new ArrayList<>(messageMap.values());
-                    // Handle list of users
-                    for (Message message : messages) {
-                        if(message.getReceiver().equals(currentUserId) && message.getSender().equals(id) ||
-                                message.getReceiver().equals(id) && message.getSender().equals(currentUserId)){
-                            messageList.add(message);
+                    if(messageMap != null){
+                        List<Message> messages = new ArrayList<>(messageMap.values());
+                        // Handle list of users
+                        for (Message message : messages) {
+                            if(message.getReceiver().equals(currentUserId) && message.getSender().equals(id) ||
+                                    message.getReceiver().equals(id) && message.getSender().equals(currentUserId)){
+                                messageList.add(message);
+                            }
+
                         }
                         chatMessageAdapter = new ChatMessageAdapter(ChatToChatActivity.this, messageList, image);
                         chatMessageAdapter.notifyDataSetChanged();
                         recyclerView.setAdapter(chatMessageAdapter);
                     }
+
 
                 } else {
                     // Handle error

@@ -24,6 +24,9 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.android.snapgrid.models.Comments;
+import com.android.snapgrid.models.User;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
@@ -43,6 +46,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -50,10 +55,15 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -65,19 +75,15 @@ import java.util.Map;
 
 public class Login extends AppCompatActivity {
 
-    //Button startButton;
     ImageView startButton;
     TextView SignUpText, ForgotPassword;
     EditText editTextEmail, editTextPassword;
-    FirebaseAuth mAuth;
-    FirebaseDatabase database;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
     GoogleSignInClient mGoogSignClient;
     AppCompatButton btnGoogle, btnFacebook;
     int RC_SIGN_IN = 20;
-
-    CallbackManager mCallbackManager;
-    LoginButton loginButton;
-    private FirebaseFirestore db;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference usersRef = database.getReference("Users");
 
     @Override
     public void onStart() {
@@ -85,22 +91,18 @@ public class Login extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         System.out.println("Login go first");
-        db = FirebaseFirestore.getInstance();
-        CollectionReference usersRef = db.collection("User");
 
         if (getIntent().getExtras()!=null){
             String userId = getIntent().getExtras().getString("userId");
             System.out.println("It fucking Work");
-            usersRef.document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            usersRef.child(userId).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                 @Override
-                public void onComplete(@androidx.annotation.NonNull Task<DocumentSnapshot> task) {
-                    if(task.isSuccessful()){
-                        Intent intent = new Intent(Login.this, ChatToChatActivity.class);
-                        intent.putExtra("hisName", "Tang Thuy");
-                        intent.putExtra("hisUid", userId);
-                        intent.putExtra("hisImage", userId);
-                        startActivity(intent);
-                    }
+                public void onSuccess(DataSnapshot dataSnapshot) {
+                    Intent intent = new Intent(Login.this, ChatToChatActivity.class);
+                    intent.putExtra("hisName", "Tang Thuy");
+                    intent.putExtra("hisUid", userId);
+                    intent.putExtra("hisImage", userId);
+                    startActivity(intent);
                 }
             });
         }else{
@@ -120,9 +122,6 @@ public class Login extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -161,28 +160,12 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
-                                    FirebaseUser user = mAuth.getCurrentUser();
-
-                                    HashMap<String, Object> map = new HashMap<>();
-                                    HashMap<String, Boolean> followingsMap = new HashMap<>();
-                                    followingsMap.put("friendId1", true);
-                                    map.put("id",user.getUid());
-                                    map.put("name",user.getDisplayName());
-                                    try {
-                                        map.put("profile",user.getPhotoUrl().toString());
-                                    }catch (Exception e){
-                                        e.printStackTrace();
-                                    }
-                                    map.put("followings",followingsMap);
-                                    map.put("email",user.getEmail());
-                                    database.getReference().child("users").child(user.getUid()).setValue(map);
+                                    Toast.makeText(Login.this, "Login success.",
+                                            Toast.LENGTH_SHORT).show();
                                     Intent i = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(i);
                                     finish();
-                                    finish();
                                 } else {
-
                                     Toast.makeText(Login.this, "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
                                 }
@@ -240,39 +223,69 @@ public class Login extends AppCompatActivity {
     }
 
     private void fireBaseAuth(String idToken) {
+        ArrayList<Comments> newArray = new ArrayList<>();
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@androidx.annotation.NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            ArrayList<String> followingList = new ArrayList<String>();
-                            ArrayList<String> followerList = new ArrayList<String>();
-                            LocalDate currentDate = LocalDate.now();
-                            FirebaseUser currentUser = mAuth.getCurrentUser();
+                            FirebaseUser user = task.getResult().getUser();
+                            String currentUserID = user.getUid();
+                            usersRef.child(currentUserID).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@androidx.annotation.NonNull DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()){
+                                        Toast.makeText(Login.this, "Login Success", Toast.LENGTH_SHORT).show();
+                                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(i);
+                                        finish();
+                                    }else{
 
-                            FirebaseFirestore db = FirebaseFirestore.getInstance();
-                            Map<String, Object> user = new HashMap<>();
-                            user.put("FullName", currentUser.getDisplayName());
-                            user.put("Email", currentUser.getEmail());
-                            user.put("ID", currentUser.getUid()); // UID từ Firebase Auth được lưu như là ID trong document
-                            user.put("Followers", followerList);
-                            user.put("Followings", followingList);
-                            user.put("Avatar", currentUser.getPhotoUrl().toString());
-                            user.put("Decription", "");
-                            user.put("DateJoin", currentDate);
-                            // Không nên lưu mật khẩu. Bỏ dòng này:
-                            user.put("Password", "Gmail");
+                                        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                                            @Override
+                                            public void onComplete(@androidx.annotation.NonNull Task<String> task) {
+                                                String fcmToken = task.getResult();
+                                                Map<String, Object> userRealtime = new HashMap<>();
+                                                userRealtime.put("email", user.getEmail());
+                                                userRealtime.put("id", user.getUid());
+                                                userRealtime.put("name", user.getDisplayName());
+                                                userRealtime.put("password", "*******");
+                                                userRealtime.put("followings", newArray);
+                                                userRealtime.put("profile", user.getPhotoUrl().toString());
+                                                userRealtime.put("description", "");
+                                                userRealtime.put("fcmToken", fcmToken);
+                                                usersRef.child(currentUserID).setValue(userRealtime)
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                Toast.makeText(Login.this, "User information saved to Realtime Database.", Toast.LENGTH_SHORT).show();
+                                                                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                                                startActivity(i);
+                                                                finish();
+                                                            }
+                                                        })
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Toast.makeText(Login.this, "Error saving user information to Realtime Database.", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                            }
+                                        });
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@androidx.annotation.NonNull DatabaseError databaseError) {
 
-                            // Lưu thông tin người dùng vào Firestore
-                            db.collection("User").document(currentUser.getUid()).set(user);
-                            Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(i);
-                            finish();
+                                }
+                            });
+
                         }else{
                             Toast.makeText(Login.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+
     }
 }

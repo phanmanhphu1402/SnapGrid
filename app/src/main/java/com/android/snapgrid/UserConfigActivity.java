@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -68,8 +69,12 @@ public class UserConfigActivity extends AppCompatActivity {
     private EditText editDescriptionInput;
 
     private  // Init database
-    DatabaseReference userRef;
 
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser currentUser = mAuth.getCurrentUser();
+    String currentUserId = currentUser.getUid();
+
+    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
 
     private final static int SELECT_PICTURE = 11;
     private final static int CAPTURE_PICTURE = 12;
@@ -88,6 +93,33 @@ public class UserConfigActivity extends AppCompatActivity {
         editDescriptionInput = findViewById(R.id.edit_description_input);
         backBtn.setOnClickListener(v -> {
             finish();
+        });
+
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String userName = dataSnapshot.child("name").getValue(String.class);
+                    String userImageUrl = dataSnapshot.child("profile").getValue(String.class);
+                    String userDescription = dataSnapshot.child("description").getValue(String.class);
+                    editFullNameInput.setText(userName);
+                    editDescriptionInput.setText(userDescription);
+                    if(userImageUrl.isEmpty()){
+                        Drawable drawable = getResources().getDrawable(R.drawable.user_default);
+                        avatarImageView.setImageDrawable(drawable);
+                    }else{
+                        Picasso.get().load(userImageUrl).placeholder(R.drawable.user_default).into(avatarImageView);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Xử lý lỗi nếu có
+                Log.e("FirebaseError", "Error fetching user data: " + databaseError.getMessage());
+            }
         });
         // Current user
         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -111,7 +143,7 @@ public class UserConfigActivity extends AppCompatActivity {
                 userUpdates.put("description", editDescriptionInput.getText().toString());
                 editFullNameInput.setInputType(InputType.TYPE_NULL);
                 editDescriptionInput.setInputType(InputType.TYPE_NULL);
-                userRef.child(Objects.requireNonNull(fUser).getUid()).updateChildren(userUpdates, new DatabaseReference.CompletionListener() {
+                userRef.updateChildren(userUpdates, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                         // Toast notify when complete
@@ -233,7 +265,7 @@ public class UserConfigActivity extends AppCompatActivity {
 
                             Map<String, Object> userUpdateProfile = new HashMap<>();
                             userUpdateProfile.put("profile", uri.toString());
-                            userRef.child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).updateChildren(userUpdateProfile, new DatabaseReference.CompletionListener() {
+                            userRef.updateChildren(userUpdateProfile, new DatabaseReference.CompletionListener() {
                                 @Override
                                 public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                                     // Toast notify when complete

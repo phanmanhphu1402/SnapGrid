@@ -4,6 +4,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import android.widget.ListView;
 
 import com.android.snapgrid.R;
 import com.android.snapgrid.adapters.FollowingUserAdapter;
+import com.android.snapgrid.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,18 +38,19 @@ public class ListFollowFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_listfollow, container, false);
-        ListView listView = rootview.findViewById(R.id.listView_followings);
 
-        ArrayList<String> followingUserIds = new ArrayList<>();
-        FollowingUserAdapter adapter = new FollowingUserAdapter(requireContext(), followingUserIds);
-        listView.setAdapter(adapter);
+        ArrayList<User> listUser = new ArrayList<>();
+        RecyclerView recyclerView = rootview.findViewById(R.id.listFollowUser);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(3, LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(staggeredGridLayoutManager);
+
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String currentUserId = currentUser.getUid();
-        DatabaseReference followingRef = mDatabase.child("users").child(currentUserId).child("followings");
-        followingRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference followingRef = mDatabase.child("Users").child(currentUserId).child("followings");
+        followingRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -54,9 +59,34 @@ public class ListFollowFragment extends Fragment {
                         String followedUserId = snapshot.getKey(); // Lấy key của mỗi child là userId của người đang được theo dõi
                         Log.d("FollowingUser", "Following user ID: " + followedUserId);
                         // displayFollowingUserInfo(followedUserId);
-                        followingUserIds.add(followedUserId);
+                        DatabaseReference userRef = mDatabase.child("Users").child(followedUserId);
+                        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()){
+                                    String name = dataSnapshot.child("name").getValue(String.class);
+                                    String id = dataSnapshot.child("id").getValue(String.class);
+                                    String imageUrl = dataSnapshot.child("profile").getValue(String.class);
+                                    User user = new User();
+                                    user.setName(name);
+                                    user.setId(id);
+                                    user.setAvatar(imageUrl);
+                                    listUser.add(user);
+                                    FollowingUserAdapter adapter = new FollowingUserAdapter(getContext(), listUser);
+                                    adapter.notifyDataSetChanged();
+                                    recyclerView.setAdapter(adapter);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+//                        followingUserIds.add(followedUserId);
                     }
-                    adapter.notifyDataSetChanged();
+
+
                 } else {
                     Log.d("FollowingList", "No following users.");
                 }
@@ -67,6 +97,8 @@ public class ListFollowFragment extends Fragment {
                 Log.e("FetchFollowingError", "Error fetching following users: " + databaseError.getMessage());
             }
         });
+
+
         return rootview;
     }
 }

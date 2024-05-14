@@ -2,6 +2,7 @@ package com.android.snapgrid.fragments;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -45,9 +46,10 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class UserInformationFragment extends Fragment {
-    TextView userEmail, txtFollow, flclick, username;
+    TextView txtUserEmail, txtFollow, flclick, txtUsername;
     ImageView userAvatar;
     DatabaseReference mDatabase;
     FirebaseAuth mAuth;
@@ -66,18 +68,47 @@ public class UserInformationFragment extends Fragment {
         Button btnConfigInfor = (Button) rootview.findViewById(R.id.btnConfigInfor);
         txtFollow = rootview.findViewById(R.id.txtFollowing);
         flclick = rootview.findViewById(R.id.tvfollow);
-        userEmail = (TextView) rootview.findViewById(R.id.userEmail);
+        txtUserEmail = rootview.findViewById(R.id.userEmail);
         userAvatar = rootview.findViewById(R.id.userAvatar);
-        username = rootview.findViewById(R.id.nameprofile);
+        txtUsername = rootview.findViewById(R.id.nameprofile);
         showPostsSaved = rootview.findViewById(R.id.showPostsSaved);
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String currentUserId = currentUser.getUid();
-
-        Picasso.get().load(currentUser.getPhotoUrl()).placeholder(R.drawable.appa).into(userAvatar);
-        username.setText(currentUser.getDisplayName().toString());
-        userEmail.setText(currentUser.getEmail().toString());
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String userName = dataSnapshot.child("name").getValue(String.class);
+                    String userEmail = dataSnapshot.child("email").getValue(String.class);
+                    String userImageUrl = dataSnapshot.child("profile").getValue(String.class);
+                    Map<String, Object> userFollowings = (Map<String, Object>) dataSnapshot.child("followings").getValue();
+                    if(userFollowings==null){
+                        txtFollow.setText(0+"");
+                    }else{
+                        txtFollow.setText(userFollowings.size()+"");
+                    }
+                    txtUserEmail.setText(userEmail);
+                    txtUsername.setText(userName);
+                    if(userImageUrl.isEmpty()){
+                        Drawable drawable = getResources().getDrawable(R.drawable.user_default);
+                        userAvatar.setImageDrawable(drawable);
+                    }else{
+                        Picasso.get().load(userImageUrl).placeholder(R.drawable.appa).into(userAvatar);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Xử lý lỗi nếu có
+                Log.e("FirebaseError", "Error fetching user data: " + databaseError.getMessage());
+            }
+        });
 
         btnConfigInfor.setOnClickListener(new View.OnClickListener() {
             @Override
