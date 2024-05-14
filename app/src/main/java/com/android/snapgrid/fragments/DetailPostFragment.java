@@ -343,6 +343,7 @@ public class DetailPostFragment extends Fragment {
 
                 BitmapDrawable bitmapDrawable = (BitmapDrawable) imageDetail.getDrawable();
                 if(bitmapDrawable == null){
+                    shareTextOnly(title, content);
 
                 }else{
                     Bitmap bitmap = bitmapDrawable.getBitmap();
@@ -427,6 +428,15 @@ public class DetailPostFragment extends Fragment {
 
     }
 
+    private void shareTextOnly(String title, String content) {
+        String shareBody = title + "\n" + content;
+        Intent sIntent = new Intent(Intent.ACTION_SEND);
+        sIntent.setType("text/plain");
+        sIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject Here");
+        getContext().startActivity(Intent.createChooser(sIntent, "Share Via"));
+
+    }
+
     private void sharePost(String pTitle, String pDescription, Bitmap bitmap){
         String shareBody = pTitle +"\n"+ pDescription;
         Uri uri = saveImageToShare(bitmap);
@@ -448,7 +458,7 @@ public class DetailPostFragment extends Fragment {
             bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
             stream.flush();
             stream.close();
-            uri = FileProvider.getUriForFile(getContext(), "com.android.snapgrid", file);
+            uri = FileProvider.getUriForFile(getContext(), "com.android.snapgrid.fileprovider", file);
         }catch (Exception e){
             Toast.makeText(getContext(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
         }
