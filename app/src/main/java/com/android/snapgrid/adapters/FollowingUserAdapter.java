@@ -14,13 +14,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.snapgrid.ChatToChatActivity;
 import com.android.snapgrid.R;
+import com.android.snapgrid.fragments.ChatUsersFragment;
 import com.android.snapgrid.fragments.CustomDialogFragment;
 import com.android.snapgrid.fragments.DetailPostFragment;
+import com.android.snapgrid.fragments.OtherUserInformationFragment;
 import com.android.snapgrid.models.User;
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -36,8 +39,11 @@ public class FollowingUserAdapter extends RecyclerView.Adapter<FollowingUserAdap
     private Context mContext;
     private ArrayList<User> users;
 
-    public FollowingUserAdapter(Context mContext, ArrayList<User> users) {
+    private static FragmentManager fragmentManager;
+
+    public FollowingUserAdapter(Context mContext, ArrayList<User> users, FragmentManager fragmentManager) {
         this.mContext = mContext;
+        this.fragmentManager = fragmentManager;
         this.users = users;
     }
 
@@ -63,11 +69,14 @@ public class FollowingUserAdapter extends RecyclerView.Adapter<FollowingUserAdap
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, ChatToChatActivity.class);
-                intent.putExtra("hisName", name);
-                intent.putExtra("hisUid", id);
-                intent.putExtra("hisImage", id);
-                mContext.startActivity(intent);
+                OtherUserInformationFragment childFragment = new OtherUserInformationFragment();
+                Bundle result = new Bundle();
+                result.putString("dataIdUser", id);
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                childFragment.setArguments(result);
+                transaction.replace(R.id.frame_layout, childFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
     }

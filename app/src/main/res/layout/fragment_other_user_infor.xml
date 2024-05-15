@@ -12,17 +12,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/btnSetting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#00FFFFFF"
-            android:src="@drawable/baseline_settings_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ScrollView
         android:layout_width="0dp"
@@ -70,10 +60,17 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/userDescription"
+                android:id="@+id/userEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="tangxuanthuy11122002"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/userDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description"
                 android:textAlignment="center" />
 
             <LinearLayout
@@ -118,33 +115,34 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp">
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btnConfigInfor"
+                    android:id="@+id/btnChatToChat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:backgroundTint="@color/button_color"
-                    android:text="Chỉnh sửa hồ sơ"
+                    android:text="Nhắn tin"
+                    android:textAlignment="center"
                     android:textColor="@color/main_text_color"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:textStyle="bold" />
 
-            <Button
-                android:layout_gravity="center"
-                android:id="@+id/btnChatToChat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đã lưu"
-                android:textAlignment="center"
-                android:textStyle="bold" />
+                <Button
+                    android:id="@+id/btnFollow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/primary_color"
+                    android:text="Follow"
+                    android:textAlignment="center"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -167,26 +165,15 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/button12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="@color/button_color"
-                    android:text="Yêu thích"
-                    android:textColor="@color/main_text_color"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextText2" />
-
-                <Button
                     android:id="@+id/button13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
                     android:layout_marginTop="8dp"
                     android:backgroundTint="@color/button_color"
                     android:text="Đã tạo"
                     android:textColor="@color/main_text_color"
-                    app:layout_constraintStart_toEndOf="@+id/button12"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editTextText2" />
 
                 <ImageButton
@@ -216,6 +203,7 @@
                 android:layout_height="800dp"
                 app:layout_constraintTop_toBottomOf="@+id/userName"
                 tools:layout_editor_absoluteX="0dp" />
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

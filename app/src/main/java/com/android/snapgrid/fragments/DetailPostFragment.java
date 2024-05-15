@@ -1,7 +1,9 @@
 package com.android.snapgrid.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -9,9 +11,11 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -28,22 +32,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.snapgrid.ChatToChatActivity;
 import com.android.snapgrid.Login;
 import com.android.snapgrid.R;
-import com.android.snapgrid.adapters.ChatMessageAdapter;
-import com.android.snapgrid.adapters.ChatUserAdapter;
 import com.android.snapgrid.adapters.CommentAdapter;
 import com.android.snapgrid.adapters.MasonryAdapter;
 import com.android.snapgrid.models.Comments;
 import com.android.snapgrid.models.Post;
 import com.android.snapgrid.models.PostSaved;
-import com.android.snapgrid.models.User;
-import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,22 +49,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -82,13 +72,11 @@ public class DetailPostFragment extends Fragment {
     DatabaseReference PostDatabase = FirebaseDatabase.getInstance().getReference().child("Posts");;
     // Firebase user
     private FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();;
-    ImageButton btnEditPost, savePostBtn;
-    DialogFragment dialog;
+    ImageButton btnEditPost;
     FirebaseAuth mAuth;
     FirebaseDatabase database;
     String currentUserId = currentUser.getUid();
-    Button btnFollow, btnShare;
-    ImageButton btnClose;
+    Button btnFollow, btnShare, savePostBtn;
 
     String currentUserImage, currentUserName;
 
@@ -144,6 +132,21 @@ public class DetailPostFragment extends Fragment {
                 result.putString("dataIdPost", idPost);
                 result.putString("dataIdUser", idUser);
                 customDialogFragment.setArguments(result);
+            }
+        });
+
+        imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OtherUserInformationFragment childFragment = new OtherUserInformationFragment();
+                FragmentManager fragmentManager = getParentFragmentManager();
+                Bundle result = new Bundle();
+                result.putString("dataIdUser", idUser);
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                childFragment.setArguments(result);
+                transaction.replace(R.id.frame_layout, childFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
@@ -291,12 +294,18 @@ public class DetailPostFragment extends Fragment {
                 }
                 if (postSaved != null) {
                     if (postSaved.isSaved()) {
-                        savePostBtn.setImageResource(R.drawable.share_yellow_color);
+                        savePostBtn.setText("Saved");
+                        savePostBtn.setTextColor(ContextCompat.getColor(getContext(), R.color.main_text_color));
+                        savePostBtn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.button_color));
                     } else {
-                        savePostBtn.setImageResource(R.drawable.share_black_color);
+                        savePostBtn.setText("Save");
+                        savePostBtn.setTextColor(Color.WHITE);
+                        savePostBtn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.primary_color));
                     }
                 } else {
-                    savePostBtn.setImageResource(R.drawable.share_black_color);
+                    savePostBtn.setText("Save");
+                    savePostBtn.setTextColor(Color.WHITE);
+                    savePostBtn.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.primary_color));
                 }
                 savePostBtn.setClickable(true);
             }
@@ -356,12 +365,13 @@ public class DetailPostFragment extends Fragment {
 
         FirebaseUser finalCurrentUser = currentUser;
         DatabaseReference commentRef = FirebaseDatabase.getInstance().getReference("Posts").child(idPost).child("Comments");
-
+        DatabaseReference PostRef = FirebaseDatabase.getInstance().getReference("Posts").child(idPost);
         txtComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 View postsCommentDialogView = getLayoutInflater().inflate(R.layout.bottom_sheet_dialog_comments, null);
                 Button btnComment = postsCommentDialogView.findViewById(R.id.btnAddComment);
+                TextView txtCountComment = postsCommentDialogView.findViewById(R.id.txtCommentCount);
                 EditText editComment = postsCommentDialogView.findViewById(R.id.editComment);
 
 
@@ -378,6 +388,8 @@ public class DetailPostFragment extends Fragment {
                 postComments.setLayoutManager(new LinearLayoutManager(getContext()));
                 postComments.setHasFixedSize(true);
 //                postComments.setAdapter(new CommentAdapter(commentsArrayList, getActivity().getSupportFragmentManager()));
+
+
                 btnComment.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -391,6 +403,38 @@ public class DetailPostFragment extends Fragment {
                             Comments comment = new Comments(key, currentUserId, commentText, dateComment, currentUserImage, currentUserName);
                             commentRef.child(key).setValue(comment);
                             editComment.setText("");
+
+                            commentRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    int numberComment = 0;
+                                    commentsArrayList = new ArrayList<>();
+                                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                        String idComment = snapshot.getKey().toString();
+                                        String idUser = snapshot.child("idUser").getValue().toString();
+                                        String commentText = snapshot.child("content").getValue().toString();
+                                        String dateComment = snapshot.child("dateComment").getValue().toString();
+                                        String imageUser = snapshot.child("imageUser").getValue().toString();
+                                        String nameUser = snapshot.child("nameUser").getValue().toString();
+                                        Comments comment = new Comments(idComment, idUser, commentText, dateComment, imageUser, nameUser);
+                                        commentsArrayList.add(comment);
+
+                                        commentAdapter = new CommentAdapter(commentsArrayList, getActivity().getSupportFragmentManager());
+                                        commentAdapter.notifyDataSetChanged();
+                                        postComments.setAdapter(commentAdapter);
+                                        numberComment++;
+                                        txtCommentCount.setText(numberComment+"");
+                                        txtCountComment.setText(numberComment+"");
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
                         }
                     }
                 });
@@ -398,6 +442,7 @@ public class DetailPostFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         commentsArrayList = new ArrayList<>();
+                        int numberComment = 0;
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             String idComment = snapshot.getKey().toString();
                             String idUser = snapshot.child("idUser").getValue().toString();
@@ -410,6 +455,9 @@ public class DetailPostFragment extends Fragment {
                             commentAdapter = new CommentAdapter(commentsArrayList, getActivity().getSupportFragmentManager());
                             commentAdapter.notifyDataSetChanged();
                             postComments.setAdapter(commentAdapter);
+                            numberComment++;
+                            txtCommentCount.setText(numberComment+"");
+                            txtCountComment.setText(numberComment+"");
                         }
 
                     }
@@ -492,7 +540,7 @@ public class DetailPostFragment extends Fragment {
 
     private void followUser(String userId, String friendId) {
         // Cập nhật data cho người dùng hiện tại
-        mDatabase.child("users").child(userId).child("followings").child(friendId).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+        mDatabase.child("Users").child(userId).child("followings").child(friendId).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 // Cập nhật thành công

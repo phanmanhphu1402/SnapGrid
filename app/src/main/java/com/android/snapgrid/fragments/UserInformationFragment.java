@@ -18,14 +18,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.snapgrid.MainActivity;
 import com.android.snapgrid.R;
 import com.android.snapgrid.SettingActivity;
 import com.android.snapgrid.UserConfigActivity;
@@ -44,7 +41,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -68,10 +64,10 @@ public class UserInformationFragment extends Fragment {
         Button btnConfigInfor = (Button) rootview.findViewById(R.id.btnConfigInfor);
         txtFollow = rootview.findViewById(R.id.txtFollowing);
         flclick = rootview.findViewById(R.id.tvfollow);
-        txtUserEmail = rootview.findViewById(R.id.userEmail);
+        txtUserEmail = rootview.findViewById(R.id.userDescription);
         userAvatar = rootview.findViewById(R.id.userAvatar);
         txtUsername = rootview.findViewById(R.id.nameprofile);
-        showPostsSaved = rootview.findViewById(R.id.showPostsSaved);
+        showPostsSaved = rootview.findViewById(R.id.btnChatToChat);
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         String currentUserId = currentUser.getUid();

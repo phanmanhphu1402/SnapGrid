@@ -72,7 +72,7 @@ public class ListFollowFragment extends Fragment {
                                     user.setId(id);
                                     user.setAvatar(imageUrl);
                                     listUser.add(user);
-                                    FollowingUserAdapter adapter = new FollowingUserAdapter(getContext(), listUser);
+                                    FollowingUserAdapter adapter = new FollowingUserAdapter(getContext(), listUser, getActivity().getSupportFragmentManager());
                                     adapter.notifyDataSetChanged();
                                     recyclerView.setAdapter(adapter);
                                 }

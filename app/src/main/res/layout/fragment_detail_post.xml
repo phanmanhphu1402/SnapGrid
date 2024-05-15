@@ -129,13 +129,13 @@
                 android:padding="8dp">
 
                 <Button
-                    android:id="@+id/button5"
+                    android:id="@+id/savePostBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
                     android:backgroundTint="@color/primary_color"
                     android:text="Save"
-                    app:layout_constraintEnd_toStartOf="@+id/savePostBtn"
+                    app:layout_constraintEnd_toStartOf="@+id/btn"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
@@ -159,7 +159,7 @@
                     app:srcCompat="@drawable/favorite" />
 
                 <ImageButton
-                    android:id="@+id/savePostBtn"
+                    android:id="@+id/btn"
                     android:clickable="false"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

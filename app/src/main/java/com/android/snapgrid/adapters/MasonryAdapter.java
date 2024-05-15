@@ -51,6 +51,32 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.ViewHold
 //        Glide.with(context).load(image).placeholder(R.drawable.appa).into(holder.imageView);
         Picasso.get().load(postsList.get(position).getImageUrl()).placeholder(R.drawable.appa).into(holder.imageView);
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DetailPostFragment fragment = new DetailPostFragment();
+                CustomDialogFragment customDialogFragment = new CustomDialogFragment();
+                Bundle result = new Bundle();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                String image = postsList.get(position).getImageUrl();
+                String title = postsList.get(position).getTitle();
+                String content = postsList.get(position).getContent();
+                String tag = postsList.get(position).getTag();
+                String idPost = postsList.get(position).getIdPost();
+                String idUser = postsList.get(position).getIdUser();
+                result.putString("dataImage", image);
+                result.putString("dataTitle", title);
+                result.putString("dataContent", content);
+                result.putString("dataTag", tag);
+                result.putString("dataIdPost", idPost);
+                result.putString("dataIdUser", idUser);
+                fragment.setArguments(result);
+                customDialogFragment.setArguments(result);
+                transaction.replace(R.id.frame_layout, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
 //        int res = (int) images.get(position);
 //        holder.imageView.setImageResource(res);
     }
@@ -61,38 +87,11 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.ViewHold
     public int getItemCount() {
         return postsList.size();
     }
-    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         ViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.img_masonry);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            DetailPostFragment fragment = new DetailPostFragment();
-            CustomDialogFragment customDialogFragment = new CustomDialogFragment();
-            Bundle result = new Bundle();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            String image = postsList.get(getAdapterPosition()).getImageUrl();
-            String title = postsList.get(getAdapterPosition()).getTitle();
-            String content = postsList.get(getAdapterPosition()).getContent();
-            String tag = postsList.get(getAdapterPosition()).getTag();
-            String idPost = postsList.get(getAdapterPosition()).getIdPost();
-            String idUser = postsList.get(getAdapterPosition()).getIdUser();
-            result.putString("dataImage", image);
-            result.putString("dataTitle", title);
-            result.putString("dataContent", content);
-            result.putString("dataTag", tag);
-            result.putString("dataIdPost", idPost);
-            result.putString("dataIdUser", idUser);
-            fragment.setArguments(result);
-            customDialogFragment.setArguments(result);
-            transaction.replace(R.id.frame_layout, fragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-
         }
     }
 }

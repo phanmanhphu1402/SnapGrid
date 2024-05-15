@@ -16,7 +16,7 @@
         app:srcCompat="@drawable/favorite" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/txtCommentCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -32,7 +32,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="comment"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintStart_toEndOf="@+id/txtCommentCount"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
