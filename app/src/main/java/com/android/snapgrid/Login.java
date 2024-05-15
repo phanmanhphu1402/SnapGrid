@@ -106,8 +106,6 @@ public class Login extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-        }else{
-
         }
         updateUI(currentUser);
     }

@@ -31,6 +31,7 @@ import com.android.snapgrid.databinding.ActivityMainBinding;
 import com.android.snapgrid.fragments.AddPostFragment;
 import com.android.snapgrid.fragments.LoadingFragment;
 import com.android.snapgrid.models.Comments;
+import com.android.snapgrid.models.Notify;
 import com.android.snapgrid.models.Post;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -192,6 +193,13 @@ public class PostAddingActivity extends AppCompatActivity {
         uploadToFireBase(uri);
     }
 
+    private void createNotify(String idUser, String currentDate, String idPost){
+        DatabaseReference notifyRef = FirebaseDatabase.getInstance().getReference("Notifies");
+        String key = notifyRef.push().getKey();
+        Notify notify = new Notify(idUser, "Vừa mới đăng bài viết", currentDate, idPost);
+        notifyRef.child(key).setValue(notify);
+    }
+
     private void uploadToFireBase(Uri uri) {
         showLoading();
 
@@ -218,6 +226,7 @@ public class PostAddingActivity extends AppCompatActivity {
                         String key = databaseReference.push().getKey();
                         Post post = new Post(key, userPostId, content, formattedDate, 0,commentsArrayList.size(), commentsArrayList,uri.toString(), title, tag);
                         databaseReference.child(key).setValue(post);
+                        createNotify(userPostId, formattedDate, key);
                         hideLoading();
                         Toast.makeText(PostAddingActivity.this,"Uploaded",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(PostAddingActivity.this,MainActivity.class);
