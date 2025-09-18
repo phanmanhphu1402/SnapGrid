@@ -129,9 +129,9 @@ Shift + F10
 
 | Platform | Minimum Version | Status |
 |----------|----------------|---------|
-| Android | {min_android_version}+ | ✅ Active |
-| iPad | {min_ipad_version}+ | ✅ Optimized |
-| Android Tablet | {min_tablet_version}+ | ✅ Optimized |
+| Android | 9+ | ✅ Active |
+| iPad | 9+ | ✅ Optimized |
+| Android Tablet | 9+ | ✅ Optimized |
 
 ## 🔒 Privacy & Security
 
