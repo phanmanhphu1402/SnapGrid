@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:backgroundTint="@color/white"
     android:background="@drawable/btn_background">
 
     <TextView
         android:id="@+id/name_chat"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Mai Phuong"
+        android:text="name"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -21,8 +22,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/img_avatar_chat"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:adjustViewBounds="true"
         android:backgroundTint="@color/black"
         android:drawablePadding="10dp"

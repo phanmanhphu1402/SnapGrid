@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".ChatToChatActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/imageButton6"
+            android:id="@+id/btn_backchattochat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#00FFFFFF"
@@ -26,14 +27,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
 
-        <ImageView
-            android:id="@+id/imageView6"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_avatar_chat"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="7dp"
-            app:layout_constraintStart_toEndOf="@+id/imageButton6"
+            android:layout_marginStart="4dp"
+            app:layout_constraintStart_toEndOf="@+id/btn_backchattochat"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/appa" />
+            app:shapeAppearanceOverlay="@style/circle"
+            app:srcCompat="@drawable/profile" />
 
         <TextView
             android:id="@+id/receiverName"
@@ -41,9 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:text="Tang Thuy"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/imageView6"
+            app:layout_constraintStart_toEndOf="@+id/img_avatar_chat"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton

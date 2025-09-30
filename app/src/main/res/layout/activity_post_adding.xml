@@ -5,6 +5,7 @@
     android:id="@+id/post_adding"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical"
     android:weightSum="5">
 
@@ -17,7 +18,7 @@
 
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/imageButton12"
+            android:id="@+id/btnBack_add_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#00FFFFFF"
@@ -85,7 +86,6 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -98,8 +98,6 @@
             android:id="@+id/editTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-
     </LinearLayout>
 
     <LinearLayout
@@ -133,8 +131,12 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:hint="Chọn Tag">
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="Chọn Tag"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <AutoCompleteTextView
                 android:id="@+id/auto_complete_txt"

@@ -5,9 +5,10 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".NavigationActivity">
 
-        <com.android.snapgrid.DynamicViewPager
+        <com.jackphan.snapgrid.DynamicViewPager
         android:id="@+id/slideViewPager"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

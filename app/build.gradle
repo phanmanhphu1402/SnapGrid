@@ -4,14 +4,14 @@ plugins {
 }
 
 android {
-    namespace 'com.android.snapgrid'
-    compileSdk 34
+    namespace 'com.jackphan.snapgrid'
+    compileSdk 36
 
     defaultConfig {
-        applicationId "com.android.snapgrid"
+        applicationId "com.jackphan.snapgrid"
         minSdk 28
-        targetSdk 34
-        versionCode 1
+        targetSdk 35
+        versionCode 3
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -36,6 +36,10 @@ android {
 
 dependencies {
 
+    implementation 'androidx.credentials:credentials:1.5.0'
+    implementation 'androidx.credentials:credentials-play-services-auth:1.5.0'
+    implementation 'com.google.android.libraries.identity.googleid:googleid:1.1.1'
+    implementation 'androidx.fragment:fragment:1.8.9'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -56,13 +60,14 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.bumptech.glide:glide:5.0.0-rc01'
     //FIRE BASE
-    implementation platform('com.google.firebase:firebase-bom:33.0.0')
-    implementation 'com.google.firebase:firebase-auth:23.0.0'
+    implementation platform('com.google.firebase:firebase-bom:34.1.0')
+    implementation 'com.google.firebase:firebase-auth:24.0.1'
     implementation 'com.google.firebase:firebase-firestore:25.0.0'
     implementation 'com.google.firebase:firebase-storage:21.0.0'
     implementation 'com.google.firebase:firebase-database:21.0.0'
     implementation 'com.google.firebase:firebase-core:21.1.1'
     implementation 'com.google.firebase:firebase-messaging'
+
     //retrofit2
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.google.code.gson:gson:2.10.1'

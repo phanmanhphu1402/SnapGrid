@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     tools:context=".fragments.DetailPostFragment">
 
     <ScrollView
@@ -36,7 +37,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/test2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -60,7 +60,7 @@
                         android:adjustViewBounds="true"
                         android:backgroundTint="@color/black"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/appa"
+                        android:src="@drawable/profile"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -91,15 +91,13 @@
                             android:id="@+id/textViewNameProfile"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Thuy"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/followerCountText"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="900 người theo dõi" />
+                            android:layout_height="wrap_content" />
 
                     </LinearLayout>
 
@@ -111,7 +109,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="Character Card"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -120,8 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:text="Game lol :))" />
+                android:paddingRight="8dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -185,7 +181,6 @@
                         android:id="@+id/textView9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="221"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -194,7 +189,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="Comment"
                         app:layout_constraintStart_toEndOf="@+id/txtCommentCount"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -202,7 +196,6 @@
                         android:id="@+id/txtCommentCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

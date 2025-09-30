@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "259247605320",
-    "firebase_url": "https://snapgrid-44c83-default-rtdb.firebaseio.com",
-    "project_id": "snapgrid-44c83",
-    "storage_bucket": "snapgrid-44c83.appspot.com"
+    "project_number": "506561777317",
+    "firebase_url": "https://snapgrid-c4098-default-rtdb.firebaseio.com",
+    "project_id": "snapgrid-c4098",
+    "storage_bucket": "snapgrid-c4098.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:259247605320:android:db9032aaaea99db2de7a7d",
+        "mobilesdk_app_id": "1:506561777317:android:602432e6ed9b1bf3fa474c",
         "android_client_info": {
           "package_name": "com.android.snapgrid"
         }
       },
       "oauth_client": [
         {
-          "client_id": "259247605320-3cvfud9ouv6qumjt7b43gdglh747isi7.apps.googleusercontent.com",
+          "client_id": "506561777317-eo0bc4tq93cdfmkdkv3p2r5q9iuf7a24.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.android.snapgrid",
@@ -23,28 +23,65 @@
           }
         },
         {
-          "client_id": "259247605320-ti0fncq9m3ggoppiv78ivc9vm55jqu2g.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.android.snapgrid",
-            "certificate_hash": "8d3cad75c622968ac7d5b1cd6c3504e6d9f8ad34"
-          }
-        },
-        {
-          "client_id": "259247605320-kol8mhfee09m3qit8ka488kk9l01qbrp.apps.googleusercontent.com",
+          "client_id": "506561777317-j2k8c4iunimpiqu6t2ls7h346cq26m42.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAaphPkYvMeIJeqnZxaf_ljub5rp7S9p00"
+          "current_key": "AIzaSyDIN_GJ53JXlEJGQtB32l7dLb1i9OETIao"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "259247605320-kol8mhfee09m3qit8ka488kk9l01qbrp.apps.googleusercontent.com",
+              "client_id": "506561777317-j2k8c4iunimpiqu6t2ls7h346cq26m42.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:506561777317:android:db9feaa401a3b29ffa474c",
+        "android_client_info": {
+          "package_name": "com.jackphan.snapgrid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "506561777317-oji0g863hrvti12nfdh6m94cccu28l17.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jackphan.snapgrid",
+            "certificate_hash": "cc2f9fe3a7d0cd9293e79d8c77f338b0a3d01475"
+          }
+        },
+        {
+          "client_id": "506561777317-s0vlm7j2qbc1egosshi7f4i4dfs1nbc9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jackphan.snapgrid",
+            "certificate_hash": "4c7eeccbb7320dac9b196e9fd5078ba1b6d2ba3c"
+          }
+        },
+        {
+          "client_id": "506561777317-j2k8c4iunimpiqu6t2ls7h346cq26m42.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIN_GJ53JXlEJGQtB32l7dLb1i9OETIao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "506561777317-j2k8c4iunimpiqu6t2ls7h346cq26m42.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

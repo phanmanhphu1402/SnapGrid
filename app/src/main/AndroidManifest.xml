@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.android.snapgrid">
+    package="com.jackphan.snapgrid">
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -19,15 +19,14 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_icon_snapgrid"
         android:label="@string/app_name"
+        android:resizeableActivity="true"
         android:roundIcon="@mipmap/ic_icon_snapgrid_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SnapGrid"
+        android:windowSoftInputMode="adjustPan"
         tools:targetApi="31">
         <activity
-            android:name=".fragments.OtherUserInformationFragment"
-            android:exported="false" />
-        <activity
-            android:name=".Forgot_Password"
+            android:name="com.jackphan.snapgrid.Forgot_Password"
             android:exported="false" />
 
         <meta-data
@@ -39,7 +38,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.android.snapgrid.fileprovider"
+            android:authorities="com.jackphan.snapgrid.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -49,30 +48,30 @@
         <!-- android:name=".ShipDataActivity" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".PostAddingActivity"
+            android:name="com.jackphan.snapgrid.PostAddingActivity"
             android:exported="false" />
         <activity
-            android:name=".ConfigAccountActivity"
+            android:name="com.jackphan.snapgrid.ConfigAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".SettingActivity"
+            android:name="com.jackphan.snapgrid.SettingActivity"
             android:exported="false" />
         <activity
-            android:name=".ChatToChatActivity"
+            android:name="com.jackphan.snapgrid.ChatToChatActivity"
             android:exported="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="com.jackphan.snapgrid.MainActivity" />
         </activity>
         <activity
-            android:name=".UserConfigActivity"
+            android:name="com.jackphan.snapgrid.UserConfigActivity"
             android:exported="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="com.jackphan.snapgrid.MainActivity" />
         </activity>
         <activity
-            android:name=".Activity_Splash"
+            android:name="com.jackphan.snapgrid.Activity_Splash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -81,16 +80,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignUpActivity"
+            android:name="com.jackphan.snapgrid.SignUpActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.jackphan.snapgrid.MainActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name="com.jackphan.snapgrid.NavigationActivity"
             android:exported="false" />
         <activity
-            android:name=".NavigationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Login"
+            android:name="com.jackphan.snapgrid.Login"
             android:exported="false" />
 
         <meta-data
@@ -115,7 +115,7 @@
         </activity>
 
         <service
-            android:name=".service.FCMNotificationService"
+            android:name="com.jackphan.snapgrid.service.FCMNotificationService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

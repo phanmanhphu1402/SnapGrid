@@ -16,6 +16,5 @@
     <string name="facebook_client_token">EAAE0kIoCBdgBOwRi6UB0NiNdv2VSTY74buNCmryjq9KD09Qc3FYL5JrfjnqbGfyBmYZCDkoxB7XQbC51P68lEuDiVP4rpZCW3EQXZCfRsGzvQiA9ZB9nZCGfqKyyZCKZCdmAZAfJWCpJSjuelEbVwHLG8KVpAjyihnE4eXRT9ZApxNw9kuu4fqKeOhe2f</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-
-
+    <string name="des_qltk">Thực hiện thay đổi đối với thông tin cá nhân và tài khoản đăng nhập của bạn</string>
 </resources>

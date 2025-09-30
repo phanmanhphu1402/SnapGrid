@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="48dp">
 
@@ -80,7 +81,7 @@
                 android:layout_marginTop="16dp"
                 android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
-                android:src="@drawable/cuptoast"
+                android:src="@drawable/personality"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView21"
