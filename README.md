@@ -2,7 +2,7 @@
   <img src="app/src/main/ic_icon_snapgrid-playstore.png" alt="SnapGrid" width="120" height="120">
   <h1>SnapGrid</h1>
   <p>
-    <a href="{play_store_link}">
+    <a href="https://play.google.com/store/apps/details?id=com.jackphan.snapgrid">
       <img src="https://img.shields.io/badge/Get_it_on-Google_Play-black?style=for-the-badge&logo=google-play&logoColor=white" alt="Get it on Google Play">
     </a>
   </p>
@@ -196,7 +196,7 @@ Track app performance and user engagement:
 
 <div align="center">
   <p><strong>Download SnapGrid today and experience!</strong></p>
-  <a href="{play_store_link}">
+  <a href="https://play.google.com/store/apps/details?id=com.jackphan.snapgrid">
     <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" height="60">
   </a>
 </div>
